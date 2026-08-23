@@ -64,6 +64,15 @@ screen ten seconds ago.
 after each frame. A 90-shot render killed at shot 60 must cost one shot on
 resume, not sixty.
 
+**`storyboard.json` is the only source of truth about a project.** The
+`script.txt` and `prompts.txt` a project was built from are inputs, not
+records: every prompt rewritten afterwards lives in the storyboard and nowhere
+else. On the depression project they had drifted to 47 of 77 lines matching,
+and reading the text file to work out why a frame looked wrong produced a page
+of confident nonsense about frames that were in fact correct. Read the
+storyboard, or `python -m tests.contact_sheet <slug>`, and never the input
+files.
+
 **Never edit the storyboard while a step is running.** That same
 save-after-every-frame makes `storyboard.json` a last-writer-wins file with no
 locking. A long render holds a copy loaded at start-up and writes all of it

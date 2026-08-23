@@ -143,6 +143,17 @@ def verify_backend(client, model: str = "flux-schnell", **kwargs: Any) -> list[s
     problems: list[str] = []
     graph = build(model, prompt="probe", negative="", seed=1, **kwargs)
 
+    # The expensive mistake this codebase has actually made. Composing above
+    # the measured ceiling does not fail, it quietly returns wrong pictures,
+    # and nobody notices until a 77-frame batch is on the contact sheet.
+    megapixels = config.COMPOSE_W * config.COMPOSE_H / 1e6
+    if megapixels > 1.5:
+        problems.append(
+            f"COMPOSE_W x COMPOSE_H is {megapixels:.2f} MP. Above ~1.5 MP "
+            f"FLUX stops composing a scene and starts fusing and duplicating "
+            f"structure -- see AGENTS.md. Compose smaller and enlarge."
+        )
+
     present = client.object_info()
     used = {node["class_type"] for node in graph.values()}
     for node_id, node in graph.items():

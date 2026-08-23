@@ -2,7 +2,7 @@
   "slug": "depression",
   "title": "What Depression Really Is",
   "style": {
-    "base_prompt": "mid-century modern illustration, screen print texture, muted restrained palette, 2D hand printed, detailed layered composition that fills the frame, strong graphic shapes, subtle paper grain",
+    "base_prompt": "mid-century modern illustration, muted restrained palette, 2D flat colour, detailed layered composition that fills the frame, strong graphic shapes",
     "negative": "3d render, octane, blender, cgi, photorealistic, photograph, ray tracing, text, letters, words, numbers, writing, typography, captions, labels, gibberish text, watermark, signature, blurry, deformed, lowres",
     "seed_base": 20260823,
     "model": "flux-schnell"
@@ -185,7 +185,6 @@
       "kind": "generate",
       "audio_sec": 7.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\012.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\012.png",
       "seed": 20260835
     },
     {
@@ -200,7 +199,6 @@
       "kind": "generate",
       "audio_sec": 7.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\013.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png",
       "seed": 20260836
     },
     {
@@ -215,7 +213,6 @@
       "kind": "generate",
       "audio_sec": 7.475,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\014.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\014.png",
       "seed": 20260837
     },
     {
@@ -257,7 +254,6 @@
       "kind": "generate",
       "audio_sec": 8.425,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\016.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\016.png",
       "seed": 20260839
     },
     {
@@ -272,7 +268,6 @@
       "kind": "generate",
       "audio_sec": 10.85,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\017.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\017.png",
       "seed": 20260840
     },
     {
@@ -287,7 +282,6 @@
       "kind": "generate",
       "audio_sec": 2.025,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\018.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\018.png",
       "seed": 20260841
     },
     {
@@ -302,7 +296,6 @@
       "kind": "generate",
       "audio_sec": 7.825,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\019.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\019.png",
       "seed": 20260842
     },
     {
@@ -317,7 +310,6 @@
       "kind": "generate",
       "audio_sec": 3.7,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\020.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\020.png",
       "seed": 20260843
     },
     {
@@ -332,7 +324,6 @@
       "kind": "generate",
       "audio_sec": 9.65,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\021.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\021.png",
       "seed": 20260844
     },
     {
@@ -347,7 +338,6 @@
       "kind": "generate",
       "audio_sec": 4.475,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\022.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\022.png",
       "seed": 20260845
     },
     {
@@ -362,7 +352,6 @@
       "kind": "generate",
       "audio_sec": 10.45,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\023.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\023.png",
       "seed": 20260846
     },
     {
@@ -377,7 +366,6 @@
       "kind": "generate",
       "audio_sec": 3.05,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\024.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\024.png",
       "seed": 20260847
     },
     {
@@ -392,7 +380,6 @@
       "kind": "generate",
       "audio_sec": 11.2,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\025.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\025.png",
       "seed": 20260848
     },
     {
@@ -407,13 +394,12 @@
       "kind": "generate",
       "audio_sec": 8.025,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\026.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\026.png",
       "seed": 20260849
     },
     {
       "id": 27,
       "vo": "A study of studies, gathering the evidence for the serotonin hypothesis across six separate lines of research. They found no consistent evidence that depression is caused by low serotonin.",
-      "image_prompt": "a long library table with six open books laid in a row all angled toward one open folder at the centre, overhead lamps",
+      "image_prompt": "open books laid out in a row across a long library table, all angled toward a single open folder at the centre, overhead lamps",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -422,7 +408,6 @@
       "kind": "generate",
       "audio_sec": 13.525,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\027.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\027.png",
       "seed": 20260850
     },
     {
@@ -437,7 +422,6 @@
       "kind": "generate",
       "audio_sec": 11.4,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\028.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\028.png",
       "seed": 20260851
     },
     {
@@ -452,7 +436,6 @@
       "kind": "generate",
       "audio_sec": 8.775,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\029.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\029.png",
       "seed": 20260852
     },
     {
@@ -467,13 +450,12 @@
       "kind": "generate",
       "audio_sec": 6.2,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\030.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\030.png",
       "seed": 20260853
     },
     {
       "id": 31,
       "vo": "Depression is not simply low serotonin does not mean antidepressants do not work. Those are two separate questions.",
-      "image_prompt": "two closed doors side by side in a long corridor, a broken chain lying on the floor between them",
+      "image_prompt": "a row of identical closed doors down a long corridor, a broken chain lying on the floor beneath them, raking light",
       "motion": {
         "pan": "out",
         "zoom": 1.13
@@ -482,7 +464,6 @@
       "kind": "generate",
       "audio_sec": 8.35,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\031.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\031.png",
       "seed": 20260854
     },
     {
@@ -497,7 +478,6 @@
       "kind": "generate",
       "audio_sec": 9.75,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\032.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\032.png",
       "seed": 20260855
     },
     {
@@ -512,7 +492,6 @@
       "kind": "generate",
       "audio_sec": 7.3,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\033.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\033.png",
       "seed": 20260856
     },
     {
@@ -527,7 +506,6 @@
       "kind": "generate",
       "audio_sec": 2.525,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\034.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\034.png",
       "seed": 20260857
     },
     {
@@ -542,7 +520,6 @@
       "kind": "generate",
       "audio_sec": 11.0,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\035.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\035.png",
       "seed": 20260858
     },
     {
@@ -557,13 +534,12 @@
       "kind": "generate",
       "audio_sec": 7.675,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\036.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\036.png",
       "seed": 20260859
     },
     {
       "id": 37,
       "vo": "The clearest of them is the stress system. The body runs a hormonal cascade through the hypothalamus, the pituitary and the adrenal glands.",
-      "image_prompt": "three brass vessels mounted one above another joined by copper tubing, liquid descending, workshop wall",
+      "image_prompt": "a column of brass vessels mounted above one another on a workshop wall, joined by copper tubing, liquid descending through it",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -572,7 +548,6 @@
       "kind": "generate",
       "audio_sec": 9.85,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\037.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\037.png",
       "seed": 20260860
     },
     {
@@ -587,7 +562,6 @@
       "kind": "generate",
       "audio_sec": 5.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\038.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\038.png",
       "seed": 20260861
     },
     {
@@ -602,7 +576,6 @@
       "kind": "generate",
       "audio_sec": 8.675,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\039.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\039.png",
       "seed": 20260862
     },
     {
@@ -617,7 +590,6 @@
       "kind": "generate",
       "audio_sec": 5.05,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\040.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\040.png",
       "seed": 20260863
     },
     {
@@ -632,7 +604,6 @@
       "kind": "generate",
       "audio_sec": 12.325,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\041.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\041.png",
       "seed": 20260864
     },
     {
@@ -647,7 +618,6 @@
       "kind": "generate",
       "audio_sec": 2.5,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\042.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\042.png",
       "seed": 20260865
     },
     {
@@ -662,7 +632,6 @@
       "kind": "generate",
       "audio_sec": 13.025,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\043.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\043.png",
       "seed": 20260866
     },
     {
@@ -677,7 +646,6 @@
       "kind": "generate",
       "audio_sec": 5.225,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\044.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\044.png",
       "seed": 20260867
     },
     {
@@ -692,13 +660,12 @@
       "kind": "generate",
       "audio_sec": 10.65,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\045.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\045.png",
       "seed": 20260868
     },
     {
       "id": 46,
       "vo": "It is that the step where wanting turns into doing has stopped working reliably. Anhedonia is that failure, experienced from the inside.",
-      "image_prompt": "two enormous gears that no longer mesh, a stark gap between their teeth, detailed machinery",
+      "image_prompt": "a pair of enormous gear wheels pulled apart, teeth no longer touching, a stark empty gap between them, heavy machinery behind",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -707,7 +674,6 @@
       "kind": "generate",
       "audio_sec": 9.775,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\046.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\046.png",
       "seed": 20260869
     },
     {
@@ -722,7 +688,6 @@
       "kind": "generate",
       "audio_sec": 6.525,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\047.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\047.png",
       "seed": 20260870
     },
     {
@@ -737,7 +702,6 @@
       "kind": "generate",
       "audio_sec": 10.4,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\048.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\048.png",
       "seed": 20260871
     },
     {
@@ -752,7 +716,6 @@
       "kind": "generate",
       "audio_sec": 8.225,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\049.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\049.png",
       "seed": 20260872
     },
     {
@@ -767,7 +730,6 @@
       "kind": "generate",
       "audio_sec": 8.075,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\050.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\050.png",
       "seed": 20260873
     },
     {
@@ -782,7 +744,6 @@
       "kind": "generate",
       "audio_sec": 13.55,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\051.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\051.png",
       "seed": 20260874
     },
     {
@@ -797,7 +758,6 @@
       "kind": "generate",
       "audio_sec": 6.3,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\052.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\052.png",
       "seed": 20260875
     },
     {
@@ -812,7 +772,6 @@
       "kind": "generate",
       "audio_sec": 6.225,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\053.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\053.png",
       "seed": 20260876
     },
     {
@@ -827,7 +786,6 @@
       "kind": "generate",
       "audio_sec": 7.225,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\054.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\054.png",
       "seed": 20260877
     },
     {
@@ -842,7 +800,6 @@
       "kind": "generate",
       "audio_sec": 12.275,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\055.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\055.png",
       "seed": 20260878
     },
     {
@@ -857,7 +814,6 @@
       "kind": "generate",
       "audio_sec": 6.35,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\056.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\056.png",
       "seed": 20260879
     },
     {
@@ -872,7 +828,6 @@
       "kind": "generate",
       "audio_sec": 7.4,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\057.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\057.png",
       "seed": 20260880
     },
     {
@@ -887,7 +842,6 @@
       "kind": "generate",
       "audio_sec": 2.5,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\058.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\058.png",
       "seed": 20260881
     },
     {
@@ -902,7 +856,6 @@
       "kind": "generate",
       "audio_sec": 12.975,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\059.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\059.png",
       "seed": 20260882
     },
     {
@@ -917,7 +870,6 @@
       "kind": "generate",
       "audio_sec": 8.65,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\060.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\060.png",
       "seed": 20260883
     },
     {
@@ -932,7 +884,6 @@
       "kind": "generate",
       "audio_sec": 10.7,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\061.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\061.png",
       "seed": 20260884
     },
     {
@@ -947,7 +898,6 @@
       "kind": "generate",
       "audio_sec": 12.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\062.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\062.png",
       "seed": 20260885
     },
     {
@@ -962,7 +912,6 @@
       "kind": "generate",
       "audio_sec": 5.1,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\063.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\063.png",
       "seed": 20260886
     },
     {
@@ -977,7 +926,6 @@
       "kind": "generate",
       "audio_sec": 7.475,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\064.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\064.png",
       "seed": 20260887
     },
     {
@@ -992,7 +940,6 @@
       "kind": "generate",
       "audio_sec": 11.8,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\065.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\065.png",
       "seed": 20260888
     },
     {
@@ -1035,7 +982,6 @@
       "kind": "generate",
       "audio_sec": 7.15,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\067.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\067.png",
       "seed": 20260890
     },
     {
@@ -1050,7 +996,6 @@
       "kind": "generate",
       "audio_sec": 9.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\068.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\068.png",
       "seed": 20260891
     },
     {
@@ -1065,7 +1010,6 @@
       "kind": "generate",
       "audio_sec": 11.85,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\069.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\069.png",
       "seed": 20260892
     },
     {
@@ -1080,7 +1024,6 @@
       "kind": "generate",
       "audio_sec": 11.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\070.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\070.png",
       "seed": 20260893
     },
     {
@@ -1095,7 +1038,6 @@
       "kind": "generate",
       "audio_sec": 4.45,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\071.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\071.png",
       "seed": 20260894
     },
     {
@@ -1110,7 +1052,6 @@
       "kind": "generate",
       "audio_sec": 9.775,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\072.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\072.png",
       "seed": 20260895
     },
     {
@@ -1125,13 +1066,12 @@
       "kind": "generate",
       "audio_sec": 4.55,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\073.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\073.png",
       "seed": 20260896
     },
     {
       "id": 74,
       "vo": "It is a set of systems, stress regulation, motivation, plasticity, sometimes immunity, that have settled into a state they cannot leave unaided.",
-      "image_prompt": "four large overlapping circles in different muted colours forming a layered rosette, bold flat shapes filling the frame",
+      "image_prompt": "large overlapping translucent circles in different muted colours forming a layered rosette, bold flat shapes filling the frame",
       "motion": {
         "pan": "left",
         "zoom": 1.14
@@ -1140,7 +1080,6 @@
       "kind": "generate",
       "audio_sec": 10.625,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\074.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\074.png",
       "seed": 20260897
     },
     {
@@ -1155,7 +1094,6 @@
       "kind": "generate",
       "audio_sec": 8.2,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\075.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\075.png",
       "seed": 20260898
     },
     {
@@ -1170,13 +1108,12 @@
       "kind": "generate",
       "audio_sec": 5.05,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\076.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\076.png",
       "seed": 20260899
     },
     {
       "id": 77,
       "vo": "But the next time somebody tells you they are depressed, it costs about four seconds to find out which of the two things they mean.",
-      "image_prompt": "two people sitting across a small cafe table leaning toward each other, warm evening light, other tables behind",
+      "image_prompt": "a couple sitting across a small cafe table leaning toward each other in conversation, warm evening light, other tables behind",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -1185,7 +1122,6 @@
       "kind": "generate",
       "audio_sec": 7.9,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\077.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\077.png",
       "seed": 20260900
     }
   ],
