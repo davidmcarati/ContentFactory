@@ -58,6 +58,10 @@ _TAGS = re.compile(r"<[^>]+>")
 # `label QS:Lru,"..."label QS:Lja,"..."` and so on for eighty languages.
 _STRUCTURED_LABELS = re.compile(r"\s*label QS:L.*", re.DOTALL)
 _WHITESPACE = re.compile(r"\s+")
+# Tags are replaced by a space, so `<i>La Joconde</i>,` would otherwise leave
+# `La Joconde ,` in the credits.
+_SPACE_BEFORE_PUNCT = re.compile(r"\s+([,.;:!?)\]])")
+_SPACE_AFTER_OPEN = re.compile(r"([(\[])\s+")
 
 
 def _clean(value: str | None, limit: int = 160) -> str:
@@ -66,7 +70,9 @@ def _clean(value: str | None, limit: int = 160) -> str:
         return ""
     text = html.unescape(_TAGS.sub(" ", str(value)))
     text = _STRUCTURED_LABELS.sub("", text)
-    text = _WHITESPACE.sub(" ", text).strip()
+    text = _WHITESPACE.sub(" ", text)
+    text = _SPACE_BEFORE_PUNCT.sub(r"\1", text)
+    text = _SPACE_AFTER_OPEN.sub(r"\1", text).strip()
     return text[:limit].rstrip(" ,;-")
 
 

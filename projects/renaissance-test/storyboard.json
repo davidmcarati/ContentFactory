@@ -36,7 +36,7 @@
       "query": "Mona Lisa Leonardo da Vinci painting Louvre",
       "asset": {
         "source": "wikimedia",
-        "title": "The Mona Lisa (or La Joconde , La Gioconda ).",
+        "title": "The Mona Lisa (or La Joconde, La Gioconda).",
         "author": "Leonardo da Vinci",
         "license": "Public domain",
         "tier": "safe",
@@ -98,6 +98,27 @@
   "voice": {
     "voice_id": "am_michael",
     "speed": 1.0
+  },
+  "publish": {
+    "description": "He carried one portrait around with him for sixteen years and never called it finished. The notebooks are worse.",
+    "tags": [
+      "leonardo da vinci",
+      "renaissance",
+      "art history",
+      "mona lisa"
+    ],
+    "chapters": [
+      {
+        "title": "A portrait he never let go of",
+        "shot_id": 1
+      },
+      {
+        "title": "The notebooks",
+        "shot_id": 3
+      }
+    ],
+    "thumbnail_prompt": "dramatic candlelit renaissance workshop, open notebook covered in sketches, warm chiaroscuro",
+    "thumbnail_text": "He finished almost nothing"
   },
   "aspect": "16:9"
 }
