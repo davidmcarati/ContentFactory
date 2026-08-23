@@ -1,0 +1,15 @@
+# Models live off the project tree, on the roomy drive. Keeping them here
+# means a `git clean` or a fresh ComfyUI checkout never costs a 20 GB redownload.
+content_factory:
+    base_path: D:/ai-models/
+    checkpoints: checkpoints
+    diffusion_models: diffusion_models
+    unet: unet
+    clip: clip
+    text_encoders: text_encoders
+    clip_vision: clip_vision
+    vae: vae
+    loras: loras
+    upscale_models: upscale_models
+    controlnet: controlnet
+    embeddings: embeddings

@@ -1,0 +1,254 @@
+"""Step 5: assemble everything needed to actually upload the video.
+
+Produces one self-contained folder per video under DELIVERY_ROOT:
+
+    D:/TheArtOfChaosVideos/<slug>/
+        <slug>.mp4          the film
+        thumbnail.png       1280x720, generated separately from the film
+        description.txt     title, description, chapters, tags, credits
+        subtitles.srt       for upload; the burned-in ones are already baked
+        credits.md          only when real images were used
+        storyboard.json     provenance: exactly what produced this file
+
+The thumbnail is generated from its own prompt rather than cropped out of a
+frame. A shot is composed to be panned across at 1920 px wide; a thumbnail has
+to read as a 200 px tile in a sidebar, and those are different pictures.
+"""
+from __future__ import annotations
+
+import argparse
+import shutil
+from pathlib import Path
+
+from PIL import Image, ImageDraw, ImageFont
+
+from . import config, workflows
+from .comfy_client import ComfyClient
+from .outro import load_font
+from .schema import Storyboard
+
+
+# ---------------------------------------------------------------------------
+# Thumbnail
+# ---------------------------------------------------------------------------
+def _fit_font(draw: ImageDraw.ImageDraw, text: str, width: int,
+              start: int) -> tuple[ImageFont.FreeTypeFont, list[str]]:
+    """Largest size at which the text fits, wrapping to at most three lines."""
+    for size in range(start, 40, -6):
+        font = _load(size)
+        for max_lines in (1, 2, 3):
+            lines = _wrap_to(draw, text, font, width, max_lines)
+            if lines:
+                return font, lines
+    font = _load(44)
+    return font, [text]
+
+
+def _load(size: int) -> ImageFont.FreeTypeFont:
+    original = config.OUTRO_FONT
+    config.OUTRO_FONT = config.THUMB_FONT
+    try:
+        return load_font(size)
+    finally:
+        config.OUTRO_FONT = original
+
+
+def _wrap_to(draw: ImageDraw.ImageDraw, text: str,
+             font: ImageFont.FreeTypeFont, width: int,
+             max_lines: int) -> list[str] | None:
+    words, lines, cur = text.split(), [], ""
+    for word in words:
+        trial = f"{cur} {word}".strip()
+        if cur and draw.textlength(trial, font=font) > width:
+            lines.append(cur)
+            cur = word
+            if len(lines) >= max_lines:
+                return None
+        else:
+            cur = trial
+    if cur:
+        lines.append(cur)
+    return lines if len(lines) <= max_lines else None
+
+
+def build_thumbnail(sb: Storyboard, *, force: bool = False) -> Path:
+    dest = sb.dir / "thumbnail.png"
+    if dest.exists() and not force:
+        return dest
+
+    prompt = sb.publish.thumbnail_prompt
+    base = sb.dir / "thumbnail_bg.png"
+
+    if prompt:
+        client = ComfyClient()
+        client.require_up()
+        graph = workflows.build(
+            sb.style.model,
+            prompt=f"{sb.style.base_prompt}, {prompt}",
+            negative=sb.style.negative,
+            seed=sb.style.seed_base + 9001,
+            width=1344, height=768,          # 16:9, one step above the tile
+            filename_prefix=f"{sb.slug}_thumb",
+        )
+        client.render(graph, base)
+    else:
+        # No prompt written: fall back to the opening frame rather than fail.
+        source = sb.shots[0].frame_path
+        if not source:
+            raise ValueError("no thumbnail_prompt and no frames to fall back on")
+        base = Path(source)
+
+    img = Image.open(base).convert("RGB")
+    scale = max(config.THUMB_W / img.width, config.THUMB_H / img.height)
+    img = img.resize((round(img.width * scale), round(img.height * scale)),
+                     Image.LANCZOS)
+    left, top = (img.width - config.THUMB_W) // 2, (img.height - config.THUMB_H) // 2
+    img = img.crop((left, top, left + config.THUMB_W, top + config.THUMB_H))
+
+    text = sb.publish.thumbnail_text.strip()
+    if text:
+        draw = ImageDraw.Draw(img)
+        margin = 64
+        font, lines = _fit_font(draw, text.upper(), config.THUMB_W - margin * 2,
+                                config.THUMB_MAX_TEXT_SIZE)
+
+        heights = [draw.textbbox((0, 0), ln, font=font)[3] -
+                   draw.textbbox((0, 0), ln, font=font)[1] for ln in lines]
+        gap = int(font.size * 0.22)
+        block = sum(heights) + gap * (len(lines) - 1)
+        y = config.THUMB_H - margin - block
+
+        # Darken behind the text. A thumbnail is judged at 200 px wide, where a
+        # thin outline disappears and white text turns to mush against a bright
+        # sky. The scrim is a gradient, not a band: a flat band leaves a hard
+        # horizontal seam straight across the picture.
+        band_top = max(y - int(font.size * 0.9), 0)
+        mask = Image.new("L", img.size, 0)
+        mask_draw = ImageDraw.Draw(mask)
+        span = max(config.THUMB_H - band_top, 1)
+        for line_y in range(band_top, config.THUMB_H):
+            progress = (line_y - band_top) / span
+            mask_draw.line([(0, line_y), (config.THUMB_W, line_y)],
+                           fill=int(165 * progress ** 0.7))
+        img = Image.composite(Image.new("RGB", img.size, (0, 0, 0)), img, mask)
+
+        draw = ImageDraw.Draw(img)
+        for line, height in zip(lines, heights):
+            box = draw.textbbox((0, 0), line, font=font)
+            x = (config.THUMB_W - (box[2] - box[0])) // 2 - box[0]
+            draw.text((x, y - box[1]), line, font=font,
+                      fill=(255, 255, 255),
+                      stroke_width=max(font.size // 14, 4),
+                      stroke_fill=(0, 0, 0))
+            y += height + gap
+
+    img.save(dest)
+    return dest
+
+
+# ---------------------------------------------------------------------------
+# Description
+# ---------------------------------------------------------------------------
+def _timestamp(seconds: float) -> str:
+    m, s = divmod(int(seconds), 60)
+    h, m = divmod(m, 60)
+    return f"{h}:{m:02d}:{s:02d}" if h else f"{m}:{s:02d}"
+
+
+def build_description(sb: Storyboard) -> str:
+    parts = [sb.title, ""]
+
+    if sb.publish.description:
+        parts += [sb.publish.description.strip(), ""]
+
+    if sb.publish.chapters:
+        parts.append("Chapters")
+        # YouTube only accepts a chapter list if the first one starts at 0:00.
+        first = sb.publish.chapters[0]
+        if sb.start_of(first.shot_id) > 0.5:
+            parts.append("0:00 Intro")
+        for chapter in sb.publish.chapters:
+            parts.append(f"{_timestamp(sb.start_of(chapter.shot_id))} "
+                         f"{chapter.title}")
+        parts.append("")
+
+    used = [s.asset for s in sb.shots if s.asset]
+    if used:
+        parts.append("Image credits")
+        for asset in used:
+            parts.append(f"- {asset.credit_line()}")
+        parts.append("")
+
+    # Platforms increasingly require this to be declared, and declaring it is
+    # cheaper than having the channel decide for you what it thinks you did.
+    parts.append("This video uses AI-generated imagery and a synthetic "
+                 "narration voice.")
+    if used:
+        parts.append("Historical artworks and photographs are reproduced from "
+                     "public-domain and openly licensed collections; see the "
+                     "credits above.")
+    parts.append("")
+
+    if sb.publish.tags:
+        parts += ["Tags", ", ".join(sb.publish.tags), ""]
+
+    return "\n".join(parts).rstrip() + "\n"
+
+
+# ---------------------------------------------------------------------------
+def publish(sb: Storyboard, *, force: bool = False,
+            root: Path | None = None) -> Path:
+    video = sb.dir / f"{sb.slug}.mp4"
+    if not video.exists():
+        raise FileNotFoundError(
+            f"{video} does not exist; run step 4 before publishing"
+        )
+
+    out = (root or config.DELIVERY_ROOT) / sb.slug
+    out.mkdir(parents=True, exist_ok=True)
+
+    thumbnail = build_thumbnail(sb, force=force)
+    (out / "description.txt").write_text(build_description(sb), encoding="utf-8")
+
+    copied = ["description.txt"]
+    for src, name in (
+        (video, f"{sb.slug}.mp4"),
+        (thumbnail, "thumbnail.png"),
+        (sb.dir / "subtitles.srt", "subtitles.srt"),
+        (sb.dir / "credits.md", "credits.md"),
+        (sb.dir / "storyboard.json", "storyboard.json"),
+    ):
+        if src.exists():
+            shutil.copy2(src, out / name)
+            copied.append(name)
+
+    missing = [w for w in ("thumbnail.png", "subtitles.srt") if w not in copied]
+
+    print(f"\npublished to {out}")
+    for name in copied:
+        size = (out / name).stat().st_size
+        print(f"  {name:20s} {size / 1024**2:8.2f} MB")
+    if missing:
+        print(f"  note: {', '.join(missing)} not produced")
+    if not sb.publish.description:
+        print("  note: description is empty; write storyboard.publish.description")
+    if not sb.publish.thumbnail_text:
+        print("  note: thumbnail has no text overlay")
+    return out
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description="Package a video for upload.")
+    ap.add_argument("slug")
+    ap.add_argument("--force", action="store_true",
+                    help="regenerate the thumbnail even if one exists")
+    ap.add_argument("--root", help="override the delivery root")
+    a = ap.parse_args()
+
+    sb = Storyboard.load(a.slug)
+    sb.require_valid()
+    publish(sb, force=a.force, root=Path(a.root) if a.root else None)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,97 @@
+"""Central configuration for the content factory.
+
+Everything that a human might want to tweak lives here. The pipeline steps
+import from this module rather than hardcoding paths or magic numbers.
+"""
+from pathlib import Path
+
+# --- Locations -------------------------------------------------------------
+ROOT = Path(__file__).resolve().parent.parent
+PROJECTS = ROOT / "projects"
+ASSETS = ROOT / "assets"
+LOGS = ROOT / "logs"
+COMFY_DIR = ROOT / "comfy"
+MODELS = Path("D:/ai-models")
+
+# Finished videos are delivered here, one folder per video, with everything
+# needed to upload: the film, a thumbnail, the description and tags, subtitles
+# and credits. Kept off the repo drive so nothing large is ever near git.
+DELIVERY_ROOT = Path("D:/TheArtOfChaosVideos")
+
+# YouTube's thumbnail size. It has to survive being shown 200 px wide.
+THUMB_W, THUMB_H = 1280, 720
+THUMB_FONT = "segoeuib.ttf"
+THUMB_MAX_TEXT_SIZE = 150
+
+# --- ComfyUI ---------------------------------------------------------------
+COMFY_HOST = "127.0.0.1"
+COMFY_PORT = 8188
+COMFY_URL = f"http://{COMFY_HOST}:{COMFY_PORT}"
+
+# --- Video output ----------------------------------------------------------
+FPS = 30
+OUT_W, OUT_H = 1920, 1080
+
+# Frames are generated above delivery resolution so that a Ken Burns zoom is
+# still showing real pixels at its tightest. MAX zoom is ~1.16, so 1920 * 1.16
+# rounds up to this. Measured on a 5080: 5.1s at 1344x768, 9.1s at 1920x1088,
+# 13.1s here -- and generating natively at this size beat generating small and
+# running a 4x ESRGAN, which cost 30s and added oversharpening artifacts.
+GEN_W, GEN_H = 2304, 1296
+
+# --- Shot pacing -----------------------------------------------------------
+# A shot lasts exactly as long as its narration line. These bounds catch
+# storyboards that chunked the script badly.
+MIN_SHOT_SEC = 2.5
+MAX_SHOT_SEC = 12.0
+SHOT_TAIL_SEC = 0.35          # breathing room appended after each line
+CROSSFADE_SEC = 0.5
+
+# Ease the camera in and out of each move instead of snapping to full speed.
+MOTION_EASING = True
+
+# Clips are rendered in parallel processes. Each one also runs a multithreaded
+# encoder, so this stays well below the core count.
+CLIP_WORKERS = 8
+
+# --- Text to speech --------------------------------------------------------
+# Kokoro-82M, Apache-2.0. American male narrator by default.
+TTS_VOICE = "am_michael"
+TTS_SPEED = 1.0
+TTS_SAMPLE_RATE = 24000
+
+# --- End card --------------------------------------------------------------
+# A video that stops the instant the narration does feels cut off. The outro is
+# appended after the last shot, so it sits outside the narration timeline and
+# does not disturb any of the crossfade arithmetic.
+OUTRO_ENABLED = True
+OUTRO_SECONDS = 6.0
+OUTRO_TEXT = "Subscribe for more"
+OUTRO_SUBTEXT = ""            # optional second line, e.g. a channel name
+# Drawn with Pillow, not ffmpeg's drawtext, which segfaults in this build for
+# want of a fontconfig default. Looked up in assets/fonts first, then Windows.
+OUTRO_FONT = "segoeuib.ttf"
+OUTRO_FONT_FALLBACK = "arialbd.ttf"
+OUTRO_TEXT_SIZE = 96
+OUTRO_SUBTEXT_SIZE = 40
+OUTRO_SCRIM = 0.68            # how far the background is pushed toward black
+OUTRO_FADE_OUT = 1.2          # fade to black over the closing seconds
+
+# --- Subtitles -------------------------------------------------------------
+# Burned in from a generated .ass, never from the .srt. libass assumes a
+# 288-line canvas for SRT input and scales the font by 1080/288, so a nominal
+# "size 22" arrived on screen 82 px tall and swallowed a third of the frame.
+# An .ass carrying an explicit PlayRes means the number below is real pixels.
+BURN_SUBTITLES = True
+SUB_FONT = "Arial"
+SUB_FONT_SIZE = 34            # real pixels at 1080p
+SUB_MARGIN_V = 60             # from the bottom edge
+SUB_MARGIN_H = 200            # keeps lines off the sides, forces earlier wrap
+SUB_MAX_CHARS = 54            # per line; longer narration pages into more cues
+                              # (measured ~14 px/char at size 34, so a full line
+                              #  is ~760 px of the 1520 px between the margins)
+# White text sat unreadable over bright water with a thin outline. A heavier
+# black outline plus a soft shadow survives any background without needing an
+# opaque box behind the text.
+SUB_OUTLINE = 3
+SUB_SHADOW = 1

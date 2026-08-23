@@ -1,0 +1,37 @@
+# --- Environments ---------------------------------------------------------
+.venv*/
+__pycache__/
+*.py[cod]
+
+# --- ComfyUI ---------------------------------------------------------------
+# Cloned at setup time, not vendored. See DEPENDENCY.md.
+# The model-paths file we own lives in config/, not in here: git cannot
+# un-ignore a file inside an ignored directory, so keeping it there would have
+# silently dropped it from the repo.
+/comfy/
+
+# --- Generated media -------------------------------------------------------
+# Frames, clips, audio and finished videos are large and reproducible from the
+# storyboard. The storyboard itself IS committed: it is the source.
+projects/*/frames/
+projects/*/clips/
+projects/*/audio/
+projects/*/assets/
+projects/*/*.mp4
+projects/*/*.png
+projects/*/*.jpg
+projects/*/*.wav
+projects/*/*.ass
+
+# Throwaway project the smoke test rebuilds from scratch on every run.
+projects/smoketest/
+
+# --- Local assets ----------------------------------------------------------
+# Licensed fonts and music are not ours to redistribute.
+assets/fonts/*
+assets/music/*
+!assets/**/.gitkeep
+
+# --- Runtime ---------------------------------------------------------------
+logs/
+*.log
