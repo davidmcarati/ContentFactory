@@ -12,7 +12,13 @@ reach for first.
 ## 1. The shape of the thing
 
 Five steps. Each is independently runnable and resumable. They communicate
-only through one file per project: `projects/<slug>/storyboard.json`.
+only through one file per project: `<video>/sources/storyboard.json`.
+
+**Nothing a project produces lives in this repository.** Script, storyboard,
+narration, frames and clips all sit in the video's own folder on the delivery
+drive, under `sources`. `config.video_dir()` resolves a slug to that folder
+and tolerates the release-order prefix the folders carry on disk
+(`0_depression`, `1_chronicles`), so do not assume `DELIVERY_ROOT / slug`.
 
 ```
 step 1   step1_script.py    narration text   ->  storyboard.json

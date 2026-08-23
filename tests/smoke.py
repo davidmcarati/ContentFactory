@@ -24,6 +24,11 @@ from pipeline.step4_assemble import assemble
 
 SLUG = "smoketest"
 
+# Deliveries now hold their own sources, so a project directory is a folder in
+# DELIVERY_ROOT beside the real videos. A throwaway test has no business
+# sitting there, so it is pointed at scratch space for the duration.
+config.DELIVERY_ROOT = Path(config.ROOT / ".smoketest")
+
 SHOTS = [
     ("Roman concrete has survived two thousand years of waves.", "in"),
     ("Modern concrete cracks within decades of being poured.", "left"),

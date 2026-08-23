@@ -7,7 +7,6 @@ from pathlib import Path
 
 # --- Locations -------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent.parent
-PROJECTS = ROOT / "projects"
 ASSETS = ROOT / "assets"
 LOGS = ROOT / "logs"
 COMFY_DIR = ROOT / "comfy"
@@ -17,6 +16,37 @@ MODELS = Path("D:/ai-models")
 # needed to upload: the film, a thumbnail, the description and tags, subtitles
 # and credits. Kept off the repo drive so nothing large is ever near git.
 DELIVERY_ROOT = Path("D:/TheArtOfChaosVideos")
+
+# Working material -- script, storyboard, narration, frames, clips -- lives in
+# the video's own folder, under `sources`, rather than in the repository. It
+# ran to 1.7 GB across five projects, which has no business sitting next to
+# the code, and the .gitignore rules keeping it out of commits were one
+# careless `git add -f` from failing. Everything that made a video now travels
+# with it.
+SOURCES_NAME = "sources"
+
+
+def video_dir(slug: str) -> Path:
+    """The folder for one video: the delivery, with its sources inside.
+
+    Matches an existing folder called `<slug>` or `<anything>_<slug>`. The
+    delivery folders are numbered by release order on disk -- 0_depression,
+    1_chronicles -- and the pipeline has no business renaming them back or
+    creating a duplicate beside them.
+    """
+    exact = DELIVERY_ROOT / slug
+    if exact.is_dir():
+        return exact
+    if DELIVERY_ROOT.is_dir():
+        suffixed = sorted(p for p in DELIVERY_ROOT.iterdir()
+                          if p.is_dir() and p.name.endswith(f"_{slug}"))
+        if suffixed:
+            return suffixed[-1]
+    return exact
+
+
+def project_dir(slug: str) -> Path:
+    return video_dir(slug) / SOURCES_NAME
 
 # YouTube's thumbnail size. It has to survive being shown 200 px wide.
 THUMB_W, THUMB_H = 1280, 720

@@ -8,7 +8,22 @@ Built and measured on: RTX 5080 (16 GB), i9-14900K, 64 GB RAM, Windows 11.
 ## The idea
 
 Five steps, each resumable, all talking to one another through a single file:
-`projects/<slug>/storyboard.json`.
+`storyboard.json`.
+
+Everything a video is made of lives with the video, not in this repository:
+
+```
+D:/TheArtOfChaosVideos/1_chronicles/
+    chronicles.mp4        the film
+    thumbnail.png         description.txt      subtitles.srt
+    credits.md            storyboard.json      <- ready to upload
+    sources/              <- everything that made it
+        script.txt  prompts.txt  storyboard.json  review.json
+        audio/  frames/  clips/
+```
+
+The repository holds the code and the guides. Folders carry a release-order
+prefix; `config.video_dir()` resolves a slug to the right one.
 
 ```
 step 1  script      narration text        ->  storyboard.json

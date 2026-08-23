@@ -173,7 +173,7 @@ class Storyboard:
     # ------------------------------------------------------------------
     @property
     def dir(self) -> Path:
-        return config.PROJECTS / self.slug
+        return config.project_dir(self.slug)
 
     def start_of(self, shot_id: int) -> float:
         """Timeline position where a shot's narration begins."""
@@ -264,7 +264,7 @@ class Storyboard:
     def load(cls, slug_or_path: str | Path) -> "Storyboard":
         path = Path(slug_or_path)
         if not path.suffix:
-            path = config.PROJECTS / str(slug_or_path) / "storyboard.json"
+            path = config.project_dir(str(slug_or_path)) / "storyboard.json"
         return cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
 
     # ------------------------------------------------------------------

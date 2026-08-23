@@ -257,7 +257,9 @@ def publish(sb: Storyboard, *, force: bool = False,
             f"{video} does not exist; run step 4 before publishing"
         )
 
-    out = (root or config.DELIVERY_ROOT) / sb.slug
+    # Not DELIVERY_ROOT / slug: the folder may already exist under a numbered
+    # name, and the sources live inside it.
+    out = (root / sb.slug) if root else config.video_dir(sb.slug)
     out.mkdir(parents=True, exist_ok=True)
 
     thumbnail = build_thumbnail(sb, force=force)

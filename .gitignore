@@ -10,21 +10,15 @@ __pycache__/
 # silently dropped it from the repo.
 /comfy/
 
-# --- Generated media -------------------------------------------------------
-# Frames, clips, audio and finished videos are large and reproducible from the
-# storyboard. The storyboard itself IS committed: it is the source.
-projects/*/frames/
-projects/*/clips/
-projects/*/audio/
-projects/*/assets/
-projects/*/*.mp4
-projects/*/*.png
-projects/*/*.jpg
-projects/*/*.wav
-projects/*/*.ass
+# --- Working material ------------------------------------------------------
+# Scripts, storyboards, narration, frames and clips live with the video they
+# made, in D:/TheArtOfChaosVideos/<video>/sources, not in here. These rules
+# are a backstop for a project directory recreated locally by accident: there
+# should be nothing to ignore.
+/projects/
 
-# Throwaway project the smoke test rebuilds from scratch on every run.
-projects/smoketest/
+# Scratch space for the smoke test.
+/.smoketest/
 
 # --- Local assets ----------------------------------------------------------
 # Licensed fonts and music are not ours to redistribute.
