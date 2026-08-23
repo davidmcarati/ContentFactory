@@ -106,11 +106,22 @@ def frames(sb: Storyboard, *, force: bool = False, only: set[int] | None = None,
           f"{done} already done)")
     started = time.monotonic()
 
+    unfetched: list[tuple[int, str]] = []
+
     for n, shot in enumerate(todo, start=1):
         t0 = time.monotonic()
         if shot.kind == "asset":
-            fetch_shot(sb, shot)
-            label = f"asset  {shot.asset.title[:34] if shot.asset else ''}"
+            # A throttled or unreachable collection must not cost the GPU
+            # work. Commons rate-limits per IP, and a 429 on the first fetch
+            # used to abort the whole batch with sixty-five frames still to
+            # generate. Record it, carry on, and say so at the end; the step
+            # is resumable, so a later run picks up just the misses.
+            try:
+                fetch_shot(sb, shot)
+                label = f"asset  {shot.asset.title[:34] if shot.asset else ''}"
+            except Exception as exc:
+                unfetched.append((shot.id, f"{type(exc).__name__}: {exc}"))
+                label = f"asset  FAILED, will retry on rerun"
         else:
             render_shot(client, sb, shot)
             label = "gen"
@@ -135,8 +146,14 @@ def frames(sb: Storyboard, *, force: bool = False, only: set[int] | None = None,
     sb.save()
 
     total = time.monotonic() - started
-    print(f"\n{len(todo)} frames in {_fmt(total)} "
-          f"({total / len(todo):.1f}s each)")
+    print(f"\n{len(todo) - len(unfetched)} of {len(todo)} frames in "
+          f"{_fmt(total)} ({total / len(todo):.1f}s each)")
+
+    if unfetched:
+        print(f"\n{len(unfetched)} asset shots did not fetch. Rerun this step "
+              f"once the collection stops throttling; nothing else is lost.")
+        for shot_id, reason in unfetched:
+            print(f"  shot {shot_id:03d}  {reason[:110]}")
 
 
 def write_credits(sb: Storyboard) -> Path | None:
