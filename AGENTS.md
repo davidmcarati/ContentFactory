@@ -232,9 +232,10 @@ pictures.
 ## 6. Testing
 
 ```bash
-.venv-pipeline/Scripts/python.exe -m tests.smoke           # required before shipping
-.venv-pipeline/Scripts/python.exe -m tests.kenburns_probe  # after touching motion
-.venv-pipeline/Scripts/python.exe -m tests.style_probe     # style comparison sheet
+.venv-pipeline/Scripts/python.exe -m tests.smoke            # required before shipping
+.venv-pipeline/Scripts/python.exe -m tests.kenburns_probe   # after touching motion
+.venv-pipeline/Scripts/python.exe -m tests.style_probe      # style comparison sheet
+.venv-pipeline/Scripts/python.exe -m tests.contact_sheet <slug>   # review every frame
 ```
 
 `tests/smoke.py` fabricates frames and silent narration, drives steps 2 and 4
@@ -243,8 +244,15 @@ prediction. It needs no models and runs in about 30 seconds. Current baseline
 is **9 ms drift** across 5 shots; if that number grows, the timeline
 arithmetic broke.
 
-There is no test for image quality. That judgement is the user's; render a
-contact sheet and show it rather than deciding alone.
+There is no test for image quality, and there cannot be. `tests.contact_sheet`
+tiles every frame of a project with its shot number so a 77-shot video can be
+reviewed in three glances; a bad frame is then regenerated on its own with
+`step3_frames <slug> --only 47 --force`. Look at the sheet. Every visual defect
+found so far — ESRGAN oversharpening, oversized subtitles, mismatched asset
+backdrops, mid-phrase subtitle breaks, fake body copy in generated frames —
+was invisible to the test suite and obvious in a picture.
+
+Show the sheet to the user rather than deciding alone what looks good.
 
 ---
 

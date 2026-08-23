@@ -41,7 +41,7 @@
     {
       "id": 3,
       "vo": "All three used the same word. Only one of them was describing an illness.",
-      "image_prompt": "three large overlapping speech bubble shapes filling the frame, one packed with dense dark hatching, bold graphic composition",
+      "image_prompt": "a row of identical white cups along a long diner counter, one of them filled with something black, morning light through the window, detailed interior",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -64,12 +64,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.675,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\004.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\004.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\004.png",
+      "seed": 20260827
     },
     {
       "id": 5,
       "vo": "Not among mental illnesses. Among all causes, of any kind.",
-      "image_prompt": "thick stacked paper strips of different heights standing in a long row, one towering far above the rest, layered shadows",
+      "image_prompt": "a long table holding stacks of books of very different heights, one stack towering far above the others, raking light",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -77,7 +79,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.9,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\005.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\005.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\005.png",
+      "seed": 20260828
     },
     {
       "id": 6,
@@ -90,12 +94,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.15,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\006.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\006.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\006.png",
+      "seed": 20260829
     },
     {
       "id": 7,
       "vo": "The first thing to clear away is that depression is not sadness. Treating it as sadness with the volume turned up gets almost everything wrong.",
-      "image_prompt": "two heavy overlapping circles filling the frame, one small one vast, bold contrasting muted colour fields",
+      "image_prompt": "a small rowing boat on a calm bay dwarfed by a vast dark expanse of water behind it, flat muted landscape",
       "motion": {
         "pan": "out",
         "zoom": 1.13
@@ -103,7 +109,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.25,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\007.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\007.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\007.png",
+      "seed": 20260830
     },
     {
       "id": 8,
@@ -116,7 +124,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.525,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\008.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\008.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\008.png",
+      "seed": 20260831
     },
     {
       "id": 9,
@@ -129,12 +139,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.525,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\009.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\009.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\009.png",
+      "seed": 20260832
     },
     {
       "id": 10,
       "vo": "Depression frequently has no object at all. And the symptom clinicians look for first is not sadness. It is anhedonia. The loss of the capacity for pleasure.",
-      "image_prompt": "a long table laid with a complete meal rendered entirely in flat grey, one chair pulled out, detailed place settings",
+      "image_prompt": "a dinner table set for one, a full untouched plate, the chair pushed back, dim evening room, drained grey palette",
       "motion": {
         "pan": "left",
         "zoom": 1.14
@@ -142,7 +154,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.425,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\010.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\010.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\010.png",
+      "seed": 20260833
     },
     {
       "id": 11,
@@ -155,12 +169,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\011.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\011.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\011.png",
+      "seed": 20260834
     },
     {
       "id": 12,
       "vo": "Music becomes a sequence of correct notes. You can remember loving something without being able to feel it.",
-      "image_prompt": "a gramophone horn and scattered geometric note shapes filling the frame, silent, bold layered graphic",
+      "image_prompt": "an old record player on a sideboard with the record still turning, an empty armchair beside it, dim quiet room",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -168,34 +184,24 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\012.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\012.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\012.png",
+      "seed": 20260835
     },
     {
       "id": 13,
       "vo": "Some people with severe depression report that they cannot feel sad either. The condition took that as well.",
-      "image_prompt": "",
+      "image_prompt": "a painter's palette on a workbench with every colour mixed down to the same flat grey, brushes laid beside it",
       "motion": {
         "pan": "in",
         "zoom": 1.16
       },
       "transition": "crossfade",
-      "kind": "asset",
-      "asset": {
-        "source": "wikimedia",
-        "title": "At Eternity's Gate (Sorrowing Old Man)",
-        "author": "Vincent van Gogh",
-        "license": "Public domain",
-        "tier": "safe",
-        "page_url": "https://commons.wikimedia.org/wiki/File:1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg",
-        "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-        "license_url": "",
-        "width": 2560,
-        "height": 3413,
-        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png"
-      },
+      "kind": "generate",
       "audio_sec": 7.375,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\013.wav",
-      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png"
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png",
+      "seed": 20260836
     },
     {
       "id": 14,
@@ -208,7 +214,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.475,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\014.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\014.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\014.png",
+      "seed": 20260837
     },
     {
       "id": 15,
@@ -240,7 +248,7 @@
     {
       "id": 16,
       "vo": "It is one of the most accurate portraits of the condition anybody has made, and it predates the word depression by centuries.",
-      "image_prompt": "a deep cross section of layered rock strata filling the frame, a single bright mark near the very bottom",
+      "image_prompt": "a shelf of ancient bound volumes receding into shadow, one small worn book at the far end catching the light",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -248,7 +256,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.425,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\016.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\016.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\016.png",
+      "seed": 20260839
     },
     {
       "id": 17,
@@ -276,7 +286,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 2.025,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\018.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\018.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\018.png",
+      "seed": 20260841
     },
     {
       "id": 19,
@@ -289,12 +301,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.825,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\019.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\019.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\019.png",
+      "seed": 20260842
     },
     {
       "id": 20,
       "vo": "It came, in large part, out of advertising.",
-      "image_prompt": "a vintage magazine spread with a large blank rectangle where the product should be, dense halftone dots",
+      "image_prompt": "a 1960s advertising studio, easels holding blank display boards, drafting tools and warm lamps, detailed interior",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -302,7 +316,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 3.7,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\020.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\020.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\020.png",
+      "seed": 20260843
     },
     {
       "id": 21,
@@ -315,7 +331,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\021.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\021.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\021.png",
+      "seed": 20260844
     },
     {
       "id": 22,
@@ -328,7 +346,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.475,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\022.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\022.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\022.png",
+      "seed": 20260845
     },
     {
       "id": 23,
@@ -341,12 +361,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.45,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\023.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\023.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\023.png",
+      "seed": 20260846
     },
     {
       "id": 24,
       "vo": "In the body, rather than in the character.",
-      "image_prompt": "a full human figure outline with the whole interior rendered as dense brass clockwork, cogs and springs",
+      "image_prompt": "a wooden artist's mannequin standing on a desk beside an open clock movement and brass gears, warm lamp light",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -354,7 +376,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 3.05,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\024.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\024.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\024.png",
+      "seed": 20260847
     },
     {
       "id": 25,
@@ -367,7 +391,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.2,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\025.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\025.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\025.png",
+      "seed": 20260848
     },
     {
       "id": 26,
@@ -380,12 +406,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.025,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\026.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\026.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\026.png",
+      "seed": 20260849
     },
     {
       "id": 27,
       "vo": "A study of studies, gathering the evidence for the serotonin hypothesis across six separate lines of research. They found no consistent evidence that depression is caused by low serotonin.",
-      "image_prompt": "six thick parallel paper strips converging into a single strip, layered shadows filling the frame",
+      "image_prompt": "a long library table with six open books laid in a row all angled toward one open folder at the centre, overhead lamps",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -393,7 +421,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 13.525,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\027.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\027.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\027.png",
+      "seed": 20260850
     },
     {
       "id": 28,
@@ -413,7 +443,7 @@
     {
       "id": 29,
       "vo": "The simple version had been regarded as inadequate for years. What the review demolished was the commercial, not the science.",
-      "image_prompt": "a torn empty billboard frame against a bruised sky, ragged paper clinging to the steel edges",
+      "image_prompt": "workers stripping a billboard, torn paper sheets peeling away from the boards, a ladder leaning against the frame",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -421,7 +451,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.775,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\029.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\029.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\029.png",
+      "seed": 20260852
     },
     {
       "id": 30,
@@ -434,12 +466,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.2,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\030.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\030.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\030.png",
+      "seed": 20260853
     },
     {
       "id": 31,
       "vo": "Depression is not simply low serotonin does not mean antidepressants do not work. Those are two separate questions.",
-      "image_prompt": "two heavy wooden boxes standing side by side joined by a broken chain, bold composition",
+      "image_prompt": "two closed doors side by side in a long corridor, a broken chain lying on the floor between them",
       "motion": {
         "pan": "out",
         "zoom": 1.13
@@ -447,12 +481,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.35,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\031.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\031.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\031.png",
+      "seed": 20260854
     },
     {
       "id": 32,
       "vo": "Aspirin works on headaches. Headaches are not caused by a lack of aspirin. A drug does not have to reverse a deficiency in order to help.",
-      "image_prompt": "one large white tablet lying beside a smooth ceramic head sculpture, strong raking shadow",
+      "image_prompt": "a single white tablet on a saucer beside a glass of water on a bedside table, soft morning light",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -460,7 +496,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.75,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\032.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\032.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\032.png",
+      "seed": 20260855
     },
     {
       "id": 33,
@@ -473,7 +511,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.3,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\033.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\033.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\033.png",
+      "seed": 20260856
     },
     {
       "id": 34,
@@ -486,7 +526,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 2.525,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\034.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\034.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\034.png",
+      "seed": 20260857
     },
     {
       "id": 35,
@@ -499,7 +541,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.0,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\035.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\035.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\035.png",
+      "seed": 20260858
     },
     {
       "id": 36,
@@ -519,7 +563,7 @@
     {
       "id": 37,
       "vo": "The clearest of them is the stress system. The body runs a hormonal cascade through the hypothalamus, the pituitary and the adrenal glands.",
-      "image_prompt": "three glands rendered as a vertical cascade of organic forms joined by tubes, ornate engraved style",
+      "image_prompt": "three brass vessels mounted one above another joined by copper tubing, liquid descending, workshop wall",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -527,7 +571,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.85,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\037.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\037.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\037.png",
+      "seed": 20260860
     },
     {
       "id": 38,
@@ -540,7 +586,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\038.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\038.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\038.png",
+      "seed": 20260861
     },
     {
       "id": 39,
@@ -553,12 +601,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.675,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\039.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\039.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\039.png",
+      "seed": 20260862
     },
     {
       "id": 40,
       "vo": "Cortisol is useful for an afternoon and corrosive over a year.",
-      "image_prompt": "rust spreading outward across a broad metal surface from one point, dense close texture study",
+      "image_prompt": "a rusted iron gate in close up, corrosion eating outward across the bars, flaking paint, weathered texture",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -566,7 +616,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.05,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\040.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\040.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\040.png",
+      "seed": 20260863
     },
     {
       "id": 41,
@@ -579,7 +631,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.325,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\041.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\041.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\041.png",
+      "seed": 20260864
     },
     {
       "id": 42,
@@ -592,7 +646,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 2.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\042.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\042.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\042.png",
+      "seed": 20260865
     },
     {
       "id": 43,
@@ -605,12 +661,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 13.025,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\043.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\043.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\043.png",
+      "seed": 20260866
     },
     {
       "id": 44,
       "vo": "This is the machinery that converts I want that into I am getting up.",
-      "image_prompt": "a long industrial conveyor belt carrying a bright shape across the frame, gears and rollers, detailed",
+      "image_prompt": "a factory conveyor line carrying identical crates past machinery, work stations along its length, warm industrial light",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -618,12 +676,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\044.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\044.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\044.png",
+      "seed": 20260867
     },
     {
       "id": 45,
       "vo": "Under sustained stress, that conversion degrades. Notice carefully what this means. It is not that the person wants to get up and lacks the willpower.",
-      "image_prompt": "the same long conveyor belt with a broken segment, shapes stalled and piled against the gap, detailed",
+      "image_prompt": "a stopped factory conveyor line, crates piled up against a gap in the belt, machinery silent, cold light",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -631,7 +691,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\045.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\045.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\045.png",
+      "seed": 20260868
     },
     {
       "id": 46,
@@ -644,7 +706,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.775,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\046.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\046.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\046.png",
+      "seed": 20260869
     },
     {
       "id": 47,
@@ -672,7 +736,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.4,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\048.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\048.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\048.png",
+      "seed": 20260871
     },
     {
       "id": 49,
@@ -685,7 +751,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\049.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\049.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\049.png",
+      "seed": 20260872
     },
     {
       "id": 50,
@@ -698,12 +766,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.075,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\050.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\050.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\050.png",
+      "seed": 20260873
     },
     {
       "id": 51,
       "vo": "Inducing inflammation experimentally in healthy volunteers produces the flat, unmotivated state of depression, along with changes in exactly the reward circuits just described.",
-      "image_prompt": "a laboratory syringe and glass ampoules arranged on a clinical steel tray, cold light, detailed",
+      "image_prompt": "a clinical steel tray holding a syringe and small glass vials with a folded white cloth, cold overhead light",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -711,12 +781,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 13.55,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\051.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\051.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\051.png",
+      "seed": 20260874
     },
     {
       "id": 52,
       "vo": "Which suggests there are biologically distinct conditions currently wearing the same name.",
-      "image_prompt": "two visibly different mechanisms mounted side by side beneath one shared blank brass plate",
+      "image_prompt": "two different engines on adjacent workshop benches with one blank brass nameplate mounted above them both",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -724,7 +796,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.3,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\052.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\052.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\052.png",
+      "seed": 20260875
     },
     {
       "id": 53,
@@ -737,12 +811,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\053.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\053.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\053.png",
+      "seed": 20260876
     },
     {
       "id": 54,
       "vo": "Depression is not only felt. It measurably degrades the things people are held responsible for.",
-      "image_prompt": "a column of ink marks on paper fading from dark to nothing down the page, tight close crop",
+      "image_prompt": "a worn office desk with a stack of unopened folders, a cold cup of coffee and a stopped clock, dim light, detailed",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -750,7 +826,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\054.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\054.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\054.png",
+      "seed": 20260877
     },
     {
       "id": 55,
@@ -778,7 +856,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.35,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\056.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\056.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\056.png",
+      "seed": 20260879
     },
     {
       "id": 57,
@@ -791,12 +871,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.4,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\057.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\057.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\057.png",
+      "seed": 20260880
     },
     {
       "id": 58,
       "vo": "It does not stay in the head either.",
-      "image_prompt": "a full human silhouette with dense faint lines radiating down through the torso, dark ground",
+      "image_prompt": "a wooden artist's mannequin seated with one hand resting on its chest, desk lamp, long warm shadow",
       "motion": {
         "pan": "left",
         "zoom": 1.14
@@ -804,12 +886,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 2.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\058.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\058.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\058.png",
+      "seed": 20260881
     },
     {
       "id": 59,
       "vo": "Depression is associated with higher cardiovascular risk and with worse outcomes for people already managing a physical illness, in ways that lifestyle alone does not account for.",
-      "image_prompt": "a large stylised heart form with a single trembling line flattening across the frame, bold shapes",
+      "image_prompt": "a stethoscope coiled on a folded white coat over the back of a wooden chair, cold window light",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -817,7 +901,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.975,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\059.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\059.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\059.png",
+      "seed": 20260882
     },
     {
       "id": 60,
@@ -845,7 +931,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.7,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\061.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\061.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\061.png",
+      "seed": 20260884
     },
     {
       "id": 62,
@@ -858,7 +946,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\062.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\062.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\062.png",
+      "seed": 20260885
     },
     {
       "id": 63,
@@ -871,7 +961,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\063.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\063.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\063.png",
+      "seed": 20260886
     },
     {
       "id": 64,
@@ -884,7 +976,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.475,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\064.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\064.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\064.png",
+      "seed": 20260887
     },
     {
       "id": 65,
@@ -897,20 +991,37 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.8,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\065.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\065.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\065.png",
+      "seed": 20260888
     },
     {
       "id": 66,
       "vo": "We tell them to reach out, and the reaching out costs more than they currently have.",
-      "image_prompt": "a telephone receiver left off the hook, cord trailing across a crowded table, detailed still life",
+      "image_prompt": "",
       "motion": {
         "pan": "left",
         "zoom": 1.14
       },
       "transition": "crossfade",
-      "kind": "generate",
+      "kind": "asset",
+      "asset": {
+        "source": "wikimedia",
+        "title": "At Eternity's Gate (Sorrowing Old Man)",
+        "author": "Vincent van Gogh",
+        "license": "Public domain",
+        "tier": "safe",
+        "page_url": "https://commons.wikimedia.org/wiki/File:1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg",
+        "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license_url": "",
+        "width": 2560,
+        "height": 3413,
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\066.png"
+      },
       "audio_sec": 5.325,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\066.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\066.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\066.png",
+      "seed": 20260889
     },
     {
       "id": 67,
@@ -923,7 +1034,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.15,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\067.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\067.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\067.png",
+      "seed": 20260890
     },
     {
       "id": 68,
@@ -936,12 +1049,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\068.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\068.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\068.png",
+      "seed": 20260891
     },
     {
       "id": 69,
       "vo": "The problem was never the content of the advice. It is handing somebody the operating instructions for a machine that is currently broken, and recording that as help delivered.",
-      "image_prompt": "a dismantled appliance with dozens of small parts laid out in neat rows on a workbench, detailed",
+      "image_prompt": "an old radio opened up on a workbench with its valves and parts laid out in neat rows around it, tools scattered",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -949,7 +1064,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.85,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\069.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\069.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\069.png",
+      "seed": 20260892
     },
     {
       "id": 70,
@@ -962,7 +1079,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\070.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\070.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\070.png",
+      "seed": 20260893
     },
     {
       "id": 71,
@@ -975,12 +1094,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.45,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\071.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\071.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\071.png",
+      "seed": 20260894
     },
     {
       "id": 72,
       "vo": "Which means that every time somebody says the real thing out loud, they are arguing with the definition before they even reach the end of the sentence.",
-      "image_prompt": "a heavy closed book with a bold speech bubble shape pressing into its cover, dramatic shadow",
+      "image_prompt": "a heavy closed dictionary on a lectern in a dim library, one shaft of light falling on it, deep shadow",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -988,12 +1109,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.775,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\072.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\072.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\072.png",
+      "seed": 20260895
     },
     {
       "id": 73,
       "vo": "Depression is not sadness, and it is not a missing chemical.",
-      "image_prompt": "two enormous shapes side by side struck through with bold diagonal bars, a teardrop and a molecule",
+      "image_prompt": "a raindrop running down a window with a small glass vial standing on the sill beside it, cold light, close crop",
       "motion": {
         "pan": "in",
         "zoom": 1.12
@@ -1001,7 +1124,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.55,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\073.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\073.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\073.png",
+      "seed": 20260896
     },
     {
       "id": 74,
@@ -1029,7 +1154,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.2,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\075.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\075.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\075.png",
+      "seed": 20260898
     },
     {
       "id": 76,
@@ -1042,12 +1169,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.05,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\076.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\076.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\076.png",
+      "seed": 20260899
     },
     {
       "id": 77,
       "vo": "But the next time somebody tells you they are depressed, it costs about four seconds to find out which of the two things they mean.",
-      "image_prompt": "two figures facing each other in close conversation, warm light, a detailed room around them",
+      "image_prompt": "two people sitting across a small cafe table leaning toward each other, warm evening light, other tables behind",
       "motion": {
         "pan": "in",
         "zoom": 1.16
@@ -1055,7 +1184,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.9,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\077.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\077.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\077.png",
+      "seed": 20260900
     }
   ],
   "voice": {
