@@ -142,16 +142,52 @@ def classify(license_code: str, usage_terms: str = "") -> str:
     return REJECTED
 
 
+# Commons serves thumbnails only at a fixed set of widths -- 20, 40, 60, 120,
+# 250, 330, 500, 960, 1280, 1920, 3840 -- and rejects a direct request for any
+# other width with a 400. Ask for one of them so nothing has to be rounded.
+# 1920 is the delivery width; GEN_W is larger only to give the camera move
+# room to zoom, and no source here is worth fetching at 3840.
+#
+# Do not construct thumbnail URLs by hand. That was tried, and it produced a
+# malformed path (the API decorates its URLs with a query string, which ends
+# up buried mid-path) and then an invalid width. MediaWiki's own guidance is
+# to let the imageinfo API hand you the URL.
+STANDARD_THUMB_WIDTH = 1920
+
+
+def big_enough(asset: Asset) -> bool:
+    """Will this image survive being shown full screen?
+
+    Commons will not upscale, but it does not say so. Asked for a 1920 px
+    thumbnail of a 446 px manuscript scan it reports `thumbwidth: 1920` and
+    returns the 446 px original, so a listing shows a comfortable 1920x2264
+    for a picture that is postage-stamp sized. `search_wikimedia` therefore
+    records the *real* delivered size, and this is the check against it.
+    Without both halves the image reaches the video as mush and only a
+    contact sheet catches it.
+
+    The test is one source pixel per delivered pixel along whichever axis ends
+    up constrained: a landscape image is cropped to fill the width, a portrait
+    one is contained and letterboxed against its own blurred backdrop.
+    """
+    if not asset.width or not asset.height:
+        return False
+    if asset.width / asset.height >= config.OUT_W / config.OUT_H:
+        return asset.width >= config.OUT_W
+    return asset.height >= config.OUT_H
+
+
 # ---------------------------------------------------------------------------
 # Search
 # ---------------------------------------------------------------------------
 def search_wikimedia(query: str, limit: int = 8,
-                     thumb_width: int = 2560) -> list[Asset]:
+                     thumb_width: int = STANDARD_THUMB_WIDTH) -> list[Asset]:
     """Commons full-text search over the File namespace.
 
-    A thumbnail URL is requested rather than the original on purpose: originals
-    here run to 30000 px on a side and hundreds of megabytes, which is a very
-    slow way to fill a 2304 px frame.
+    A thumbnail URL is used rather than the original on purpose, for two
+    reasons: originals here run to 30000 px on a side and hundreds of
+    megabytes, which is a very slow way to fill a 2304 px frame, and Commons
+    rate-limits the originals path hard. See `_thumb_url`.
     """
     r = _get(
         "https://commons.wikimedia.org/w/api.php",
@@ -170,6 +206,22 @@ def search_wikimedia(query: str, limit: int = 8,
         meta = info.get("extmetadata") or {}
         code = _clean(meta.get("License", {}).get("value"))
         terms = _clean(meta.get("UsageTerms", {}).get("value"))
+
+        # A real thumbnail URL sits under /thumb/. When the file is smaller
+        # than the width asked for, MediaWiki will not upscale: it reports the
+        # requested size anyway and hands back the original URL. Record what
+        # is actually going to be downloaded, so `big_enough` has the truth to
+        # work with.
+        api_thumb = info.get("thumburl") or ""
+        if "/thumb/" in api_thumb:
+            url = api_thumb
+            width = info.get("thumbwidth") or 0
+            height = info.get("thumbheight") or 0
+        else:
+            url = info.get("url", "")
+            width = info.get("width", 0)
+            height = info.get("height", 0)
+
         out.append(Asset(
             source="wikimedia",
             title=_clean(meta.get("ObjectName", {}).get("value")) or
@@ -178,10 +230,10 @@ def search_wikimedia(query: str, limit: int = 8,
             license=terms or code or "unknown",
             tier=classify(code, terms),
             page_url=info.get("descriptionurl", ""),
-            file_url=info.get("thumburl") or info.get("url", ""),
+            file_url=url,
             license_url=_clean(meta.get("LicenseUrl", {}).get("value")),
-            width=info.get("thumbwidth") or info.get("width", 0),
-            height=info.get("thumbheight") or info.get("height", 0),
+            width=width,
+            height=height,
         ))
     return out
 
