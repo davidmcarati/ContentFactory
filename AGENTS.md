@@ -120,6 +120,16 @@ has gone missing at `<project>/<sub>/<stem>` and drops it if there is nothing
 there either. Without that, step 4 happily rebuilds a video out of a directory
 that no longer exists.
 
+**Never edit a storyboard while a step is running against it.** Step 3 reads
+the storyboard once and writes it back after every frame, so an edit made on
+disk during a ten-minute render is overwritten by the in-memory copy on the
+next frame, silently. It has happened: a title rewritten during a batch render
+was back to its old value afterwards, and nothing failed. `save()` now compares
+the file against what it looked like at load and prints a warning when it is
+about to clobber somebody, but the warning scrolls past in a render log --
+treat it as a net under the rule, not a replacement for it. Queue the edit and
+apply it when the run finishes.
+
 **Licence tiers are an allowlist, and unknown means no.** See section 5.
 
 ---

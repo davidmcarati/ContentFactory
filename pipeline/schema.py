@@ -254,11 +254,49 @@ class Storyboard:
     def save(self, path: Path | None = None) -> Path:
         path = path or (self.dir / "storyboard.json")
         path.parent.mkdir(parents=True, exist_ok=True)
+        self._warn_if_clobbering(path)
         path.write_text(
             json.dumps(self.to_dict(), indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
+        self._stamp = self._stamp_of(path)
         return path
+
+    @staticmethod
+    def _stamp_of(path: Path) -> tuple[int, int] | None:
+        if not path.exists():
+            return None
+        stat = path.stat()
+        return (stat.st_size, stat.st_mtime_ns)
+
+    def _warn_if_clobbering(self, path: Path) -> None:
+        """Say so out loud when this save is about to lose somebody's edit.
+
+        Step 3 holds one storyboard in memory for the length of a render and
+        writes it back after every frame. Anything edited on disk during those
+        ten minutes -- a title, a thumbnail line, a prompt for a shot that has
+        not been reached yet -- is silently overwritten by the in-memory copy
+        on the very next frame.
+
+        That is not hypothetical. A title rewritten for one video during a
+        batch render came back to its old value, and the only reason it was
+        noticed was a check against the list of intended edits. Detecting it
+        is nearly free: remember what the file looked like when it was read,
+        and compare before writing over it.
+
+        This warns rather than raises on purpose. Raising here would throw
+        away a part-finished render, which is a worse outcome than a stale
+        field, and the render is usually the expensive half.
+        """
+        seen = getattr(self, "_stamp", None)
+        if seen is None:
+            return
+        now = self._stamp_of(path)
+        if now is not None and now != seen:
+            print(f"  WARNING: {path.name} changed on disk since it was read. "
+                  f"Saving over it now; any edit made to {self.slug} in the "
+                  f"meantime is lost. Do not edit a storyboard while a step "
+                  f"is running.", flush=True)
 
     @classmethod
     def load(cls, slug_or_path: str | Path) -> "Storyboard":
@@ -266,6 +304,7 @@ class Storyboard:
         if not path.suffix:
             path = config.project_dir(str(slug_or_path)) / "storyboard.json"
         sb = cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+        sb._stamp = cls._stamp_of(path)
         sb.rebase_paths()
         return sb
 
