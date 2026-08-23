@@ -265,7 +265,28 @@ class Storyboard:
         path = Path(slug_or_path)
         if not path.suffix:
             path = config.project_dir(str(slug_or_path)) / "storyboard.json"
-        return cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+        sb = cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+        sb.rebase_paths()
+        return sb
+
+    def rebase_paths(self) -> None:
+        """Point recorded media at where it actually is now.
+
+        Steps record absolute paths, and a project folder can move -- it did,
+        when deliveries started carrying their own sources. The recorded path
+        then names a directory that no longer exists, and step 4 rebuilds a
+        video out of nothing. Layout is derivable from the slug and the shot
+        stem, so a path that has gone missing is repaired rather than trusted.
+        """
+        for shot in self.shots:
+            for attr, sub, ext in (("audio_path", "audio", ".wav"),
+                                   ("frame_path", "frames", ".png"),
+                                   ("clip_path", "clips", ".mp4")):
+                recorded = getattr(shot, attr, None)
+                if not recorded or Path(recorded).exists():
+                    continue
+                here = self.dir / sub / f"{shot.stem}{ext}"
+                setattr(shot, attr, str(here) if here.exists() else None)
 
     # ------------------------------------------------------------------
     def ensure_dirs(self) -> None:

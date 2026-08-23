@@ -119,6 +119,21 @@ Useful variants:
 ... -m pipeline.run my-slug --only assemble
 ```
 
+A week's worth of videos is not ten separate sessions. `pipeline.batch` walks a
+list of slugs, so the card renders every project's frames in one sitting
+instead of dropping and reloading a 16 GB checkpoint between them:
+
+```bash
+# everything up to the point where a human is actually needed
+.venv-pipeline/Scripts/python.exe -m pipeline.batch gold clothes dark salt
+
+# after the frames have been reviewed and accepted
+.venv-pipeline/Scripts/python.exe -m pipeline.batch gold clothes dark salt --from assemble
+```
+
+A project that fails does not take the rest of the night with it: the
+traceback is printed, and the next slug starts.
+
 ## Measured performance
 
 Frames are delivered at 2304x1296 but composed at 1536x864, steady state after

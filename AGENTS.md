@@ -112,6 +112,14 @@ nearly shipped was invisible to the tests and obvious in a picture — see
 section 6. `--skip-review` exists for `tests/smoke.py`, whose frames are
 fabricated colour cards, and for nothing that gets published.
 
+**Media paths in a storyboard are a cache, not the truth.** Steps record
+absolute paths to audio, frames and clips, and a project folder can move — it
+did, when deliveries started carrying their own sources. `Storyboard.load()`
+therefore calls `rebase_paths()`, which repoints anything whose recorded path
+has gone missing at `<project>/<sub>/<stem>` and drops it if there is nothing
+there either. Without that, step 4 happily rebuilds a video out of a directory
+that no longer exists.
+
 **Licence tiers are an allowlist, and unknown means no.** See section 5.
 
 ---
