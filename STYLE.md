@@ -74,7 +74,37 @@ it.
   `image_prompt` instead.
 - Requested style is **2D, not 3D**. Say so in the *positive* prompt. The
   negative prompt has no effect on FLUX.1-schnell — see AGENTS.md — so
-  listing `3d render, cgi` there accomplishes nothing.
+  listing `3d render, cgi` there accomplishes nothing. All three presets
+  below already say it.
+
+### Choosing the style
+
+The channel has **three** styles, and every video uses exactly one of them.
+They live in `pipeline/styles.py`; run `python -m pipeline.styles` to print
+them. Do not invent a fourth without asking — a new look is a channel
+decision, not a per-video one.
+
+| # | key | what it is | reach for it when | it fails at |
+|---|---|---|---|---|
+| 2 | `cartoon` | cel animation, black line art | the subject is curious, human, faintly absurd; the video will be watched on a phone | grief, illness, violence — it reads light and argues with the narration |
+| 4 | `midcentury` | screen print, muted palette | serious explanatory work: science, medicine, institutions | warmth, and any script turning on a recognisable person |
+| 6 | `papercut` | layered cut paper, soft shadows | physical processes and things built in stages: geology, engineering, the life of an object | fine mechanical detail and crowds |
+
+**The choice is made while writing the script, not after.** It follows from
+the subject, and the deciding question is what the style says about the people
+in it. `cartoon` is the only one that draws a face worth looking at, which
+also makes it the only one that can be tasteless: a cel-shaded depressive is a
+cartoon of a sick person. `midcentury` abstracts figures instead of portraying
+them, and on that subject the abstraction *is* the tact. `papercut` barely
+does people at all, which is fine when the subject is a thing.
+
+When two fit, prefer the one whose failure mode the script never touches.
+Say which one you picked and why when you hand the video over, so the call can
+be overruled.
+
+Pass it by key or by number:
+
+    step1_script.py new my-slug --style papercut ...
 - **Never prompt for an object that carries writing.** No charts, posters,
   diagrams, calendars, newspapers, manuals or labels. The model renders
   convincing-looking gibberish onto every one of them and there is no negative

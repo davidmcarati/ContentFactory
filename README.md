@@ -73,13 +73,16 @@ scripts/start_comfy.cmd
 Then, per project:
 
 ```bash
-.venv-pipeline/Scripts/python.exe -m pipeline.step1_script new my-slug --title "..." --style "..." --narration script.txt --prompts prompts.txt
+.venv-pipeline/Scripts/python.exe -m pipeline.step1_script new my-slug --title "..." --style midcentury --narration script.txt --prompts prompts.txt
 .venv-pipeline/Scripts/python.exe -m pipeline.run my-slug
 ```
 
 Useful variants:
 
 ```bash
+# the three approved styles, and when to use each
+... -m pipeline.styles
+
 # see how the narration chunks into shots before committing to prompts
 ... step1_script new my-slug ... --narration script.txt --dry-run
 

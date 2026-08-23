@@ -1,19 +1,25 @@
-"""Render one scene in several style prompts, side by side, to choose from.
+"""Render one scene in every palette style, side by side, labelled.
 
 Style is the one decision that has to be made by eye. This renders the same
-composition and seed under each candidate so the only variable is the style
-text, then tiles the results into a single sheet.
+composition at the same seed under each preset, so the only variable is the
+style text, then tiles the results into a single labelled sheet.
+
+It reads `pipeline.styles.PRESETS` rather than keeping its own list, so the
+sheet always shows what a video would actually be rendered with. A probe that
+compares prompts nobody ships is worse than no probe.
 
     .venv-pipeline/Scripts/python.exe -m tests.style_probe
 """
 from __future__ import annotations
 
-import subprocess
 import time
 from pathlib import Path
 
-from pipeline import workflows
+from PIL import Image, ImageDraw
+
+from pipeline import styles, workflows
 from pipeline.comfy_client import ComfyClient
+from pipeline.outro import load_font
 
 OUT = Path("C:/Users/David/AppData/Local/Temp/style_probe")
 
@@ -22,23 +28,8 @@ OUT = Path("C:/Users/David/AppData/Local/Temp/style_probe")
 SCENE = ("a scholar in a workshop examining a mechanical drawing on a bench, "
          "arched stone window behind, tools and parchment scattered around")
 
-STYLES = {
-    "1_flat_vector": "flat vector clipart illustration, bold clean shapes, "
-                     "limited flat colour palette, no gradients, crisp edges",
-    "2_cel_cartoon": "2D cartoon illustration, clean black line art, cel "
-                     "shading, flat colours, animation production style",
-    "3_storybook": "2D children's storybook watercolour illustration, soft "
-                   "washes, visible paper grain, hand painted, flat perspective",
-    "4_midcentury": "mid-century modern flat illustration, textured paper, "
-                    "muted retro palette, geometric shapes, screen print look",
-    "5_ink_novel": "2D graphic novel ink illustration, bold linework, cross "
-                   "hatching, limited spot colour, flat comic panel style",
-    "6_papercut": "flat paper cut collage illustration, layered coloured "
-                  "paper, simple shapes, soft drop shadows, 2D craft style",
-}
-
-NEGATIVE = ("3d render, octane, blender, photorealistic, photograph, "
-            "volumetric lighting, depth of field, ray tracing, cgi")
+TILE_W = 880
+LABEL_H = 86
 
 
 def main() -> None:
@@ -46,31 +37,59 @@ def main() -> None:
     client = ComfyClient()
     client.require_up()
 
-    paths = []
-    for name, style in STYLES.items():
-        dest = OUT / f"{name}.png"
+    presets = sorted(styles.PRESETS.values(), key=lambda p: p.number)
+    rendered = []
+
+    for preset in presets:
+        dest = OUT / f"{preset.number}_{preset.key}.png"
         graph = workflows.build(
             "flux-schnell",
-            prompt=f"{style}, {SCENE}",
-            negative=NEGATIVE,
+            prompt=f"{preset.prompt}, {SCENE}",
+            negative="",                   # no effect on schnell; see AGENTS.md
             seed=7777,                     # same seed everywhere
             filename_prefix="style",
         )
         t0 = time.monotonic()
         client.render(graph, dest)
-        print(f"  {name:16s} {time.monotonic() - t0:5.1f}s")
-        paths.append(dest)
+        print(f"  {preset.key:12s} {time.monotonic() - t0:5.1f}s")
+        rendered.append((preset, dest))
 
-    # Tile into a 3x2 contact sheet.
-    args = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y"]
-    for p in paths:
-        args += ["-i", str(p)]
-    chain = "".join(f"[{i}]scale=760:-1[s{i}];" for i in range(len(paths)))
-    chain += "[s0][s1][s2]hstack=3[top];[s3][s4][s5]hstack=3[bot];[top][bot]vstack"
-    args += ["-filter_complex", chain, str(OUT / "sheet.png")]
-    subprocess.run(args, check=True)
-    print(f"\nsheet: {OUT / 'sheet.png'}")
-    print("order: " + " | ".join(STYLES))
+    print(f"\nsheet: {build_sheet(rendered)}")
+
+
+def build_sheet(rendered: list[tuple[styles.Preset, Path]]) -> Path:
+    """Tile and label with Pillow.
+
+    Not ffmpeg: `drawtext` segfaults in this build for want of a fontconfig
+    default, which is exactly the trap AGENTS.md warns about.
+    """
+    tiles = []
+    for preset, path in rendered:
+        img = Image.open(path).convert("RGB")
+        height = round(TILE_W * img.height / img.width)
+        tiles.append((img.resize((TILE_W, height), Image.LANCZOS), preset))
+
+    tile_h = tiles[0][0].height
+    cell_h = tile_h + LABEL_H
+    cols = min(3, len(tiles))
+    rows = -(-len(tiles) // cols)
+
+    sheet = Image.new("RGB", (cols * TILE_W, rows * cell_h), (16, 16, 18))
+    draw = ImageDraw.Draw(sheet)
+    big, small = load_font(38), load_font(26)
+
+    for i, (img, preset) in enumerate(tiles):
+        x, y = (i % cols) * TILE_W, (i // cols) * cell_h
+        sheet.paste(img, (x, y))
+        draw.text((x + 20, y + tile_h + 12),
+                  f"{preset.number}  {preset.label.upper()}",
+                  font=big, fill=(255, 255, 255))
+        draw.text((x + 20, y + tile_h + 54), preset.key,
+                  font=small, fill=(160, 160, 168))
+
+    dest = OUT / "sheet.png"
+    sheet.save(dest)
+    return dest
 
 
 if __name__ == "__main__":

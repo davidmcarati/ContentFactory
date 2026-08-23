@@ -27,8 +27,8 @@ and is the file to read first.
 
 Supporting modules: `kenburns.py` (camera motion), `subtitles.py`,
 `outro.py` (end card), `assets.py` (real images + licensing),
-`comfy_client.py`, `workflows.py` (ComfyUI graphs), `ffmpeg_util.py`,
-`config.py` (all the knobs).
+`styles.py` (the three approved looks), `comfy_client.py`,
+`workflows.py` (ComfyUI graphs), `ffmpeg_util.py`, `config.py` (all the knobs).
 
 **Editorial decisions live in [STYLE.md](STYLE.md)** — tone, humour, structure,
 when to fetch a real image instead of generating one, how the packaging should
@@ -250,8 +250,8 @@ pictures.
 `tests/smoke.py` fabricates frames and silent narration, drives steps 2 and 4
 for real, and asserts the finished file's duration matches the storyboard's
 prediction. It needs no models and runs in about 30 seconds. Current baseline
-is **9 ms drift** across 5 shots; if that number grows, the timeline
-arithmetic broke.
+is **24 ms drift** across 5 shots and an end card; if that number grows, the
+timeline arithmetic broke.
 
 There is no test for image quality, and there cannot be. `tests.contact_sheet`
 tiles every frame of a project with its shot number so a 77-shot video can be

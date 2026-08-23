@@ -22,7 +22,7 @@ import json
 import re
 from pathlib import Path
 
-from . import config
+from . import config, styles
 from .schema import Motion, Shot, Storyboard, Style, Voice
 
 # Target words per shot. Under ~12 the cuts feel twitchy against a still
@@ -119,7 +119,7 @@ def build(
     return Storyboard(
         slug=slug,
         title=title,
-        style=Style(base_prompt=base_prompt, model=model),
+        style=Style(base_prompt=styles.resolve(base_prompt), model=model),
         voice=Voice(voice_id=voice_id),
         shots=[
             Shot(id=i + 1, vo=vo, image_prompt=ip, motion=motion_for(i))
@@ -133,6 +133,9 @@ def report(sb: Storyboard) -> None:
     est_min = words / 155           # typical narration pace
     print(f"{sb.slug}: {len(sb.shots)} shots, {words} words")
     print(f"  estimated runtime {est_min:.1f} min (measured after step 2)")
+    named = next((p for p in styles.PRESETS.values()
+                  if p.prompt == sb.style.base_prompt), None)
+    print(f"  style: {named.label if named else 'custom prompt'}")
     todo = sum(1 for s in sb.shots if s.image_prompt.startswith("TODO"))
     if todo:
         print(f"  {todo} image prompts still need writing")
@@ -152,7 +155,8 @@ def main() -> None:
     new.add_argument("slug")
     new.add_argument("--title", required=True)
     new.add_argument("--style", required=True,
-                     help="visual style applied to every shot")
+                     help="one of: " + ", ".join(sorted(styles.PRESETS)) +
+                          " (or the sheet number 2/4/6, or a full prompt)")
     new.add_argument("--narration", required=True, help="path to narration text")
     new.add_argument("--prompts", help="one image prompt per line")
     new.add_argument("--model", default="flux-schnell")
