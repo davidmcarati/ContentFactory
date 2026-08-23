@@ -35,6 +35,7 @@ import html
 import json
 import re
 import textwrap
+import time
 from dataclasses import asdict
 from pathlib import Path
 
@@ -45,6 +46,47 @@ from . import config
 from .schema import Asset
 
 UA = {"User-Agent": "ContentFactory/0.1 (local video pipeline)"}
+
+# Wikimedia throttles bursts per IP and answers 429. Searching a batch of
+# shots and then immediately downloading them is exactly such a burst, and
+# without this the whole thing surfaced as a 73-frame render dying on shot 7
+# after the 65 generated frames had already been queued. A shared floor
+# between requests plus honouring Retry-After is enough; the volume here is
+# tiny, it is only ever bursty.
+_MIN_INTERVAL = 0.6
+_RETRYABLE = {429, 500, 502, 503, 504}
+_last_request = 0.0
+
+
+def _get(url: str, *, params: dict | None = None, stream: bool = False,
+         timeout: int = 30, attempts: int = 5):
+    """GET with a rate floor and backoff on the statuses worth retrying."""
+    global _last_request
+    backoff = 2.0
+    for attempt in range(1, attempts + 1):
+        gap = _MIN_INTERVAL - (time.monotonic() - _last_request)
+        if gap > 0:
+            time.sleep(gap)
+        response = requests.get(url, params=params, headers=UA,
+                                timeout=timeout, stream=stream)
+        _last_request = time.monotonic()
+
+        if response.status_code not in _RETRYABLE or attempt == attempts:
+            response.raise_for_status()
+            return response
+
+        # Retry-After is usually seconds, and is worth obeying rather than
+        # guessing: guessing low is how a soft throttle becomes a hard block.
+        try:
+            wait = float(response.headers.get("Retry-After", backoff))
+        except ValueError:
+            wait = backoff
+        wait = min(max(wait, 1.0), 60.0)
+        print(f"    {response.status_code} from {url.split('/')[2]}, "
+              f"waiting {wait:.0f}s (attempt {attempt}/{attempts})")
+        time.sleep(wait)
+        backoff *= 2
+    raise AssertionError("unreachable")
 
 SAFE = "safe"
 ATTRIBUTION = "attribution"
@@ -111,7 +153,7 @@ def search_wikimedia(query: str, limit: int = 8,
     here run to 30000 px on a side and hundreds of megabytes, which is a very
     slow way to fill a 2304 px frame.
     """
-    r = requests.get(
+    r = _get(
         "https://commons.wikimedia.org/w/api.php",
         params={
             "action": "query", "format": "json", "generator": "search",
@@ -119,9 +161,7 @@ def search_wikimedia(query: str, limit: int = 8,
             "gsrlimit": str(limit), "prop": "imageinfo",
             "iiprop": "url|extmetadata|size", "iiurlwidth": str(thumb_width),
         },
-        headers=UA, timeout=30,
     )
-    r.raise_for_status()
     pages = (r.json().get("query") or {}).get("pages") or {}
 
     out = []
@@ -149,10 +189,7 @@ def search_wikimedia(query: str, limit: int = 8,
 def search_met(query: str, limit: int = 8) -> list[Asset]:
     """The Met's Open Access collection. Everything returned is CC0."""
     base = "https://collectionapi.metmuseum.org/public/collection/v1"
-    r = requests.get(f"{base}/search",
-                     params={"q": query, "hasImages": "true"},
-                     headers=UA, timeout=30)
-    r.raise_for_status()
+    r = _get(f"{base}/search", params={"q": query, "hasImages": "true"})
     ids = (r.json().get("objectIDs") or [])[: limit * 2]
 
     out = []
@@ -160,8 +197,7 @@ def search_met(query: str, limit: int = 8) -> list[Asset]:
         if len(out) >= limit:
             break
         try:
-            obj = requests.get(f"{base}/objects/{object_id}",
-                               headers=UA, timeout=30).json()
+            obj = _get(f"{base}/objects/{object_id}").json()
         except requests.RequestException:
             continue
         if not obj.get("isPublicDomain") or not obj.get("primaryImage"):
@@ -200,8 +236,7 @@ def search(query: str, limit: int = 8,
 # ---------------------------------------------------------------------------
 def download(asset: Asset, dest: Path) -> Path:
     dest.parent.mkdir(parents=True, exist_ok=True)
-    r = requests.get(asset.file_url, headers=UA, timeout=180, stream=True)
-    r.raise_for_status()
+    r = _get(asset.file_url, timeout=180, stream=True)
     with dest.open("wb") as fh:
         for chunk in r.iter_content(1 << 20):
             fh.write(chunk)
