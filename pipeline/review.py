@@ -55,11 +55,24 @@ RULES = (
                     r"eleven|twelve|dozen|a pair of)\b", re.I),
          "the model cannot count; describe the arrangement instead"),
     # "hand press", "hand printed", "handwriting" are not hands in frame.
+    # Synonyms are listed because writing "a stylised open palm" instead of
+    # "a hand" is how the time video ended up with a six-fingered hand and a
+    # pair of hands with three thumbs between them. The rule was there. It got
+    # routed around by vocabulary, so the vocabulary is in the rule now.
     Rule("hands",
-         re.compile(r"\b(hands?|fingers|fist|gripping|clutching)\b"
+         re.compile(r"\b(hands?|palms?|fingers?|thumbs?|knuckles?|wrists?|fist|"
+                    r"gripping|clutching|grasping)\b"
                     r"(?!\s+(press|printed|painted|drawn|written|writing|made))",
                     re.I),
          "close-range hands come back malformed; show the object, not the actor"),
+    # Naming a set of things is a request for legible text, and the model
+    # cannot write. "weekday blocks marked with their names" produced a table
+    # reading Weelay, Dicky, Gunday, Flerday; "month blocks with their names
+    # out of order" produced the word MOLNTUR across the whole frame.
+    Rule("names",
+         re.compile(r"\b(names?|named|words?|letters|numerals|spelling|"
+                    r"titled|inscribed|lettering)\b", re.I),
+         "anything asked to carry a name comes back covered in invented text"),
     Rule("writing",
          re.compile(r"\b(chart|poster|diagram|infographic|calendar|newspaper|"
                     r"magazine|manual|nameplate|signage|billboard|label)\b", re.I),

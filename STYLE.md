@@ -110,6 +110,21 @@ Pass it by key or by number:
   convincing-looking gibberish onto every one of them and there is no negative
   prompt to stop it. Describe the physical object instead: "thick stacked
   paper strips of different heights", not "a bar chart".
+- **Never ask for anything that carries a name.** This is the writing trap in
+  its subtler form: no object is named, so the rule above does not fire, but
+  the request still implies legible words. "Weekday blocks marked with
+  planetary symbols from different traditions" produced a table reading
+  *Weelay, Dicky, Gunday, Flerday*. "A set of month blocks with their names
+  out of order" produced the word **MOLNTUR** in letters a foot high across
+  the frame. If the idea is that something is named, show the things and let
+  the narration name them.
+- **Abstract diagram prompts fail in a way concrete scenes do not.** Roughly
+  half the "flat graphic band of X" shots in the time video came back as
+  pleasant abstract landscapes with no relation to the idea. The style prompt
+  already supplies the graphic flatness; the shot prompt should supply a
+  scene. "An ancient Greek astronomer's desk with a marked bronze ring and
+  brass dividers" lands every time. "A flat graphic ring where a marker steps
+  further along on each cycle" lands about half the time.
 - **Never state a number.** The model cannot count. "Six open books" comes
   back as a bookshelf, "three vessels" as two, "two people" as one. Describe
   the arrangement instead — "a row of identical cups, one of them filled with
@@ -121,6 +136,14 @@ Pass it by key or by number:
   actor — "a tightly rolled scroll bound with cord" — or push the person far
   enough back that the hands are a few pixels. The same goes for faces in
   close-up: keep people small, distant, in silhouette, or turned away.
+  **A palm is a hand.** So is a finger, a thumb, a knuckle and a wrist. The
+  time video needed to show twelve finger bones counted off with a thumb, the
+  word "hand" never appeared in any of the three prompts, and the frames came
+  back with six fingers, a wrist opened into loose bones, and a pair of palms
+  sharing three thumbs. The lint rule had been there the whole time; it was
+  defeated by a synonym. Give the narration the anatomy and the picture the
+  arithmetic: a column of stacked segments beside a row of tally tokens says
+  sixty without asking the model to draw a hand.
 - **Anchor every person to a period.** Without one the model dresses them
   now. A prompt for "a painter still working from a ladder" on a medieval
   genealogy delivered a man in jeans and a baseball cap. Say "medieval",
