@@ -114,6 +114,22 @@ Pass it by key or by number:
   back as a bookshelf, "three vessels" as two, "two people" as one. Describe
   the arrangement instead — "a row of identical cups, one of them filled with
   something black" — and let the count fall where it may.
+- **Never make a hand the subject.** Close-range hands come back with the
+  wrong number of fingers, joints bending the wrong way, or a second hand
+  fused to the first. "A scroll rolled shut by hands at the edge of the frame"
+  produced one enormous malformed claw. Show the object mid-action without the
+  actor — "a tightly rolled scroll bound with cord" — or push the person far
+  enough back that the hands are a few pixels. The same goes for faces in
+  close-up: keep people small, distant, in silhouette, or turned away.
+- **Anchor every person to a period.** Without one the model dresses them
+  now. A prompt for "a painter still working from a ladder" on a medieval
+  genealogy delivered a man in jeans and a baseball cap. Say "medieval",
+  "eighteenth century", "nineteen twenties" — the era word does the work.
+- **Do not ask for a picture of a picture.** "A painted wall panel of a family
+  tree of crowned figures" was rendered as a literal tree with crowned heads
+  growing in the foliage. The model collapses the frame within the frame.
+  Describe the thing itself, or describe the surface it is painted on, but not
+  both at once.
 - **Never name what you do not want.** There is no way to ask for an absence:
   the negative prompt is inert, and naming a thing in the positive prompt is a
   request for it. "Unsigned" produced a signature.

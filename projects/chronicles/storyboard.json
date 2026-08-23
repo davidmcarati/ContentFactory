@@ -11,7 +11,7 @@
     {
       "id": 1,
       "vo": "In 1954, subscribers to the Great Soviet Encyclopedia received a letter from the publisher. It came with replacement pages, and instructions to use a razor blade.",
-      "image_prompt": "a plain envelope torn open on a kitchen table, loose printed pages spilling out beside a razor blade, harsh overhead light",
+      "image_prompt": "an opened envelope on a plain nineteen fifties kitchen table, loose printed pages spilling out beside a razor blade, enamel kettle, harsh overhead light",
       "motion": {
         "pan": "in",
         "zoom": 1.12
@@ -19,7 +19,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.8,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\001.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\001.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\001.png",
+      "seed": 20260824
     },
     {
       "id": 2,
@@ -32,12 +34,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.6,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\002.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\002.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\002.png",
+      "seed": 20260825
     },
     {
       "id": 3,
       "vo": "What arrived to fill the gap was an expanded entry on the Bering Sea. History was corrected. The binding stayed exactly as thick as before.",
-      "image_prompt": "a hand pressing a fresh page flat into the gutter of a thick open book, glue brush and blade on the desk beside it",
+      "image_prompt": "a fresh page laid into the gutter of a thick open book, a glue brush and a razor blade on the desk beside it, hard raking light",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -45,7 +49,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.15,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\003.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\003.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\003.png",
+      "seed": 20260826
     },
     {
       "id": 4,
@@ -58,7 +64,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.325,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\004.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\004.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\004.png",
+      "seed": 20260827
     },
     {
       "id": 5,
@@ -71,7 +79,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\005.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\005.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\005.png",
+      "seed": 20260828
     },
     {
       "id": 6,
@@ -84,7 +94,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.675,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\006.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\006.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\006.png",
+      "seed": 20260829
     },
     {
       "id": 7,
@@ -136,7 +148,7 @@
         "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
         "width": 1530,
         "height": 2100,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\008.png"
       },
       "audio_sec": 9.625,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\008.wav",
@@ -145,7 +157,7 @@
     {
       "id": 9,
       "vo": "He never names Herodotus. He does not need to. The disdain is legible from a distance of two and a half thousand years.",
-      "image_prompt": "a scroll being rolled tightly shut by hands at the edge of the frame, another scroll pushed away to the far side of the table",
+      "image_prompt": "a tightly rolled scroll bound with cord lying on a table, another scroll pushed away to the far edge, hard raking light",
       "motion": {
         "pan": "in",
         "zoom": 1.12
@@ -153,7 +165,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\009.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\009.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\009.png",
+      "seed": 20260832
     },
     {
       "id": 10,
@@ -166,12 +180,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\010.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\010.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\010.png",
+      "seed": 20260833
     },
     {
       "id": 11,
       "vo": "He wrote what each speaker would probably have said, keeping as near as he could to the general sense.",
-      "image_prompt": "a writer at a desk with his eyes closed and quill poised above a fresh sheet, morning light through a high window",
+      "image_prompt": "an ancient Greek writer seated at a low desk with his eyes closed and a stylus poised, stone room, morning light through a high window",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -179,7 +195,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.675,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\011.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\011.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\011.png",
+      "seed": 20260834
     },
     {
       "id": 12,
@@ -192,7 +210,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.7,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\012.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\012.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\012.png",
+      "seed": 20260835
     },
     {
       "id": 13,
@@ -205,12 +225,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.125,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\013.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\013.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\013.png",
+      "seed": 20260836
     },
     {
       "id": 14,
       "vo": "The title, in the manuscripts, is On the Malice of Herodotus. Plutarch's central complaint is that Herodotus had been rude about Boeotia.",
-      "image_prompt": "a wax tablet on a table being scored hard with a stylus, snapped stylus points scattered around it",
+      "image_prompt": "a wax writing tablet and a bronze stylus lying on a stone table, snapped stylus points scattered beside them, ancient Greek room",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -218,7 +240,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.05,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\014.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\014.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\014.png",
+      "seed": 20260837
     },
     {
       "id": 15,
@@ -231,7 +255,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 2.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\015.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\015.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\015.png",
+      "seed": 20260838
     },
     {
       "id": 16,
@@ -244,7 +270,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.6,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\016.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\016.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\016.png",
+      "seed": 20260839
     },
     {
       "id": 17,
@@ -257,7 +285,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.425,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\017.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\017.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\017.png",
+      "seed": 20260840
     },
     {
       "id": 18,
@@ -270,7 +300,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\018.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\018.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\018.png",
+      "seed": 20260841
     },
     {
       "id": 19,
@@ -283,7 +315,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.975,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\019.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\019.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\019.png",
+      "seed": 20260842
     },
     {
       "id": 20,
@@ -296,7 +330,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.95,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\020.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\020.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\020.png",
+      "seed": 20260843
     },
     {
       "id": 21,
@@ -309,7 +345,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.95,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\021.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\021.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\021.png",
+      "seed": 20260844
     },
     {
       "id": 22,
@@ -322,7 +360,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\022.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\022.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\022.png",
+      "seed": 20260845
     },
     {
       "id": 23,
@@ -346,7 +386,7 @@
         "license_url": "",
         "width": 896,
         "height": 1370,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\023.png"
       },
       "audio_sec": 10.75,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\023.wav",
@@ -363,7 +403,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.3,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\024.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\024.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\024.png",
+      "seed": 20260847
     },
     {
       "id": 25,
@@ -376,7 +418,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\025.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\025.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\025.png",
+      "seed": 20260848
     },
     {
       "id": 26,
@@ -400,7 +444,7 @@
         "license_url": "",
         "width": 1574,
         "height": 2352,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\026.png"
       },
       "audio_sec": 8.75,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\026.wav",
@@ -409,7 +453,7 @@
     {
       "id": 27,
       "vo": "It handed Britain a royal descent older than Rome's, and handed the Norman court a past worth inheriting. A great deal of it he simply invented.",
-      "image_prompt": "a tall painted wall panel of a family tree of crowned figures, a painter still working on it from a ladder",
+      "image_prompt": "a medieval church wall painted with rows of small crowned figures in linked roundels, faded plaster, candlelight",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -417,12 +461,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\027.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\027.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\027.png",
+      "seed": 20260850
     },
     {
       "id": 28,
       "vo": "Some fifty years later, William of Newburgh opened his own history with a prologue given over almost entirely to demolishing Geoffrey.",
-      "image_prompt": "a monk at a desk writing furiously, another book shoved off onto the floor beside his stool, spilled ink",
+      "image_prompt": "a medieval monk writing furiously at a wooden desk in a stone scriptorium, another book shoved onto the floor beside his stool, spilled ink, shelves behind",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -430,7 +476,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.725,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\028.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\028.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\028.png",
+      "seed": 20260851
     },
     {
       "id": 29,
@@ -443,7 +491,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.75,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\029.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\029.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\029.png",
+      "seed": 20260852
     },
     {
       "id": 30,
@@ -456,7 +506,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.3,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\030.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\030.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\030.png",
+      "seed": 20260853
     },
     {
       "id": 31,
@@ -469,12 +521,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.325,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\031.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\031.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\031.png",
+      "seed": 20260854
     },
     {
       "id": 32,
       "vo": "In Kyiv, in roughly the same century, monks were compiling what we now call the Primary Chronicle. It opens by asking where the land of Rus came from.",
-      "image_prompt": "a monk writing by candlelight in a low vaulted cave monastery, brick arches, icons on the wall behind him",
+      "image_prompt": "a medieval monk seen from across a low vaulted cave monastery, writing at a small desk by candlelight, brick arches, icons on the far wall",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -482,7 +536,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.825,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\032.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\032.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\032.png",
+      "seed": 20260855
     },
     {
       "id": 33,
@@ -506,7 +562,7 @@
         "license_url": "",
         "width": 1920,
         "height": 1355,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\033.png"
       },
       "audio_sec": 11.05,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\033.wav",
@@ -523,12 +579,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.6,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\034.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\034.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\034.png",
+      "seed": 20260857
     },
     {
       "id": 35,
       "vo": "Six hundred years later, that passage detonated.",
-      "image_prompt": "a single page lying on a bare wooden floor with hard light falling across it, long shadows",
+      "image_prompt": "a single sheet of parchment lying alone on bare wooden floorboards, hard light falling across it, long shadows",
       "motion": {
         "pan": "out",
         "zoom": 1.1
@@ -536,7 +594,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.075,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\035.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\035.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\035.png",
+      "seed": 20260858
     },
     {
       "id": 36,
@@ -549,7 +609,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.325,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\036.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\036.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\036.png",
+      "seed": 20260859
     },
     {
       "id": 37,
@@ -573,7 +635,7 @@
         "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
         "width": 1920,
         "height": 2346,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\037.png"
       },
       "audio_sec": 9.525,
       "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\037.wav",
@@ -590,7 +652,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 7.95,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\038.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\038.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\038.png",
+      "seed": 20260861
     },
     {
       "id": 39,
@@ -603,7 +667,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\039.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\039.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\039.png",
+      "seed": 20260862
     },
     {
       "id": 40,
@@ -627,10 +693,11 @@
         "license_url": "",
         "width": 1920,
         "height": 2460,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\040.png"
       },
       "audio_sec": 11.75,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\040.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\040.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\040.png"
     },
     {
       "id": 41,
@@ -643,7 +710,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.925,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\041.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\041.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\041.png",
+      "seed": 20260864
     },
     {
       "id": 42,
@@ -656,7 +725,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.775,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\042.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\042.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\042.png",
+      "seed": 20260865
     },
     {
       "id": 43,
@@ -669,7 +740,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 3.25,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\043.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\043.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\043.png",
+      "seed": 20260866
     },
     {
       "id": 44,
@@ -693,10 +766,11 @@
         "license_url": "",
         "width": 1920,
         "height": 2595,
-        "local_path": null
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\044.png"
       },
       "audio_sec": 9.2,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\044.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\044.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\044.png"
     },
     {
       "id": 45,
@@ -709,12 +783,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.45,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\045.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\045.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\045.png",
+      "seed": 20260868
     },
     {
       "id": 46,
       "vo": "Out of that came the apparatus we still use. Archives. Footnotes. The seminar. The demand that every claim carry a source you can go and check.",
-      "image_prompt": "a long seminar table with chairs pulled in, document boxes and reading stands along it, tall windows behind",
+      "image_prompt": "a nineteenth century university seminar room, long wooden table, document boxes and reading stands along it, tall windows",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -722,12 +798,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 10.475,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\046.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\046.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\046.png",
+      "seed": 20260869
     },
     {
       "id": 47,
       "vo": "It was a real advance, and it is why modern history is checkable at all.",
-      "image_prompt": "a gloved hand lifting one document from an archive box, the numbered lid resting beside it",
+      "image_prompt": "an archive box open on a wooden table with one document lifted clear and resting against the numbered lid, cotton gloves folded beside it",
       "motion": {
         "pan": "out",
         "zoom": 1.13
@@ -735,12 +813,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.45,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\047.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\047.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\047.png",
+      "seed": 20260870
     },
     {
       "id": 48,
       "vo": "It was also built inside the Prussian state, staffed by its graduates, and paid by its ministries. Its instincts were reliably national.",
-      "image_prompt": "a grand nineteenth century ministry building facade with a flag, uniformed figures on the steps",
+      "image_prompt": "a grand nineteenth century Prussian ministry building in pale stone, uniformed guards small on the wide steps, overcast sky",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -748,12 +828,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.85,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\048.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\048.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\048.png",
+      "seed": 20260871
     },
     {
       "id": 49,
       "vo": "The method was designed to remove the historian from the account. What it actually removed was the visible ones.",
-      "image_prompt": "an empty chair pushed back from a writing desk in a study, work still spread across the surface, low lamp",
+      "image_prompt": "an empty wooden chair pushed back from a writing desk in a nineteenth century study, papers still spread across the surface, low oil lamp",
       "motion": {
         "pan": "in",
         "zoom": 1.12
@@ -761,7 +843,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.0,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\049.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\049.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\049.png",
+      "seed": 20260872
     },
     {
       "id": 50,
@@ -774,7 +858,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\050.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\050.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\050.png",
+      "seed": 20260873
     },
     {
       "id": 51,
@@ -787,7 +873,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.55,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\051.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\051.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\051.png",
+      "seed": 20260874
     },
     {
       "id": 52,
@@ -800,7 +888,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 12.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\052.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\052.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\052.png",
+      "seed": 20260875
     },
     {
       "id": 53,
@@ -813,7 +903,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.55,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\053.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\053.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\053.png",
+      "seed": 20260876
     },
     {
       "id": 54,
@@ -826,7 +918,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\054.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\054.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\054.png",
+      "seed": 20260877
     },
     {
       "id": 55,
@@ -839,7 +933,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\055.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\055.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\055.png",
+      "seed": 20260878
     },
     {
       "id": 56,
@@ -852,7 +948,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.675,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\056.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\056.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\056.png",
+      "seed": 20260879
     },
     {
       "id": 57,
@@ -865,7 +963,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.2,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\057.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\057.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\057.png",
+      "seed": 20260880
     },
     {
       "id": 58,
@@ -878,7 +978,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.65,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\058.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\058.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\058.png",
+      "seed": 20260881
     },
     {
       "id": 59,
@@ -891,7 +993,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.725,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\059.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\059.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\059.png",
+      "seed": 20260882
     },
     {
       "id": 60,
@@ -904,7 +1008,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 11.025,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\060.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\060.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\060.png",
+      "seed": 20260883
     },
     {
       "id": 61,
@@ -917,12 +1023,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.4,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\061.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\061.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\061.png",
+      "seed": 20260884
     },
     {
       "id": 62,
       "vo": "For almost all of this story, editing was invisible. A monk revised a chronicle, and the earlier version simply stopped existing.",
-      "image_prompt": "a scribe scraping a parchment page clean with a curved knife, curls of parchment falling away",
+      "image_prompt": "a parchment page held flat on a scribe's sloped desk, a curved scraping knife resting on it, curls of scraped parchment falling away, medieval stone cell",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -930,7 +1038,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\062.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\062.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\062.png",
+      "seed": 20260885
     },
     {
       "id": 63,
@@ -943,7 +1053,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.5,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\063.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\063.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\063.png",
+      "seed": 20260886
     },
     {
       "id": 64,
@@ -956,7 +1068,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\064.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\064.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\064.png",
+      "seed": 20260887
     },
     {
       "id": 65,
@@ -969,7 +1083,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 1.825,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\065.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\065.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\065.png",
+      "seed": 20260888
     },
     {
       "id": 66,
@@ -982,7 +1098,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 9.275,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\066.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\066.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\066.png",
+      "seed": 20260889
     },
     {
       "id": 67,
@@ -995,12 +1113,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\067.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\067.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\067.png",
+      "seed": 20260890
     },
     {
       "id": 68,
       "vo": "You can watch a dispute over a single sentence run for years and read every round.",
-      "image_prompt": "a rope pulled taut across the frame in a tug of war, gripping hands entering from both edges",
+      "image_prompt": "a heavy rope pulled taut across the frame, fibres straining and fraying at the centre, plain background",
       "motion": {
         "pan": "right",
         "zoom": 1.14
@@ -1008,7 +1128,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 6.225,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\068.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\068.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\068.png",
+      "seed": 20260891
     },
     {
       "id": 69,
@@ -1021,12 +1143,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 4.975,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\069.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\069.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\069.png",
+      "seed": 20260892
     },
     {
       "id": 70,
       "vo": "None of that makes an account neutral. Somebody still decides what deserves an article and what is merely a detail.",
-      "image_prompt": "an editor's desk with paper trays, one heaped high and another nearly empty, a hand hovering between them",
+      "image_prompt": "an editor's desk with paper trays, one heaped high and another nearly empty, a lamp overhead, scattered proofs",
       "motion": {
         "pan": "up",
         "zoom": 1.12
@@ -1034,12 +1158,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\070.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\070.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\070.png",
+      "seed": 20260893
     },
     {
       "id": 71,
       "vo": "But the deciding is now written down beside the decision. The chronicle has acquired a margin, and the margin is public.",
-      "image_prompt": "a wide book page seen at an angle with a very generous empty margin, several different hands writing notes into it",
+      "image_prompt": "a wide open book page seen at an angle, a very generous margin crowded with notes in several different inks, warm light",
       "motion": {
         "pan": "out",
         "zoom": 1.13
@@ -1047,12 +1173,14 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 8.375,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\071.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\071.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\071.png",
+      "seed": 20260894
     },
     {
       "id": 72,
       "vo": "Beria was removed with a razor blade, and there is no way left to see the cut.",
-      "image_prompt": "a repaired book spine seen close up, the stitching neat and tight, nothing to show what was taken out",
+      "image_prompt": "a close view of a book spine clamped in a bookbinder's press, neat stitching along the fold, tools laid on the bench",
       "motion": {
         "pan": "down",
         "zoom": 1.12
@@ -1060,7 +1188,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.85,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\072.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\072.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\072.png",
+      "seed": 20260895
     },
     {
       "id": 73,
@@ -1073,7 +1203,9 @@
       "transition": "crossfade",
       "kind": "generate",
       "audio_sec": 5.1,
-      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\073.wav"
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\audio\\073.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\chronicles\\frames\\073.png",
+      "seed": 20260896
     }
   ],
   "voice": {
