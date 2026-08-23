@@ -316,9 +316,15 @@ There is no test for image quality, and there cannot be. `tests.contact_sheet`
 tiles every frame of a project with its shot number so a 77-shot video can be
 reviewed in three glances; a bad frame is then regenerated on its own with
 `step3_frames <slug> --only 47 --force`. Look at the sheet. Every visual defect
-found so far — ESRGAN oversharpening, oversized subtitles, mismatched asset
-backdrops, mid-phrase subtitle breaks, fake body copy in generated frames —
-was invisible to the test suite and obvious in a picture.
+found so far — oversized subtitles, mismatched asset backdrops, mid-phrase
+subtitle breaks, fake body copy, invented signatures, and a whole video's
+worth of frames broken by generating above the resolution ceiling — was
+invisible to the test suite and obvious in a picture.
+
+The resolution one is the cautionary tale: it survived a full render, an
+assembly, a delivery and a review, because the frames were individually
+plausible and only wrong against the prompt that asked for them. Read the
+prompt beside the picture, not just the picture.
 
 Show the sheet to the user rather than deciding alone what looks good.
 

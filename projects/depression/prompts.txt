@@ -1,77 +1,77 @@
 rain running down a tall office window at dusk, city rooftops beyond, an empty chair turned away from a desk, layered detailed composition
 a dim apartment interior seen across the room, curtains still drawn, a record player thick with dust, scattered objects, full detailed scene
-three large overlapping speech bubble shapes filling the frame, one packed with dense dark hatching, bold graphic composition
+a row of identical white cups along a long diner counter, one of them filled with something black, morning light through the window, detailed interior
 an immense crowd of small identical human silhouettes packed edge to edge and receding to the horizon
-thick stacked paper strips of different heights standing in a long row, one towering far above the rest, layered shadows
+a long table holding stacks of books of very different heights, one stack towering far above the others, raking light
 a magnifying lens resting on a blank open book, strong raking lamp light, detailed still life
-two heavy overlapping circles filling the frame, one small one vast, bold contrasting muted colour fields
+a small rowing boat on a calm bay dwarfed by a vast dark expanse of water behind it, flat muted landscape
 a small figure dwarfed by a single closed door in a tall wall, long shadow raking across a patterned floor
 two seated figures on a bench turned slightly toward each other at dusk, trees and railings behind, full scene
-a long table laid with a complete meal rendered entirely in flat grey, one chair pulled out, detailed place settings
+a dinner table set for one, a full untouched plate, the chair pushed back, dim evening room, drained grey palette
 a heaped bowl of fruit drawn as bare outlines, colour draining outward into the surrounding still life
-a gramophone horn and scattered geometric note shapes filling the frame, silent, bold layered graphic
-PLACEHOLDER asset shot
+an old record player on a sideboard with the record still turning, an empty armchair beside it, dim quiet room
+a painter's palette on a workbench with every colour mixed down to the same flat grey, brushes laid beside it
 an ancient physician's bench crowded with scrolls, bronze instruments and clay vessels, warm sepia, richly detailed
-PLACEHOLDER asset shot
-a deep cross section of layered rock strata filling the frame, a single bright mark near the very bottom
+ASSET SHOT - real image, pinned in storyboard.json: Melencolia I (1514)
+a shelf of ancient bound volumes receding into shadow, one small worn book at the far end catching the light
 an anatomical brain illustration pinned to a plain wall, two glass beakers and a bold red painted arrow beside it, warm lamp light
 one enormous molecular model of connected spheres and rods filling the frame, flat coloured field
 a long empty laboratory bench at night, rows of clean glassware, cold blue light, deep perspective
-a vintage magazine spread with a large blank rectangle where the product should be, dense halftone dots
-dozens of identical pill bottles filling the frame in a tight grid, retro colour, subtle shadows
+a 1960s advertising studio, easels holding blank display boards, drafting tools and warm lamps, detailed interior
+a pharmacy shelf packed with rows of identical amber glass bottles with plain white caps, seen front on, warm shelf lighting, dense rows filling the frame
 a bulky old television set in a crowded 1960s living room, one simple bright shape glowing on the screen
 an enormous empty billboard on a steel frame against a wide open sky, birds, detailed structure
-a full human figure outline with the whole interior rendered as dense brass clockwork, cogs and springs
+a wooden artist's mannequin standing on a desk beside an open clock movement and brass gears, warm lamp light
 a paper aeroplane sailing out of a tall open window over rooftops, wide detailed view
 a towering stack of bound journals under an angled lamp at night, one lying open, detailed still life
-six thick parallel paper strips converging into a single strip, layered shadows filling the frame
+open books laid out in a row across a long library table, all angled toward a single open folder at the centre, overhead lamps
 a wall of bold black rectangular bars and blocks stacked in a dense column, harsh contrast
-a torn empty billboard frame against a bruised sky, ragged paper clinging to the steel edges
-a sheet of paper degraded by repeated copying into abstract grey noise, dense close texture
-two heavy wooden boxes standing side by side joined by a broken chain, bold composition
-one large white tablet lying beside a smooth ceramic head sculpture, strong raking shadow
+workers stripping a billboard, torn paper sheets peeling away from the boards, a ladder leaning against the frame
+a deep stack of photocopied sheets on a desk, the top sheet crisp and each one beneath greyer and more smeared than the last, raking lamp light, close detailed crop
+a row of identical closed doors down a long corridor, a broken chain lying on the floor beneath them, raking light
+a single white tablet on a saucer beside a glass of water on a bedside table, soft morning light
 a hand holding a weekly pill organiser over a kitchen table, calm warm light, detailed domestic scene
 a dense exploded arrangement of interlocking gears filling the entire frame, brass and steel
 a dozen ornate keys spread around a single keyhole plate, layered shadows, bold composition
 a heavy brass valve wheel turned hard against its stop, rivets and fittings, close detailed crop
-three glands rendered as a vertical cascade of organic forms joined by tubes, ornate engraved style
+a column of brass vessels mounted above one another on a workshop wall, joined by copper tubing, liquid descending through it
 a heavy industrial valve closing on a thick pipe, bolts and fittings, detailed two tone rendering
-a large alarm bell on a wall in a dim corridor, vibration lines, deep receding perspective
-rust spreading outward across a broad metal surface from one point, dense close texture study
+a large brass alarm bell mounted on a tiled wall in a long institutional corridor, harsh overhead lighting, deep receding perspective, detailed
+a rusted iron gate in close up, corrosion eating outward across the bars, flaking paint, weathered texture
 a seahorse shaped form held in fine brass calipers, ornate engraved style, richly detailed
 a heavy loop of chain closing into a tightening circle, filling the frame, bold mechanical shapes
-a dense network of glowing connected nodes and filaments inside a head silhouette, layered depth
-a long industrial conveyor belt carrying a bright shape across the frame, gears and rollers, detailed
-the same long conveyor belt with a broken segment, shapes stalled and piled against the gap, detailed
-two enormous gears that no longer mesh, a stark gap between their teeth, detailed machinery
+a dark head silhouette in profile filled edge to edge with fine glowing filaments and small bright nodes, a dense interlaced web packing the whole head, deep layered detail
+a factory conveyor line carrying identical crates past machinery, work stations along its length, warm industrial light
+a stopped factory conveyor line, crates piled up against a gap in the belt, machinery silent, cold light
+a pair of enormous gear wheels pulled apart, teeth no longer touching, a stark empty gap between them, heavy machinery behind
 a dense branching neural tree filling the entire frame, fine interlaced glowing lines on dark ground
-a wide composition, sparse bare branches on the left growing dense and full toward the right
+a long hedgerow seen from the side, thin bare twigs at one end thickening into dense full growth at the other, wide detailed composition filling the frame
 scaffolding wrapped around a small structure under repair, planks and poles, muted construction palette
 a dense grid of hundreds of small circles filling the frame, a scattered few glowing warm
-a laboratory syringe and glass ampoules arranged on a clinical steel tray, cold light, detailed
-two visibly different mechanisms mounted side by side beneath one shared blank brass plate
+a clinical steel tray holding a syringe and small glass vials with a folded white cloth, cold overhead light
+two different engines on adjacent workshop benches with one blank brass nameplate mounted above them both
 a heavy shadow falling across a cluttered desk in low raking light, detailed objects
-a column of ink marks on paper fading from dark to nothing down the page, tight close crop
+a worn office desk with a stack of unopened folders, a cold cup of coffee and a stopped clock, dim light, detailed
 a grid of squares on paper with many of them heavily crossed through in red, tight crop
 a deep stack of paper envelopes filling the frame with dust settled thickly on the top one
 two blank paper tags tied to a worn cardboard folder, harsh contrast lighting, close crop
-a full human silhouette with dense faint lines radiating down through the torso, dark ground
-a large stylised heart form with a single trembling line flattening across the frame, bold shapes
-an empty wooden chair in a plain room, strong window light, long shadows across a textured floor
+a wooden artist's mannequin seated with one hand resting on its chest, desk lamp, long warm shadow
+a stethoscope coiled on a folded white coat over the back of a wooden chair, cold window light
+an empty wooden chair alone in a dim room, one shaft of window light falling across worn floorboards, deep shadows, muted palette
 an enormous tower built from stacked rectangular blocks, muted palette, deep shadows
 an aerial view of row upon row of empty desks across a vast open office, deep flat perspective
 a dense crowd of simplified figures seen from above, one figure standing perfectly still
 a huge set of weighing scales loaded absurdly unevenly, chains and brass pans, detailed
 a pair of running shoes standing untouched by a door in a dim cluttered hallway, detailed
-a telephone receiver left off the hook, cord trailing across a crowded table, detailed still life
+ASSET SHOT - real image, pinned in storyboard.json: At Eternity's Gate (Sorrowing Old Man)
 a folded note left on a kitchen table in morning light, cups and crumbs around it, detailed scene
 a small figure stepping onto a path drawn as a bold ascending line across a wide landscape
-a dismantled appliance with dozens of small parts laid out in neat rows on a workbench, detailed
+an old radio opened up on a workbench with its valves and parts laid out in neat rows around it, tools scattered
 a split composition, a rain streaked window on one side and a long hospital corridor on the other
 a dense grid of identical blank paper tiles filling the frame with a single tile turned face down
-a heavy closed book with a bold speech bubble shape pressing into its cover, dramatic shadow
-two enormous shapes side by side struck through with bold diagonal bars, a teardrop and a molecule
-four enormous interlocking circles overlapping into one dense composite, concentric bands filling the frame
+a heavy closed dictionary on a lectern in a dim library, one shaft of light falling on it, deep shadow
+a raindrop running down a window with a small glass vial standing on the sill beside it, cold light, close crop
+large overlapping translucent circles in different muted colours forming a layered rosette, bold flat shapes filling the frame
 a wide sunrise over a flat horizon, bold concentric bands of restrained colour, textured sky
 a single monolithic stone block on a plinth in raking light, deep shadow, monumental composition
-two figures facing each other in close conversation, warm light, a detailed room around them
+a couple sitting across a small cafe table leaning toward each other in conversation, warm evening light, other tables behind
