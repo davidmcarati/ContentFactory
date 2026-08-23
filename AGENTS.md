@@ -215,6 +215,31 @@ Adding `unsigned` put them back. There is no way to ask for the absence of
 something: the negative prompt is inert on schnell, and naming it in the
 positive prompt is a request. Describe what should be there instead.
 
+### A scene lands; a diagram does not
+
+Measured across a batch of ten videos, 857 frames, all reviewed by eye. The
+review rate was not evenly spread:
+
+| video | subject | frames re-prompted |
+|---|---|---|
+| money, time, conspiracy | ideas with no physical form | 22-29% |
+| gold, dragons, cities, clothes | things and places | 12-17% |
+| salt, dark, fire | things and places | 10-11% |
+
+Almost every rejected frame in the first group had the same shape of prompt:
+"a flat graphic band where a marker steps further along on each cycle", "a
+stylised composition of exchange, accounting and storage". What came back was
+a pleasant abstract landscape with no relation to the idea.
+
+The style prompt already supplies the flatness, the palette and the graphic
+treatment. When the shot prompt *also* describes an abstraction, nothing in
+the whole prompt names a thing that exists, and the model falls back on
+landscape — which is what a diffusion model does with an under-determined
+prompt. "An ancient Greek astronomer's desk with a marked bronze ring and
+brass dividers" carries exactly the same idea and lands every time.
+
+Write the scene. Let the narration carry the abstraction.
+
 ### Subtitles are burned from .ass, never .srt
 
 libass assumes a 288-line canvas for SRT input and scales the font by
