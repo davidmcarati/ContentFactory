@@ -31,17 +31,68 @@ from .schema import Storyboard
 # ---------------------------------------------------------------------------
 # Thumbnail
 # ---------------------------------------------------------------------------
-def _fit_font(draw: ImageDraw.ImageDraw, text: str, width: int,
-              start: int) -> tuple[ImageFont.FreeTypeFont, list[str]]:
-    """Largest size at which the text fits, wrapping to at most three lines."""
+def _fit_font(draw: ImageDraw.ImageDraw, text: str, width: int, start: int,
+              max_height: int) -> tuple[ImageFont.FreeTypeFont, list[str]]:
+    """Largest size at which the text fits the width and the height budget.
+
+    Height matters as much as width: at 150 px the first attempt at "Not
+    sadness. Not serotonin." fit happily across three lines and swallowed the
+    entire thumbnail, leaving no picture behind it.
+    """
     for size in range(start, 40, -6):
         font = _load(size)
-        for max_lines in (1, 2, 3):
-            lines = _wrap_to(draw, text, font, width, max_lines)
-            if lines:
-                return font, lines
+        lines = _balanced_wrap(draw, text, font, width, max_lines=3)
+        if not lines:
+            continue
+        block = len(lines) * size + int(size * 0.22) * (len(lines) - 1)
+        if block <= max_height:
+            return font, lines
     font = _load(44)
     return font, [text]
+
+
+def _balanced_wrap(draw: ImageDraw.ImageDraw, text: str,
+                   font: ImageFont.FreeTypeFont, width: int,
+                   max_lines: int) -> list[str] | None:
+    """Wrap into as few lines as possible, splitting as evenly as possible.
+
+    A greedy wrap fills each line to the brim and strands the remainder, which
+    is how "NOT SADNESS. / NOT / SEROTONIN." happened. Choosing the split that
+    minimises the widest line keeps the block looking deliberate.
+    """
+    words = text.split()
+    if not words:
+        return None
+
+    def fits(chunks: list[list[str]]) -> bool:
+        return all(draw.textlength(" ".join(c), font=font) <= width
+                   for c in chunks)
+
+    def widest(chunks: list[list[str]]) -> float:
+        return max(draw.textlength(" ".join(c), font=font) for c in chunks)
+
+    for lines in range(1, max_lines + 1):
+        if lines > len(words):
+            break
+        best = None
+        # Enumerate every way to cut the word list into `lines` runs. Thumbnail
+        # text is a handful of words, so this stays trivial.
+        for cuts in _combinations(range(1, len(words)), lines - 1):
+            bounds = [0, *cuts, len(words)]
+            chunks = [words[bounds[i]:bounds[i + 1]]
+                      for i in range(len(bounds) - 1)]
+            if not fits(chunks):
+                continue
+            if best is None or widest(chunks) < widest(best):
+                best = chunks
+        if best:
+            return [" ".join(c) for c in best]
+    return None
+
+
+def _combinations(seq, r):
+    from itertools import combinations
+    return combinations(seq, r)
 
 
 def _load(size: int) -> ImageFont.FreeTypeFont:
@@ -109,8 +160,10 @@ def build_thumbnail(sb: Storyboard, *, force: bool = False) -> Path:
     if text:
         draw = ImageDraw.Draw(img)
         margin = 64
+        # Leave the top half of the tile to the picture; text lives below it.
         font, lines = _fit_font(draw, text.upper(), config.THUMB_W - margin * 2,
-                                config.THUMB_MAX_TEXT_SIZE)
+                                config.THUMB_MAX_TEXT_SIZE,
+                                max_height=int(config.THUMB_H * 0.46))
 
         heights = [draw.textbbox((0, 0), ln, font=font)[3] -
                    draw.textbbox((0, 0), ln, font=font)[1] for ln in lines]

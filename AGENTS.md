@@ -64,6 +64,15 @@ screen ten seconds ago.
 after each frame. A 90-shot render killed at shot 60 must cost one shot on
 resume, not sixty.
 
+**Never edit the storyboard while a step is running.** That same
+save-after-every-frame makes `storyboard.json` a last-writer-wins file with no
+locking. A long render holds a copy loaded at start-up and writes all of it
+back 77 times; anything edited in the meantime is silently gone. This ate a
+full set of publish metadata — description, tags, chapters, thumbnail text —
+and the loss only surfaced at the packaging step, which reported an empty
+description for a video that had one written an hour earlier. Wait for the step
+to finish, then edit, then re-run what needs re-running.
+
 **Seeds are derived, never random.** `Storyboard.seed_for()` is
 `seed_base + shot.id`. Regenerating one frame two days later must reproduce the
 same picture, or it will no longer match its neighbours.

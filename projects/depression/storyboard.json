@@ -1194,11 +1194,53 @@
     "speed": 1.0
   },
   "publish": {
-    "description": "",
-    "tags": [],
-    "chapters": [],
-    "thumbnail_prompt": "",
-    "thumbnail_text": ""
+    "description": "Three people use the word depression in the same afternoon. Only one of them is describing an illness.\n\nThis is about what the other one actually is: why clinicians look for the loss of pleasure rather than sadness, where the chemical imbalance story really came from (an advertising campaign, not a laboratory), what a 2022 umbrella review did and did not overturn, and what is measurably happening in the stress system, the reward circuitry, neural plasticity and, in some patients, the immune system.\n\nOne thing worth stating up front, because it gets misreported constantly: \"depression is not simply low serotonin\" does not mean \"antidepressants do not work\". Those are separate questions. Nothing here is medical advice, and nothing here is a reason to stop taking medication that is helping you.\n\nIf you are struggling, please talk to a doctor. The International Association for Suicide Prevention keeps a directory of crisis services worldwide: https://www.iasp.info/resources/Crisis_Centres/",
+    "tags": [
+      "depression",
+      "mental health",
+      "neuroscience",
+      "anhedonia",
+      "serotonin",
+      "chemical imbalance",
+      "psychiatry",
+      "cortisol",
+      "psychology",
+      "science explained",
+      "mental illness",
+      "SSRI"
+    ],
+    "chapters": [
+      {
+        "title": "Three people, one word",
+        "shot_id": 1
+      },
+      {
+        "title": "It is not sadness",
+        "shot_id": 7
+      },
+      {
+        "title": "Where the chemical imbalance came from",
+        "shot_id": 17
+      },
+      {
+        "title": "What the 2022 review actually said",
+        "shot_id": 26
+      },
+      {
+        "title": "What is really happening",
+        "shot_id": 34
+      },
+      {
+        "title": "What it costs",
+        "shot_id": 53
+      },
+      {
+        "title": "What we ask of people",
+        "shot_id": 63
+      }
+    ],
+    "thumbnail_prompt": "an enormous cracked white pill filling the frame against a deep muted background, dramatic raking light, bold graphic composition",
+    "thumbnail_text": "Not sadness. Not serotonin."
   },
   "aspect": "16:9"
 }
