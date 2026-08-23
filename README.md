@@ -98,19 +98,20 @@ Useful variants:
 
 ## Measured performance
 
-Per frame at 2304x1296, steady state after the checkpoint is resident:
+Frames are delivered at 2304x1296 but composed at 1536x864, steady state after
+the checkpoint is resident:
 
-| configuration | time/frame |
+| route | time/frame |
 |---|---|
-| generate 1344x768 | 5.1 s |
-| generate 1920x1088 | 9.1 s |
-| **generate 2304x1296 (current)** | **13.1 s** |
-| generate 1344x768 + 4x ESRGAN | 30.0 s |
+| **compose 1536x864 -> Lanczos -> 2304x1296 (current)** | **7.1 s** |
+| generate 2304x1296 directly | 13.1 s |
+| compose 1536x864 -> 4x ESRGAN -> 2304x1296 | 24-31 s |
 
-The ESRGAN route was the original plan and it lost on both axes: twice the time
-and visibly oversharpened stone and fabric texture. Generating natively at a
-size the Ken Burns zoom will not outrun is simply better. `esrgan=True` remains
-in `workflows.py` for material that needs real reconstruction.
+Generating straight at 2304x1296 is not just slower, it is wrong: 2.99 MP is
+three times FLUX's training resolution, and above about 1.5 MP the model stops
+composing a scene and starts fusing and duplicating local structure. It shipped
+a video that way before anyone measured it. AGENTS.md has the size ladder and
+the side-by-side.
 
 Camera motion does not use ffmpeg's `zoompan`, which rounds its crop window to
 whole pixels and makes the camera appear to shake partway through a shot.
@@ -130,9 +131,9 @@ For a 12-minute video, roughly 90 shots:
 | stage | time |
 |---|---|
 | narration (Kokoro, GPU) | under 1 min |
-| frames (90 x 13.1 s) | ~20 min |
+| frames (90 x 7.1 s) | ~11 min |
 | clips + mux (ffmpeg, CPU) | ~8 min |
-| **total** | **~30 min**, mostly unattended |
+| **total** | **~20 min**, mostly unattended |
 
 Narration pace measured at 146 words/minute, so 12 minutes is about 1750 words.
 

@@ -32,12 +32,27 @@ COMFY_URL = f"http://{COMFY_HOST}:{COMFY_PORT}"
 FPS = 30
 OUT_W, OUT_H = 1920, 1080
 
-# Frames are generated above delivery resolution so that a Ken Burns zoom is
-# still showing real pixels at its tightest. MAX zoom is ~1.16, so 1920 * 1.16
-# rounds up to this. Measured on a 5080: 5.1s at 1344x768, 9.1s at 1920x1088,
-# 13.1s here -- and generating natively at this size beat generating small and
-# running a 4x ESRGAN, which cost 30s and added oversharpening artifacts.
+# Frames are delivered above video resolution so a Ken Burns zoom is still
+# showing real pixels at its tightest. Max zoom is ~1.16, so 1920 * 1.16
+# rounds up to this.
 GEN_W, GEN_H = 2304, 1296
+
+# But they are *composed* near FLUX's training resolution and enlarged
+# afterwards. Asking the model directly for 2.99 MP does not produce a bigger
+# picture, it produces a different and worse one: at 3x native the model stops
+# composing a scene and starts repeating and fusing local structure. A dozen
+# keys around a keyhole came back as one melted mass, a valve wheel as pulp, a
+# seahorse fused into the calipers holding it.
+#
+# Measured across 1.03 / 1.43 / 1.84 / 2.36 / 2.99 MP on the same seeds: 1.43
+# is the largest that still holds together on every case. Damage starts at
+# 1.84 and is total by 2.99.
+#
+# 1536x864 sits just under that ceiling and is exactly 16:9 on a multiple of
+# 16, so the enlargement to GEN is a clean 1.5x with no reframing. At 1.5x
+# plain resampling is indistinguishable from a 4x ESRGAN in a 1:1 crop, and
+# four times faster. See AGENTS.md.
+COMPOSE_W, COMPOSE_H = 1536, 864
 
 # --- Shot pacing -----------------------------------------------------------
 # A shot lasts exactly as long as its narration line. These bounds catch

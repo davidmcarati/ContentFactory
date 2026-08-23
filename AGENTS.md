@@ -119,19 +119,69 @@ series triples once easing is on, because eased motion is deliberately
 slow-fast-slow. Subtract a moving average first and measure only the residual.
 Getting this wrong once already produced a false regression report.
 
-### Frames are generated large, not upscaled
+### Frames are composed small and enlarged — asking for 3 MP breaks the picture
 
-| configuration | time/frame |
+This one was wrong for a whole video, so read it before "optimising" it back.
+
+FLUX is trained around a megapixel. Asked for more, it does not paint the same
+scene with more pixels; it loses track of the scene and starts repeating and
+fusing local structure. Same prompts, same seeds, five sizes:
+
+| composed at | result |
 |---|---|
-| generate 1344x768 | 5.1 s |
-| generate 1920x1088 | 9.1 s |
-| **generate 2304x1296 (current)** | **13.1 s** |
-| generate 1344x768 + 4x ESRGAN | 30.0 s |
+| 1344x768 — 1.03 MP | correct |
+| **1536x864 — 1.33 MP (current)** | **correct** |
+| 1600x896 — 1.43 MP | correct |
+| 1792x1024 — 1.84 MP | drifting: objects merge, spurious borders |
+| 2048x1152 — 2.36 MP | wrong: stray duplicates, invented frames |
+| 2304x1296 — 2.99 MP | broken |
 
-The ESRGAN route costs twice as much and comes back visibly oversharpened.
-`GEN_W` is set so that the deepest zoom (~1.16) never outruns real pixels.
-`esrgan=True` survives in `workflows.py` for material that genuinely needs
-reconstruction.
+At 2.99 MP a dozen keys around a keyhole came back as one melted mass, a valve
+wheel as unreadable pulp, a seahorse fused into the calipers holding it. Every
+one of them was correct at 1.03. This is not the model being weak at hard
+prompts — it is the model being asked for a canvas it cannot hold.
+
+So the model composes at `COMPOSE_W x COMPOSE_H` and the frame is resampled up
+to `GEN_W x GEN_H` afterwards. 1536x864 is exactly 16:9 on a multiple of 16,
+so the enlargement is a clean 1.5x with no reframing.
+
+**Plain Lanczos, not ESRGAN.** At 1.5x the two are indistinguishable in a 1:1
+crop, and the upscaler costs four times the wall clock because a second model
+has to share a 16 GB card with a 16 GB checkpoint. (The old note here claimed
+ESRGAN was "visibly oversharpened" at 30 s/frame. Re-measured: 15-30 s, wildly
+variable from checkpoint churn, and not oversharpened on flat 2D art. It was
+measured once on a different style and generalised.) `esrgan=True` remains for
+material that needs real reconstruction rather than resampling.
+
+| route | time/frame |
+|---|---|
+| **compose 1536x864 -> Lanczos -> 2304x1296 (current)** | **7.1 s** |
+| direct 2304x1296 (old default, produced the broken frames) | 13.1 s |
+| compose 1536x864 -> 4x ESRGAN -> 2304x1296 | 24-31 s |
+
+Faster *and* correct, which is why the old measurement went unquestioned for
+so long: it was a real measurement of the wrong quantity. It timed the routes
+and never asked whether the picture was still right.
+
+### The model cannot count, and naming a thing summons it
+
+Two prompt-level failures that look like hallucination and are not.
+
+**Counting.** Every numeric prompt in the depression batch failed: "six open
+books" produced a bookshelf, "three brass vessels" two lamps, "four
+overlapping circles" three, "two people" one. Drop the number and describe the
+arrangement — "a row of identical cups, one of them filled with something
+black" works where "three cups" does not.
+
+**Naming.** A dozen frames came back signed — "Nzainful", "S0/20IG 1918" —
+and some with a deckled paper border. The cause was in the style prompt:
+`screen print texture`, `hand printed`, `subtle paper grain` describe a
+*printed artefact*, and a print has a signature and an edition number, so the
+model drew them. Removing those tokens removed the signatures.
+
+Adding `unsigned` put them back. There is no way to ask for the absence of
+something: the negative prompt is inert on schnell, and naming it in the
+positive prompt is a request. Describe what should be there instead.
 
 ### Subtitles are burned from .ass, never .srt
 

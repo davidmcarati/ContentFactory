@@ -18,6 +18,23 @@ Each preset already carries the two clauses that are easy to forget:
   a density clause, because all three drift toward near-empty backgrounds
   without one, and empty reads as unfinished when held full-screen.
 
+And none of them describes the frame as a *printed artefact*. "screen print
+texture", "hand printed" and "subtle paper grain" all shipped in the original
+mid-century prompt, and a dozen frames came back signed: "Nzainful",
+"S0/20IG 1918", a deckled paper border around the picture. A print has a
+signature and an edition number, so the model drew them. Dropping the grain
+token removed them; the style survived intact.
+
+Adding "unsigned" instead made it worse and put the signature back. Naming a
+thing summons it -- the same trap as the negative prompt, one level up.
+
+`papercut` needed a second correction for the same underlying reason. Asking
+for layered paper with drop shadows and calling it "detailed" produced a very
+convincing paper *relief sculpture* -- coherent, handsome, and three
+dimensional, which is the one thing this channel asked not to be. Flatness has
+to be demanded outright ("flat graphic silhouettes, straight on"), and the
+detail clause relaxed, or the model builds a diorama.
+
     python -m pipeline.styles          # print the palette
 """
 from __future__ import annotations
@@ -60,9 +77,9 @@ PRESETS: dict[str, Preset] = {
         number=4,
         label="Mid-century print",
         prompt=(
-            "mid-century modern illustration, screen print texture, muted "
-            "restrained palette, 2D hand printed, detailed layered composition "
-            "that fills the frame, strong graphic shapes, subtle paper grain"
+            "mid-century modern illustration, muted restrained palette, "
+            "2D flat colour, detailed layered composition that fills the "
+            "frame, strong graphic shapes"
         ),
         use_for=(
             "Serious explanatory work: science, medicine, institutions, "
@@ -81,10 +98,9 @@ PRESETS: dict[str, Preset] = {
         number=6,
         label="Paper cut collage",
         prompt=(
-            "2D paper cut collage illustration, layered cut coloured paper, "
-            "soft drop shadows between the layers, torn and clean cut edges, "
-            "visible paper fibre texture, detailed layered composition that "
-            "fills the frame"
+            "flat cut paper collage illustration, bold simple coloured paper "
+            "shapes, flat graphic silhouettes, straight on, limited warm "
+            "palette, composition fills the frame"
         ),
         use_for=(
             "Physical processes and things built in stages: geology, "

@@ -114,13 +114,15 @@ so dev is not installed, and should not be installed "just to compare".
 
 **Qwen-Image is the upgrade path** and is also Apache-2.0, but it is a 20B
 model: 19 GB for the transformer plus 8.7 GB for the text encoder, against
-13.5 GB of usable VRAM. It runs with heavy CPU offload and is much slower than
-13 s per frame. Worth revisiting for hero shots only.
+13.5 GB of usable VRAM. It runs with heavy CPU offload and is far slower than
+7 s per frame. Worth revisiting for hero shots only.
 
-**The upscaler is installed but disabled.** Measured: generating natively at
-2304x1296 costs 13.1 s per frame; generating at 1344x768 and running a 4x
-ESRGAN costs 30.0 s and comes back visibly oversharpened. `esrgan=True` in
-`workflows.py` exists for material that needs real reconstruction.
+**The upscaler is installed but off by default.** Frames are composed at
+1536x864 and resampled to 2304x1296 with Lanczos (7.1 s/frame). A 4x ESRGAN in
+that slot costs 24-31 s and is indistinguishable in a 1:1 crop at this
+enlargement, because a second model has to share the card with a 16 GB
+checkpoint. `esrgan=True` in `workflows.py` exists for material that needs real
+reconstruction rather than resampling.
 
 ## 5. Fonts
 

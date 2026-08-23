@@ -110,6 +110,13 @@ Pass it by key or by number:
   convincing-looking gibberish onto every one of them and there is no negative
   prompt to stop it. Describe the physical object instead: "thick stacked
   paper strips of different heights", not "a bar chart".
+- **Never state a number.** The model cannot count. "Six open books" comes
+  back as a bookshelf, "three vessels" as two, "two people" as one. Describe
+  the arrangement instead — "a row of identical cups, one of them filled with
+  something black" — and let the count fall where it may.
+- **Never name what you do not want.** There is no way to ask for an absence:
+  the negative prompt is inert, and naming a thing in the positive prompt is a
+  request for it. "Unsigned" produced a signature.
 - Ask for density. Without "detailed layered composition that fills the frame"
   this style drifts into near-empty backgrounds, which look unfinished held
   full-screen for eight seconds.

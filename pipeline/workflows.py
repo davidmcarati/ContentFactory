@@ -29,6 +29,7 @@ def flux_schnell(
     width: int = config.GEN_W,
     height: int = config.GEN_H,
     steps: int = 4,
+    compose: bool = True,
     esrgan: bool = False,
     filename_prefix: str = "cf",
 ) -> Graph:
@@ -38,13 +39,25 @@ def flux_schnell(
     does essentially nothing. It is wired up anyway so the same graph shape
     works if the model is swapped for one that does use it.
 
-    No upscaler by default. Frames are generated straight at GEN_W x GEN_H,
-    which is already above delivery resolution, and step 4 does the 2x
-    oversample it needs for smooth panning. Measured alternative: generate at
-    1344x768 and run a 4x ESRGAN, which took 30s per frame against 13s here
-    and came back visibly oversharpened. `esrgan=True` is kept for source
-    material that genuinely needs reconstruction rather than resampling.
+    `width`/`height` are the size of the frame you get back. The model is not
+    asked for them directly: it composes at COMPOSE_W x COMPOSE_H and the
+    result is resampled up. Asking schnell for 2.99 MP in one go returns a
+    broken picture, not a big one -- see AGENTS.md for the side-by-side.
+    Composition is settled where the model is competent; the remaining 1.44x
+    is arithmetic.
+
+    Plain Lanczos, not ESRGAN. At 1.44x the two are indistinguishable in a 1:1
+    crop and the upscaler costs 4x the time, because a second model has to
+    share a 16 GB card with a 16 GB checkpoint. `esrgan=True` is still there
+    for source material that needs real reconstruction.
+
+    `compose=False` renders at `width` x `height` directly. That is what the
+    probes use to demonstrate the problem; it is not a production setting.
     """
+    target_w, target_h = width, height
+    if compose:
+        width, height = config.COMPOSE_W, config.COMPOSE_H
+
     g: Graph = {
         "1": {"class_type": "CheckpointLoaderSimple",
               "inputs": {"ckpt_name": FLUX_SCHNELL_CKPT}},
@@ -77,15 +90,28 @@ def flux_schnell(
                   "inputs": {"model_name": UPSCALER}}
         g["8"] = {"class_type": "ImageUpscaleWithModel",
                   "inputs": {"upscale_model": ["7", 0], "image": ["6", 0]}}
+        # 4x UltraSharp overshoots (1600 -> 6400), so come back down to the
+        # size actually asked for. Downsampling after reconstruction is what
+        # keeps the linework clean instead of oversharpened.
         g["9"] = {"class_type": "ImageScale",
                   "inputs": {
                       "image": ["8", 0],
-                      "width": config.OUT_W * 2,
-                      "height": config.OUT_H * 2,
+                      "width": target_w,
+                      "height": target_h,
                       "upscale_method": "lanczos",
                       "crop": "center",
                   }}
         tail = ["9", 0]
+    elif (width, height) != (target_w, target_h):
+        g["11"] = {"class_type": "ImageScale",
+                   "inputs": {
+                       "image": ["6", 0],
+                       "width": target_w,
+                       "height": target_h,
+                       "upscale_method": "lanczos",
+                       "crop": "disabled",
+                   }}
+        tail = ["11", 0]
 
     g["10"] = {"class_type": "SaveImage",
                "inputs": {"images": tail, "filename_prefix": filename_prefix}}
