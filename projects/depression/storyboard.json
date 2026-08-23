@@ -1,0 +1,1073 @@
+{
+  "slug": "depression",
+  "title": "What Depression Really Is",
+  "style": {
+    "base_prompt": "mid-century modern illustration, screen print texture, muted restrained palette, 2D hand printed, detailed layered composition that fills the frame, strong graphic shapes, subtle paper grain",
+    "negative": "3d render, octane, blender, cgi, photorealistic, photograph, ray tracing, text, letters, words, numbers, writing, typography, captions, labels, gibberish text, watermark, signature, blurry, deformed, lowres",
+    "seed_base": 20260823,
+    "model": "flux-schnell"
+  },
+  "shots": [
+    {
+      "id": 1,
+      "vo": "Somebody says the weather is depressing. Somebody else says the quarterly results are depressing.",
+      "image_prompt": "rain running down a tall office window at dusk, city rooftops beyond, an empty chair turned away from a desk, layered detailed composition",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.4,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\001.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\001.png",
+      "seed": 20260824
+    },
+    {
+      "id": 2,
+      "vo": "A third person, who has not left their flat in nine days and cannot remember why they used to like music, says they are a bit depressed.",
+      "image_prompt": "a dim apartment interior seen across the room, curtains still drawn, a record player thick with dust, scattered objects, full detailed scene",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.45,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\002.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\002.png",
+      "seed": 20260825
+    },
+    {
+      "id": 3,
+      "vo": "All three used the same word. Only one of them was describing an illness.",
+      "image_prompt": "three large overlapping speech bubble shapes filling the frame, one packed with dense dark hatching, bold graphic composition",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.625,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\003.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\003.png",
+      "seed": 20260826
+    },
+    {
+      "id": 4,
+      "vo": "Around two hundred and eighty million people are living with that illness. The World Health Organization ranks depressive disorders among the leading causes of disability worldwide.",
+      "image_prompt": "an immense crowd of small identical human silhouettes packed edge to edge and receding to the horizon",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 12.675,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\004.wav"
+    },
+    {
+      "id": 5,
+      "vo": "Not among mental illnesses. Among all causes, of any kind.",
+      "image_prompt": "thick stacked paper strips of different heights standing in a long row, one towering far above the rest, layered shadows",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 4.9,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\005.wav"
+    },
+    {
+      "id": 6,
+      "vo": "So it is worth being precise about what the word is supposed to mean.",
+      "image_prompt": "a magnifying lens resting on a blank open book, strong raking lamp light, detailed still life",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.15,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\006.wav"
+    },
+    {
+      "id": 7,
+      "vo": "The first thing to clear away is that depression is not sadness. Treating it as sadness with the volume turned up gets almost everything wrong.",
+      "image_prompt": "two heavy overlapping circles filling the frame, one small one vast, bold contrasting muted colour fields",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.25,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\007.wav"
+    },
+    {
+      "id": 8,
+      "vo": "Sadness has an object. You are sad about something, and when the something resolves, the sadness resolves with it. Sadness is also, oddly, useful.",
+      "image_prompt": "a small figure dwarfed by a single closed door in a tall wall, long shadow raking across a patterned floor",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.525,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\008.wav"
+    },
+    {
+      "id": 9,
+      "vo": "It slows you down. It makes you seek company. It signals to other people that they should be gentle with you.",
+      "image_prompt": "two seated figures on a bench turned slightly toward each other at dusk, trees and railings behind, full scene",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.525,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\009.wav"
+    },
+    {
+      "id": 10,
+      "vo": "Depression frequently has no object at all. And the symptom clinicians look for first is not sadness. It is anhedonia. The loss of the capacity for pleasure.",
+      "image_prompt": "a long table laid with a complete meal rendered entirely in flat grey, one chair pulled out, detailed place settings",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.425,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\010.wav"
+    },
+    {
+      "id": 11,
+      "vo": "Anhedonia is a much stranger thing than sadness, and much harder to describe from the outside. Food tastes like it is being explained to you.",
+      "image_prompt": "a heaped bowl of fruit drawn as bare outlines, colour draining outward into the surrounding still life",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.275,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\011.wav"
+    },
+    {
+      "id": 12,
+      "vo": "Music becomes a sequence of correct notes. You can remember loving something without being able to feel it.",
+      "image_prompt": "a gramophone horn and scattered geometric note shapes filling the frame, silent, bold layered graphic",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\012.wav"
+    },
+    {
+      "id": 13,
+      "vo": "Some people with severe depression report that they cannot feel sad either. The condition took that as well.",
+      "image_prompt": "",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "asset",
+      "asset": {
+        "source": "wikimedia",
+        "title": "At Eternity's Gate (Sorrowing Old Man)",
+        "author": "Vincent van Gogh",
+        "license": "Public domain",
+        "tier": "safe",
+        "page_url": "https://commons.wikimedia.org/wiki/File:1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg",
+        "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/1890-05_van_Gogh_At_Eternitys_Gate_anagoria.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license_url": "",
+        "width": 2560,
+        "height": 3413,
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png"
+      },
+      "audio_sec": 7.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\013.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\013.png"
+    },
+    {
+      "id": 14,
+      "vo": "None of this is a modern discovery. Physicians described it as melancholia for two thousand years.",
+      "image_prompt": "an ancient physician's bench crowded with scrolls, bronze instruments and clay vessels, warm sepia, richly detailed",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.475,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\014.wav"
+    },
+    {
+      "id": 15,
+      "vo": "Albrecht Durer engraved it in fifteen fourteen: a winged figure sitting motionless, surrounded by every instrument of measurement and construction, using none of them.",
+      "image_prompt": "",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "asset",
+      "asset": {
+        "source": "wikimedia",
+        "title": "Melencolia I (1514)",
+        "author": "Albrecht Durer",
+        "license": "Creative Commons Zero, Public Domain Dedication",
+        "tier": "safe",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer,_Melencolia_I,_1514,_NGA_6641.jpg",
+        "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Albrecht_D%C3%BCrer%2C_Melencolia_I%2C_1514%2C_NGA_6641.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "width": 2560,
+        "height": 3282,
+        "local_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\015.png"
+      },
+      "audio_sec": 11.925,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\015.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\015.png"
+    },
+    {
+      "id": 16,
+      "vo": "It is one of the most accurate portraits of the condition anybody has made, and it predates the word depression by centuries.",
+      "image_prompt": "a deep cross section of layered rock strata filling the frame, a single bright mark near the very bottom",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.425,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\016.wav"
+    },
+    {
+      "id": 17,
+      "vo": "So if it isn't sadness, what is it? Here is where almost everyone, quite reasonably, reaches for the same sentence. It's a chemical imbalance in the brain.",
+      "image_prompt": "an anatomical brain illustration pinned to a plain wall, two glass beakers and a bold red painted arrow beside it, warm lamp light",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.85,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\017.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\017.png",
+      "seed": 20260840
+    },
+    {
+      "id": 18,
+      "vo": "Low serotonin.",
+      "image_prompt": "one enormous molecular model of connected spheres and rods filling the frame, flat coloured field",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 2.025,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\018.wav"
+    },
+    {
+      "id": 19,
+      "vo": "That sentence has a history, and the history is not the one you would expect. It did not come out of a laboratory.",
+      "image_prompt": "a long empty laboratory bench at night, rows of clean glassware, cold blue light, deep perspective",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.825,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\019.wav"
+    },
+    {
+      "id": 20,
+      "vo": "It came, in large part, out of advertising.",
+      "image_prompt": "a vintage magazine spread with a large blank rectangle where the product should be, dense halftone dots",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 3.7,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\020.wav"
+    },
+    {
+      "id": 21,
+      "vo": "Through the late eighties and the nineties, the drugs we now call SSRIs arrived, and with them a campaign to explain them to the public.",
+      "image_prompt": "dozens of identical pill bottles filling the frame in a tight grid, retro colour, subtle shadows",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.65,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\021.wav"
+    },
+    {
+      "id": 22,
+      "vo": "The explanation had to fit inside a television commercial.",
+      "image_prompt": "a bulky old television set in a crowded 1960s living room, one simple bright shape glowing on the screen",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 4.475,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\022.wav"
+    },
+    {
+      "id": 23,
+      "vo": "A chemical imbalance in the brain fits inside a television commercial. It is short, it is mechanical, and it puts the illness somewhere respectable.",
+      "image_prompt": "an enormous empty billboard on a steel frame against a wide open sky, birds, detailed structure",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.45,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\023.wav"
+    },
+    {
+      "id": 24,
+      "vo": "In the body, rather than in the character.",
+      "image_prompt": "a full human figure outline with the whole interior rendered as dense brass clockwork, cogs and springs",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 3.05,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\024.wav"
+    },
+    {
+      "id": 25,
+      "vo": "It was a simplification from the beginning, and researchers said so at the time. But it was an extremely good simplification, in the commercial sense, and it escaped.",
+      "image_prompt": "a paper aeroplane sailing out of a tall open window over rooftops, wide detailed view",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.2,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\025.wav"
+    },
+    {
+      "id": 26,
+      "vo": "In twenty twenty-two, a team led by Joanna Moncrieff published an umbrella review in Molecular Psychiatry.",
+      "image_prompt": "a towering stack of bound journals under an angled lamp at night, one lying open, detailed still life",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.025,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\026.wav"
+    },
+    {
+      "id": 27,
+      "vo": "A study of studies, gathering the evidence for the serotonin hypothesis across six separate lines of research. They found no consistent evidence that depression is caused by low serotonin.",
+      "image_prompt": "six thick parallel paper strips converging into a single strip, layered shadows filling the frame",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 13.525,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\027.wav"
+    },
+    {
+      "id": 28,
+      "vo": "The press treated this as a demolition. Inside the field, the reaction was closer to a shrug, and the review itself drew serious methodological criticism.",
+      "image_prompt": "a wall of bold black rectangular bars and blocks stacked in a dense column, harsh contrast",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.4,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\028.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\028.png",
+      "seed": 20260851
+    },
+    {
+      "id": 29,
+      "vo": "The simple version had been regarded as inadequate for years. What the review demolished was the commercial, not the science.",
+      "image_prompt": "a torn empty billboard frame against a bruised sky, ragged paper clinging to the steel edges",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.775,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\029.wav"
+    },
+    {
+      "id": 30,
+      "vo": "And here is the part that got mangled almost everywhere, so it is worth saying slowly.",
+      "image_prompt": "a sheet of paper degraded by repeated copying into abstract grey noise, dense close texture",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.2,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\030.wav"
+    },
+    {
+      "id": 31,
+      "vo": "Depression is not simply low serotonin does not mean antidepressants do not work. Those are two separate questions.",
+      "image_prompt": "two heavy wooden boxes standing side by side joined by a broken chain, bold composition",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.35,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\031.wav"
+    },
+    {
+      "id": 32,
+      "vo": "Aspirin works on headaches. Headaches are not caused by a lack of aspirin. A drug does not have to reverse a deficiency in order to help.",
+      "image_prompt": "one large white tablet lying beside a smooth ceramic head sculpture, strong raking shadow",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.75,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\032.wav"
+    },
+    {
+      "id": 33,
+      "vo": "If you are taking medication and it is helping you, a paper about serotonin is not a reason to stop.",
+      "image_prompt": "a hand holding a weekly pill organiser over a kitchen table, calm warm light, detailed domestic scene",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.3,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\033.wav"
+    },
+    {
+      "id": 34,
+      "vo": "So what is actually happening?",
+      "image_prompt": "a dense exploded arrangement of interlocking gears filling the entire frame, brass and steel",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 2.525,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\034.wav"
+    },
+    {
+      "id": 35,
+      "vo": "The honest answer is that depression is not one condition with one cause, which is precisely why the single-sentence explanation was so appealing and so wrong.",
+      "image_prompt": "a dozen ornate keys spread around a single keyhole plate, layered shadows, bold composition",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.0,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\035.wav"
+    },
+    {
+      "id": 36,
+      "vo": "But there are patterns, and they are better described as a system stuck in the wrong mode than as a missing ingredient.",
+      "image_prompt": "a heavy brass valve wheel turned hard against its stop, rivets and fittings, close detailed crop",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.675,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\036.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\036.png",
+      "seed": 20260859
+    },
+    {
+      "id": 37,
+      "vo": "The clearest of them is the stress system. The body runs a hormonal cascade through the hypothalamus, the pituitary and the adrenal glands.",
+      "image_prompt": "three glands rendered as a vertical cascade of organic forms joined by tubes, ornate engraved style",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.85,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\037.wav"
+    },
+    {
+      "id": 38,
+      "vo": "It produces cortisol, and then, when the threat has passed, it shuts itself off.",
+      "image_prompt": "a heavy industrial valve closing on a thick pipe, bolts and fittings, detailed two tone rendering",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\038.wav"
+    },
+    {
+      "id": 39,
+      "vo": "In a substantial share of depressed patients, the shutting off is impaired. The alarm keeps sounding, quietly, for months.",
+      "image_prompt": "a large alarm bell on a wall in a dim corridor, vibration lines, deep receding perspective",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.675,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\039.wav"
+    },
+    {
+      "id": 40,
+      "vo": "Cortisol is useful for an afternoon and corrosive over a year.",
+      "image_prompt": "rust spreading outward across a broad metal surface from one point, dense close texture study",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.05,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\040.wav"
+    },
+    {
+      "id": 41,
+      "vo": "Chronic elevation is associated with reduced volume in the hippocampus, the structure that handles memory and helps regulate the very stress response that is wearing it down.",
+      "image_prompt": "a seahorse shaped form held in fine brass calipers, ornate engraved style, richly detailed",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 12.325,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\041.wav"
+    },
+    {
+      "id": 42,
+      "vo": "A loop that tightens on itself.",
+      "image_prompt": "a heavy loop of chain closing into a tightening circle, filling the frame, bold mechanical shapes",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 2.5,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\042.wav"
+    },
+    {
+      "id": 43,
+      "vo": "The second pattern is in the reward circuitry. Dopamine-carrying pathways running from the ventral tegmental area to the nucleus accumbens, and their conversation with the prefrontal cortex.",
+      "image_prompt": "a dense network of glowing connected nodes and filaments inside a head silhouette, layered depth",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 13.025,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\043.wav"
+    },
+    {
+      "id": 44,
+      "vo": "This is the machinery that converts I want that into I am getting up.",
+      "image_prompt": "a long industrial conveyor belt carrying a bright shape across the frame, gears and rollers, detailed",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.225,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\044.wav"
+    },
+    {
+      "id": 45,
+      "vo": "Under sustained stress, that conversion degrades. Notice carefully what this means. It is not that the person wants to get up and lacks the willpower.",
+      "image_prompt": "the same long conveyor belt with a broken segment, shapes stalled and piled against the gap, detailed",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.65,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\045.wav"
+    },
+    {
+      "id": 46,
+      "vo": "It is that the step where wanting turns into doing has stopped working reliably. Anhedonia is that failure, experienced from the inside.",
+      "image_prompt": "two enormous gears that no longer mesh, a stark gap between their teeth, detailed machinery",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.775,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\046.wav"
+    },
+    {
+      "id": 47,
+      "vo": "The third pattern is plasticity. The brain's capacity to remodel its own connections.",
+      "image_prompt": "a dense branching neural tree filling the entire frame, fine interlaced glowing lines on dark ground",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.525,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\047.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\047.png",
+      "seed": 20260870
+    },
+    {
+      "id": 48,
+      "vo": "Depression is associated with a measurable reduction in it, and several treatments that work appear to work by restoring it, over weeks rather than hours.",
+      "image_prompt": "a wide composition, sparse bare branches on the left growing dense and full toward the right",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.4,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\048.wav"
+    },
+    {
+      "id": 49,
+      "vo": "That timescale is itself a clue. It is the timescale of something being rebuilt, not of a level being topped up.",
+      "image_prompt": "scaffolding wrapped around a small structure under repair, planks and poles, muted construction palette",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.225,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\049.wav"
+    },
+    {
+      "id": 50,
+      "vo": "The fourth is inflammation. In a subset of patients, and it is a subset, inflammatory markers are elevated.",
+      "image_prompt": "a dense grid of hundreds of small circles filling the frame, a scattered few glowing warm",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.075,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\050.wav"
+    },
+    {
+      "id": 51,
+      "vo": "Inducing inflammation experimentally in healthy volunteers produces the flat, unmotivated state of depression, along with changes in exactly the reward circuits just described.",
+      "image_prompt": "a laboratory syringe and glass ampoules arranged on a clinical steel tray, cold light, detailed",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 13.55,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\051.wav"
+    },
+    {
+      "id": 52,
+      "vo": "Which suggests there are biologically distinct conditions currently wearing the same name.",
+      "image_prompt": "two visibly different mechanisms mounted side by side beneath one shared blank brass plate",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.3,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\052.wav"
+    },
+    {
+      "id": 53,
+      "vo": "Now the consequences. This is where the casual use of the word does the most damage.",
+      "image_prompt": "a heavy shadow falling across a cluttered desk in low raking light, detailed objects",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.225,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\053.wav"
+    },
+    {
+      "id": 54,
+      "vo": "Depression is not only felt. It measurably degrades the things people are held responsible for.",
+      "image_prompt": "a column of ink marks on paper fading from dark to nothing down the page, tight close crop",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.225,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\054.wav"
+    },
+    {
+      "id": 55,
+      "vo": "Concentration, working memory, decision speed and mental flexibility all decline. From the outside, this looks exactly like not trying. Someone misses deadlines.",
+      "image_prompt": "a grid of squares on paper with many of them heavily crossed through in red, tight crop",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 12.275,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\055.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\055.png",
+      "seed": 20260878
+    },
+    {
+      "id": 56,
+      "vo": "Forgets what was agreed. Takes four days to answer an email that would have taken four minutes.",
+      "image_prompt": "a deep stack of paper envelopes filling the frame with dust settled thickly on the top one",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 6.35,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\056.wav"
+    },
+    {
+      "id": 57,
+      "vo": "The available explanations are ill and lazy, and the second one requires no imagination at all.",
+      "image_prompt": "two blank paper tags tied to a worn cardboard folder, harsh contrast lighting, close crop",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.4,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\057.wav"
+    },
+    {
+      "id": 58,
+      "vo": "It does not stay in the head either.",
+      "image_prompt": "a full human silhouette with dense faint lines radiating down through the torso, dark ground",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 2.5,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\058.wav"
+    },
+    {
+      "id": 59,
+      "vo": "Depression is associated with higher cardiovascular risk and with worse outcomes for people already managing a physical illness, in ways that lifestyle alone does not account for.",
+      "image_prompt": "a large stylised heart form with a single trembling line flattening across the frame, bold shapes",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 12.975,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\059.wav"
+    },
+    {
+      "id": 60,
+      "vo": "And it carries a mortality risk of its own. Untreated depression is among the strongest predictors of suicide there is.",
+      "image_prompt": "an empty wooden chair alone in a dim room, one shaft of window light falling across worn floorboards, deep shadows, muted palette",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.65,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\060.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\060.png",
+      "seed": 20260883
+    },
+    {
+      "id": 61,
+      "vo": "The World Health Organization puts the combined economic cost of depression and anxiety at up to a trillion dollars a year in lost productivity.",
+      "image_prompt": "an enormous tower built from stacked rectangular blocks, muted palette, deep shadows",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.7,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\061.wav"
+    },
+    {
+      "id": 62,
+      "vo": "That figure is usually quoted to make the case for funding treatment. It also quietly describes several hundred million people unable to do work they are otherwise capable of.",
+      "image_prompt": "an aerial view of row upon row of empty desks across a vast open office, deep flat perspective",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 12.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\062.wav"
+    },
+    {
+      "id": 63,
+      "vo": "Which brings us to the part that is about us, rather than about neurons.",
+      "image_prompt": "a dense crowd of simplified figures seen from above, one figure standing perfectly still",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.1,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\063.wav"
+    },
+    {
+      "id": 64,
+      "vo": "We have assembled a set of expectations around this illness that we would find absurd applied to any other.",
+      "image_prompt": "a huge set of weighing scales loaded absurdly unevenly, chains and brass pans, detailed",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.475,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\064.wav"
+    },
+    {
+      "id": 65,
+      "vo": "We ask people whose reward circuitry has stopped converting motivation into action to be more motivated. We recommend exercise to someone who cannot start a shower.",
+      "image_prompt": "a pair of running shoes standing untouched by a door in a dim cluttered hallway, detailed",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.8,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\065.wav"
+    },
+    {
+      "id": 66,
+      "vo": "We tell them to reach out, and the reaching out costs more than they currently have.",
+      "image_prompt": "a telephone receiver left off the hook, cord trailing across a crowded table, detailed still life",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.325,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\066.wav"
+    },
+    {
+      "id": 67,
+      "vo": "And the strange part is that the advice is not even wrong. Exercise has real evidence behind it.",
+      "image_prompt": "a folded note left on a kitchen table in morning light, cups and crumbs around it, detailed scene",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.15,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\067.wav"
+    },
+    {
+      "id": 68,
+      "vo": "Behavioural activation, deliberately doing things before you feel like doing them, is one of the better-supported treatments in the field.",
+      "image_prompt": "a small figure stepping onto a path drawn as a bold ascending line across a wide landscape",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\068.wav"
+    },
+    {
+      "id": 69,
+      "vo": "The problem was never the content of the advice. It is handing somebody the operating instructions for a machine that is currently broken, and recording that as help delivered.",
+      "image_prompt": "a dismantled appliance with dozens of small parts laid out in neat rows on a workbench, detailed",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.85,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\069.wav"
+    },
+    {
+      "id": 70,
+      "vo": "Then there is the word itself. A word that has to cover both a rainy Tuesday and a disabling illness will, in practice, get calibrated to the rainy Tuesday.",
+      "image_prompt": "a split composition, a rain streaked window on one side and a long hospital corridor on the other",
+      "motion": {
+        "pan": "up",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 11.375,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\070.wav"
+    },
+    {
+      "id": 71,
+      "vo": "That is simply how language works. The common meaning wins.",
+      "image_prompt": "a dense grid of identical blank paper tiles filling the frame with a single tile turned face down",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.13
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 4.45,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\071.wav"
+    },
+    {
+      "id": 72,
+      "vo": "Which means that every time somebody says the real thing out loud, they are arguing with the definition before they even reach the end of the sentence.",
+      "image_prompt": "a heavy closed book with a bold speech bubble shape pressing into its cover, dramatic shadow",
+      "motion": {
+        "pan": "down",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 9.775,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\072.wav"
+    },
+    {
+      "id": 73,
+      "vo": "Depression is not sadness, and it is not a missing chemical.",
+      "image_prompt": "two enormous shapes side by side struck through with bold diagonal bars, a teardrop and a molecule",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.12
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 4.55,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\073.wav"
+    },
+    {
+      "id": 74,
+      "vo": "It is a set of systems, stress regulation, motivation, plasticity, sometimes immunity, that have settled into a state they cannot leave unaided.",
+      "image_prompt": "four large overlapping circles in different muted colours forming a layered rosette, bold flat shapes filling the frame",
+      "motion": {
+        "pan": "left",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 10.625,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\074.wav",
+      "frame_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\frames\\074.png",
+      "seed": 20260897
+    },
+    {
+      "id": 75,
+      "vo": "It is common. It is treatable. And it is far more mechanical, and far less voluntary, than the word makes it sound.",
+      "image_prompt": "a wide sunrise over a flat horizon, bold concentric bands of restrained colour, textured sky",
+      "motion": {
+        "pan": "out",
+        "zoom": 1.1
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 8.2,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\075.wav"
+    },
+    {
+      "id": 76,
+      "vo": "The word is the problem. The people using it about the weather are not.",
+      "image_prompt": "a single monolithic stone block on a plinth in raking light, deep shadow, monumental composition",
+      "motion": {
+        "pan": "right",
+        "zoom": 1.14
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 5.05,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\076.wav"
+    },
+    {
+      "id": 77,
+      "vo": "But the next time somebody tells you they are depressed, it costs about four seconds to find out which of the two things they mean.",
+      "image_prompt": "two figures facing each other in close conversation, warm light, a detailed room around them",
+      "motion": {
+        "pan": "in",
+        "zoom": 1.16
+      },
+      "transition": "crossfade",
+      "kind": "generate",
+      "audio_sec": 7.9,
+      "audio_path": "E:\\Git_NOTYET\\Content_Factory\\projects\\depression\\audio\\077.wav"
+    }
+  ],
+  "voice": {
+    "voice_id": "am_michael",
+    "speed": 1.0
+  },
+  "publish": {
+    "description": "",
+    "tags": [],
+    "chapters": [],
+    "thumbnail_prompt": "",
+    "thumbnail_text": ""
+  },
+  "aspect": "16:9"
+}

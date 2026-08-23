@@ -134,6 +134,24 @@ Cues break at sentence boundaries, then clause boundaries, and only then
 between arbitrary words — a card ending "...for two thousand" with "years."
 stranded on the next one reads as a fault even when the timing is perfect.
 
+### The negative prompt does nothing on FLUX.1-schnell
+
+schnell is guidance-distilled and runs at cfg 1.0, which means the negative
+conditioning is never actually applied. `style.negative` is wired up and
+carried through the graph, and it has no effect whatsoever.
+
+This is easy to forget and expensive when you do. An entire batch was prompted
+with `text, letters, typography, gibberish text` in the negative and came back
+covered in fake body copy and invented labels.
+
+**The only lever is the positive prompt.** To keep text out of a frame, do not
+ask for objects that carry text: `chart`, `poster`, `diagram`, `infographic`,
+`calendar`, `newspaper`, `magazine`, `manual`, `label`, `plate`. Describe the
+same idea as physical objects instead — "thick stacked paper strips of
+different heights" rather than "a bar chart" — and the text mostly disappears.
+"editorial illustration" in the base style has the same problem: it biases
+toward magazine layouts, which the model dutifully fills with fake paragraphs.
+
 ### Asset shots are fetched before generated ones
 
 Step 3 sorts fetches first. Interleaved, ComfyUI dropped the 16 GB checkpoint

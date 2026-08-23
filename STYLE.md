@@ -72,8 +72,17 @@ it.
 - One `style.base_prompt` applies to every shot and is what keeps a 90-shot
   video looking like one piece. Do not vary it per shot; vary
   `image_prompt` instead.
-- Requested style is **2D, not 3D**. Keep `3d render, octane, blender, cgi,
-  photorealistic` in the negative prompt.
+- Requested style is **2D, not 3D**. Say so in the *positive* prompt. The
+  negative prompt has no effect on FLUX.1-schnell — see AGENTS.md — so
+  listing `3d render, cgi` there accomplishes nothing.
+- **Never prompt for an object that carries writing.** No charts, posters,
+  diagrams, calendars, newspapers, manuals or labels. The model renders
+  convincing-looking gibberish onto every one of them and there is no negative
+  prompt to stop it. Describe the physical object instead: "thick stacked
+  paper strips of different heights", not "a bar chart".
+- Ask for density. Without "detailed layered composition that fills the frame"
+  this style drifts into near-empty backgrounds, which look unfinished held
+  full-screen for eight seconds.
 - There is no character consistency yet. Do not write scripts that depend on
   the same named human recurring across shots — they will have a different
   face every time.

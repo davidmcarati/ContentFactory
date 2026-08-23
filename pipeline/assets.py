@@ -54,9 +54,10 @@ REJECTED = "rejected"
 DEFAULT_TIERS = (SAFE, ATTRIBUTION)
 
 _TAGS = re.compile(r"<[^>]+>")
-# Commons packs every translation of a title into one field as
-# `label QS:Lru,"..."label QS:Lja,"..."` and so on for eighty languages.
-_STRUCTURED_LABELS = re.compile(r"\s*label QS:L.*", re.DOTALL)
+# Commons packs structured data into the same fields as the human-readable
+# text: every translation of a title as `label QS:Lru,"..."` repeated for
+# eighty languages, and property statements as `title QS:P1476,en:"..."`.
+_STRUCTURED_LABELS = re.compile(r"\s*(?:label|title) QS:[LP].*", re.DOTALL)
 _WHITESPACE = re.compile(r"\s+")
 # Tags are replaced by a space, so `<i>La Joconde</i>,` would otherwise leave
 # `La Joconde ,` in the credits.
