@@ -12,12 +12,13 @@ import time
 
 from .comfy_client import ComfyClient
 from .publish import publish
+from .review import review
 from .schema import Storyboard
 from .step2_voice import voice
 from .step3_frames import frames
 from .step4_assemble import assemble
 
-STEPS = ("voice", "frames", "assemble", "publish")
+STEPS = ("voice", "frames", "review", "assemble", "publish")
 
 
 def _fmt(seconds: float) -> str:
@@ -52,6 +53,19 @@ def run(slug: str, *, steps: tuple[str, ...] = STEPS, force: bool = False,
         # and leaving it resident makes the ffmpeg stage share a hot GPU for
         # no reason.
         ComfyClient().free()
+
+    if "review" in steps:
+        print("\n== step 3b: review the frames ==")
+        sb = Storyboard.load(slug)
+        if review(sb) != 0:
+            # Deliberately not a crash: everything up to here is done and
+            # kept. The run stops because the next thing it would do is build
+            # a video out of pictures nobody has seen.
+            print(f"\nstopping here. Look at the sheets, fix what is badly "
+                  f"wrong, then:\n"
+                  f"  python -m pipeline.review {slug} --accept\n"
+                  f"  python -m pipeline.run {slug} --from assemble")
+            return
 
     if "assemble" in steps:
         print("\n== step 4: assembly ==")

@@ -81,7 +81,15 @@ def _xfade_chain(durations: list[float]) -> tuple[str, str]:
     return ";".join(parts), prev
 
 
-def assemble(sb: Storyboard, *, force: bool = False) -> Path:
+def assemble(sb: Storyboard, *, force: bool = False,
+             skip_review: bool = False) -> Path:
+    # Frames must have been looked at. Every visual defect this project has
+    # shipped was invisible to the tests and obvious in a picture, so the
+    # looking is a gate rather than a good intention. See pipeline/review.py.
+    if not skip_review:
+        from .review import require_reviewed
+        require_reviewed(sb)
+
     sb.ensure_dirs()
     narration = sb.dir / "audio" / "narration.wav"
     if not narration.exists():
@@ -162,10 +170,13 @@ def main() -> None:
     ap.add_argument("slug", help="project slug under projects/")
     ap.add_argument("--force", action="store_true",
                     help="re-render clips that already exist")
+    ap.add_argument("--skip-review", action="store_true",
+                    help="assemble frames nobody has looked at (smoke tests "
+                         "and timing experiments; not for anything shipped)")
     a = ap.parse_args()
     sb = Storyboard.load(a.slug)
     sb.require_valid()
-    assemble(sb, force=a.force)
+    assemble(sb, force=a.force, skip_review=a.skip_review)
 
 
 if __name__ == "__main__":

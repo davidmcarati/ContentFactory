@@ -7,7 +7,7 @@ Built and measured on: RTX 5080 (16 GB), i9-14900K, 64 GB RAM, Windows 11.
 
 ## The idea
 
-Four steps, each resumable, all talking to one another through a single file:
+Five steps, each resumable, all talking to one another through a single file:
 `projects/<slug>/storyboard.json`.
 
 ```
@@ -16,8 +16,12 @@ step 2  voice       Kokoro-82M            ->  audio/*.wav + narration.wav
 step 3  frames      FLUX.1-schnell, or a  ->  frames/*.png + credits.md
                     real image from an
                     open collection
+step 3b review      you, looking at them  ->  review.json
 step 4  assemble    ffmpeg                ->  <slug>.mp4
 ```
+
+Step 3b is a gate, not a formality: step 4 refuses to run on frames nobody has
+looked at, and regenerating a single frame makes the review stale again.
 
 Two design decisions are worth knowing before changing anything:
 
@@ -80,6 +84,10 @@ Then, per project:
 Useful variants:
 
 ```bash
+# look at the frames; step 4 will not run until this has been accepted
+... -m pipeline.review my-slug
+... -m pipeline.review my-slug --accept --note "why the flagged ones are fine"
+
 # the three approved styles, and when to use each
 ... -m pipeline.styles
 

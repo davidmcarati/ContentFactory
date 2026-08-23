@@ -82,7 +82,10 @@ def main() -> int:
     voice(sb, fake=True)
 
     print("=== step 4: assembly ===")
-    out = assemble(sb, force=True)
+    # The frames here are fabricated colour cards; there is nothing to look
+    # at, and this test exists to check timing arithmetic rather than
+    # pictures. It is the one place the review gate is legitimately skipped.
+    out = assemble(sb, force=True, skip_review=True)
 
     print("=== checks ===")
     ok = True

@@ -15,11 +15,12 @@ Five steps. Each is independently runnable and resumable. They communicate
 only through one file per project: `projects/<slug>/storyboard.json`.
 
 ```
-step 1  step1_script.py    narration text   ->  storyboard.json
-step 2  step2_voice.py     Kokoro-82M       ->  audio/*.wav, narration.wav
-step 3  step3_frames.py    FLUX / open collections  ->  frames/*.png
-step 4  step4_assemble.py  ffmpeg           ->  <slug>.mp4
-step 5  publish.py         Pillow + ComfyUI ->  D:/TheArtOfChaosVideos/<slug>/
+step 1   step1_script.py    narration text   ->  storyboard.json
+step 2   step2_voice.py     Kokoro-82M       ->  audio/*.wav, narration.wav
+step 3   step3_frames.py    FLUX / open collections  ->  frames/*.png
+step 3b  review.py          a person, looking ->  review.json
+step 4   step4_assemble.py  ffmpeg           ->  <slug>.mp4
+step 5   publish.py         Pillow + ComfyUI ->  D:/TheArtOfChaosVideos/<slug>/
 ```
 
 `pipeline/run.py` chains all five. `pipeline/schema.py` owns every data type
@@ -96,6 +97,14 @@ trim the video back to the narration and throw the card away.
 **Chapters are anchored to shot ids, never to timestamps.** Re-recording the
 narration then moves them correctly instead of leaving them pointing at the
 wrong moment.
+
+**Nothing is assembled out of frames nobody has looked at.** Step 4 refuses to
+run until `review.json` exists and matches the frames on disk. Regenerate one
+frame and the review goes stale again, naming the shot. This is a gate rather
+than a good intention because every visual defect this project has shipped or
+nearly shipped was invisible to the tests and obvious in a picture — see
+section 6. `--skip-review` exists for `tests/smoke.py`, whose frames are
+fabricated colour cards, and for nothing that gets published.
 
 **Licence tiers are an allowlist, and unknown means no.** See section 5.
 
@@ -301,9 +310,10 @@ pictures.
 
 ```bash
 .venv-pipeline/Scripts/python.exe -m tests.smoke            # required before shipping
+.venv-pipeline/Scripts/python.exe -m pipeline.review <slug> # required before assembly
 .venv-pipeline/Scripts/python.exe -m tests.kenburns_probe   # after touching motion
 .venv-pipeline/Scripts/python.exe -m tests.style_probe      # style comparison sheet
-.venv-pipeline/Scripts/python.exe -m tests.contact_sheet <slug>   # review every frame
+.venv-pipeline/Scripts/python.exe -m tests.contact_sheet <slug>   # sheets on their own
 ```
 
 `tests/smoke.py` fabricates frames and silent narration, drives steps 2 and 4
@@ -311,6 +321,16 @@ for real, and asserts the finished file's duration matches the storyboard's
 prediction. It needs no models and runs in about 30 seconds. Current baseline
 is **24 ms drift** across 5 shots and an end card; if that number grows, the
 timeline arithmetic broke.
+
+**Step 3b is where the looking happens.** `python -m pipeline.review <slug>`
+runs the checks that can be mechanised — the STYLE.md prompt rules as regexes,
+frames whose edge energy says they came back nearly empty, assets too small to
+hold the screen — then builds the contact sheets and stops. `--accept` records
+that a person looked, against a fingerprint of the frames. The mechanical
+flags are flags, not errors: a rule can be broken deliberately, and the
+`--note` is where you say why.
+
+What it cannot do is judge a picture, which is the point of the stage.
 
 There is no test for image quality, and there cannot be. `tests.contact_sheet`
 tiles every frame of a project with its shot number so a 77-shot video can be
