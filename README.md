@@ -96,6 +96,14 @@ Then, per project:
 .venv-pipeline/Scripts/python.exe -m pipeline.run my-slug
 ```
 
+Where everything stands, counted from disk rather than from a status file:
+
+```bash
+... -m pipeline.status              # every project, one line each
+... -m pipeline.status gold         # one project, step by step
+... -m pipeline.status --watch      # redraw while a render runs
+```
+
 Useful variants:
 
 ```bash

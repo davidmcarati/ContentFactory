@@ -153,6 +153,7 @@ def qwen_image(
     steps: int = 20,
     cfg: float = 2.5,
     shift: float = 3.1,
+    encoder_device: str = "cpu",
     compose: bool = True,
     esrgan: bool = False,
     filename_prefix: str = "cf",
@@ -171,10 +172,17 @@ def qwen_image(
     law of nature and should be re-measured rather than inherited.
 
     Q4_K_M is the largest quant that leaves headroom on a 16 GB card: 12.2 GB
-    of weights against 14.5 GB usable after ComfyUI's reserve. The text
-    encoder is a separate 8.7 GB file, but ComfyUI runs it and unloads it
-    before the sampler starts, so peak VRAM is the larger of the two rather
-    than the sum -- which is the whole reason this fits at all.
+    of weights against 14.5 GB usable after ComfyUI's reserve.
+
+    `encoder_device="cpu"` is not a micro-optimisation, it is the difference
+    between a steady render and one that degrades. The text encoder is 7.9 GB
+    and the transformer is 12.5 GB; together they do not fit, so with both on
+    the GPU ComfyUI evicts part of the transformer to encode each prompt and
+    then pushes all 12.5 GB back across the bus before sampling -- every
+    frame. Measured on the gold re-render: 73 s/frame at the start, drifting
+    to 167 s by shot 38 as the eviction got messier, against roughly 70 s of
+    actual sampling. Encoding on the CPU costs a few seconds per prompt and
+    the transformer never moves.
     """
     target_w, target_h = width, height
     if compose:
@@ -184,7 +192,8 @@ def qwen_image(
         "1": {"class_type": "UnetLoaderGGUF",
               "inputs": {"unet_name": QWEN_UNET}},
         "12": {"class_type": "CLIPLoader",
-               "inputs": {"clip_name": QWEN_CLIP, "type": "qwen_image"}},
+               "inputs": {"clip_name": QWEN_CLIP, "type": "qwen_image",
+                          "device": encoder_device}},
         "13": {"class_type": "VAELoader",
                "inputs": {"vae_name": QWEN_VAE}},
         "2": {"class_type": "CLIPTextEncode",
