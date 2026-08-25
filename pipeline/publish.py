@@ -249,6 +249,35 @@ def build_description(sb: Storyboard) -> str:
 
 
 # ---------------------------------------------------------------------------
+def require_current(sb: Storyboard, video: Path) -> None:
+    """Refuse to ship a cut that is older than the frames it was made from.
+
+    The review gate guards the way into assembly: it will not let step 4 run
+    on frames nobody has looked at. Nothing guarded the other direction, and
+    the gap is not theoretical. The chronicles video shipped with shot 9 as
+    it was before it was fixed -- the frame was re-rendered eight minutes
+    after the cut was built, the review was then accepted, and the video was
+    never rebuilt. Everything looked green.
+
+    Comparing mtimes is enough, costs nothing, and catches the whole class.
+    """
+    cut = video.stat().st_mtime
+    newer = sorted(
+        s.id for s in sb.shots
+        if (p := sb.dir / "frames" / f"{s.stem}.png").exists()
+        and p.stat().st_mtime > cut
+    )
+    if not newer:
+        return
+    shown = ", ".join(f"{i:03d}" for i in newer[:8])
+    raise SystemExit(
+        f"{sb.slug}: {len(newer)} frame(s) are newer than {video.name} "
+        f"({shown}{'...' if len(newer) > 8 else ''}).\n"
+        f"The cut does not contain them. Rebuild before publishing:\n"
+        f"  python -m pipeline.run {sb.slug} --from assemble --force"
+    )
+
+
 def publish(sb: Storyboard, *, force: bool = False,
             root: Path | None = None) -> Path:
     video = sb.dir / f"{sb.slug}.mp4"
@@ -256,6 +285,7 @@ def publish(sb: Storyboard, *, force: bool = False,
         raise FileNotFoundError(
             f"{video} does not exist; run step 4 before publishing"
         )
+    require_current(sb, video)
 
     # Not DELIVERY_ROOT / slug: the folder may already exist under a numbered
     # name, and the sources live inside it.

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "status",
+      "runtimeExecutable": ".venv-pipeline/Scripts/python.exe",
+      "runtimeArgs": ["-m", "pipeline.status", "--serve", "8199", "--every", "10"],
+      "port": 8199
+    }
+  ]
+}

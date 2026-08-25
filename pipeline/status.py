@@ -16,6 +16,7 @@ newest frame is a few seconds old, which is what the LIVE marker means.
 from __future__ import annotations
 
 import argparse
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,6 +26,8 @@ from .schema import Storyboard
 
 # A frame written in the last two minutes means something is still working.
 LIVE_WINDOW = 120.0
+# How long one computed page is reused across overlapping requests.
+CACHE_SEC = 3.0
 BAR_W = 12
 
 
@@ -42,6 +45,7 @@ class State:
     review: str
     redone: int | None     # frames changed since the review was accepted
     runtime: float         # seconds of finished video, 0 if none
+    cut_stale: bool        # the mp4 is older than the frames under it
     published: list[str]
 
     @property
@@ -59,7 +63,10 @@ class State:
             return "frames"
         if self.review != "ok":
             return "review"
-        if not self.runtime:
+        # An mp4 on disk is not the same claim as "this video is finished".
+        # Re-rendering gold left last night's cut sitting beside frames that
+        # had all been replaced, and the page called it done.
+        if not self.runtime or self.cut_stale:
             return "assemble"
         if len(self.published) < 4:
             return "publish"
@@ -74,6 +81,29 @@ def bar(done: int, total: int, width: int = BAR_W) -> str:
     # every row under it.
     filled = max(0, min(width, round(width * done / total)))
     return "#" * filled + "." * (width - filled)
+
+
+_DURATIONS: dict[tuple[str, int, int], float] = {}
+
+
+def cached_duration(video: Path) -> float:
+    """ffprobe once per finished file, not once per page load.
+
+    Fourteen probes on every request took long enough that the browser gave
+    up mid-response. A finished video's length only changes when the file
+    does, so the key is its size and mtime.
+    """
+    if not video.exists():
+        return 0.0
+    stat = video.stat()
+    key = (str(video), stat.st_size, int(stat.st_mtime))
+    if key not in _DURATIONS:
+        from .ffmpeg_util import duration
+        try:
+            _DURATIONS[key] = duration(video)
+        except Exception:
+            _DURATIONS[key] = 0.0
+    return _DURATIONS[key]
 
 
 def read(slug: str) -> State | None:
@@ -99,13 +129,9 @@ def read(slug: str) -> State | None:
         review, redone = f"{len(changed)} changed", len(changed)
 
     video = project / f"{sb.slug}.mp4"
-    runtime = 0.0
-    if video.exists():
-        from .ffmpeg_util import duration
-        try:
-            runtime = duration(video)
-        except Exception:
-            runtime = 0.0
+    runtime = cached_duration(video)
+    cut_stale = bool(runtime and newest
+                     and video.stat().st_mtime < newest)
 
     delivery = config.video_dir(slug)
     published = [n for n in (f"{sb.slug}.mp4", "thumbnail.png",
@@ -126,6 +152,7 @@ def read(slug: str) -> State | None:
         review=review,
         redone=redone,
         runtime=runtime,
+        cut_stale=cut_stale,
         published=published,
     )
 
@@ -158,6 +185,8 @@ def render_table(states: list[State]) -> str:
     lines.append("-" * len(lines[0]))
     for s in states:
         cut = f"{s.runtime / 60:5.1f}m" if s.runtime else "     -"
+        if s.cut_stale:
+            cut = "  stale"
         mark = "  LIVE" if s.live else ""
         lines.append(
             f"{s.folder:16s} {s.shots:5d}  {s.voiced:3d}/{s.shots:<3d}  "
@@ -192,7 +221,10 @@ def render_detail(s: State) -> str:
     for label, done, total in steps:
         out.append(f"  {label:10s} {bar(done, total, 28)} {done:3d}/{total}")
     out.append(f"  3b review  {s.review}")
-    out.append(f"  4 cut      {f'{s.runtime / 60:.1f} min' if s.runtime else '-'}")
+    cut = "-" if not s.runtime else (
+        f"{s.runtime / 60:.1f} min"
+        + ("  (older than the frames -- needs reassembly)" if s.cut_stale else ""))
+    out.append(f"  4 cut      {cut}")
     out.append(f"  5 publish  {', '.join(s.published) or '-'}")
     out.append("")
     out.append(f"  model {s.model}, stage {s.stage}"
@@ -203,12 +235,127 @@ def render_detail(s: State) -> str:
     return "\n".join(out)
 
 
+PAGE = """<!doctype html><html><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="{every}">
+<title>Content Factory</title><style>
+:root {{ color-scheme: dark; }}
+body {{ background:#101014; color:#e8e8ee; margin:0; padding:28px 32px;
+  font:15px/1.5 "Segoe UI",system-ui,sans-serif; }}
+h1 {{ font-size:17px; font-weight:600; margin:0 0 4px; letter-spacing:.02em; }}
+.sub {{ color:#7a7a88; font-size:13px; margin-bottom:22px; }}
+table {{ border-collapse:collapse; width:100%; max-width:1180px; }}
+th {{ text-align:left; font-weight:500; color:#7a7a88; font-size:12px;
+  text-transform:uppercase; letter-spacing:.06em; padding:0 14px 8px 0; }}
+td {{ padding:9px 14px 9px 0; border-top:1px solid #22222c; vertical-align:middle; }}
+.folder {{ font-weight:600; }}
+.title {{ color:#8a8a99; font-size:12.5px; }}
+.track {{ background:#22222c; border-radius:3px; height:9px; width:190px;
+  overflow:hidden; display:inline-block; vertical-align:middle; }}
+.fill {{ background:#5b8def; height:100%; display:block; border-radius:3px; }}
+.fill.live {{ background:#e0a33e; }}
+.fill.done {{ background:#3f9d63; }}
+.num {{ color:#9a9aa8; font-size:12.5px; margin-left:10px;
+  font-variant-numeric:tabular-nums; }}
+.tag {{ font-size:11.5px; padding:2px 8px; border-radius:11px;
+  background:#22222c; color:#9a9aa8; }}
+.tag.live {{ background:#4a3512; color:#f0b955; }}
+.tag.done {{ background:#16301f; color:#5cbc82; }}
+.tag.wait {{ background:#2e2418; color:#d09a4e; }}
+.model {{ font-size:12px; color:#8a8a99; }}
+</style></head><body>
+<h1>Content Factory</h1>
+<div class="sub">{when} &middot; refreshes every {every}s &middot; counted from disk</div>
+<table><tr><th>video</th><th>frames</th><th>model</th><th>review</th>
+<th>cut</th><th>stage</th></tr>
+{rows}
+</table></body></html>"""
+
+ROW = """<tr>
+<td><div class="folder">{folder}</div><div class="title">{title}</div></td>
+<td><span class="track"><span class="fill {cls}" style="width:{pct:.1f}%"></span></span>
+<span class="num">{done}/{total}</span></td>
+<td class="model">{model}</td><td class="model">{review}</td>
+<td class="model">{cut}</td>
+<td><span class="tag {cls}">{stage}</span></td></tr>"""
+
+
+def render_html(states: list[State], every: int) -> str:
+    rows = []
+    for s in states:
+        if s.live and s.redone is not None and s.framed == s.shots:
+            done, cls = s.redone, "live"
+        else:
+            done = s.framed
+            cls = "live" if s.live else ("done" if s.stage == "done" else "")
+        rows.append(ROW.format(
+            folder=s.folder, title=s.title, model=s.model, review=s.review,
+            cut=("stale" if s.cut_stale else
+                 (f"{s.runtime / 60:.1f} min" if s.runtime else "&mdash;")),
+            stage=s.stage, cls=cls, done=done, total=s.shots,
+            pct=100 * min(done, s.shots) / max(s.shots, 1)))
+    return PAGE.format(rows="\n".join(rows), every=every,
+                       when=time.strftime("%H:%M:%S"))
+
+
+def serve(port: int, every: int) -> None:
+    """A page anyone can leave open, instead of a command they have to run."""
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    cache: dict[str, object] = {"at": 0.0, "body": b""}
+    lock = threading.Lock()
+
+    def body_now() -> bytes:
+        """One computation shared by every request inside a short window.
+
+        The page reloads itself and the disk is usually busy with a render,
+        so several requests overlap. Recomputing per request made them queue
+        behind each other until a browser gave up waiting.
+        """
+        with lock:
+            if time.time() - float(cache["at"]) < CACHE_SEC and cache["body"]:
+                return cache["body"]  # type: ignore[return-value]
+            states = [s for s in (read(x) for x in known_slugs()) if s]
+            cache["body"] = render_html(states, every).encode("utf-8")
+            cache["at"] = time.time()
+            return cache["body"]  # type: ignore[return-value]
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            body = body_now()
+            try:
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+            except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError):
+                # A browser that navigated away mid-response is normal on a
+                # page that reloads itself, and is not worth a traceback.
+                pass
+
+        def log_message(self, *args):
+            pass          # one line per refresh is noise, not information
+
+    # Warm the cache first. Twelve cold ffprobe calls took longer than a
+    # browser waits, so the very first page load never arrived.
+    for slug in known_slugs():
+        read(slug)
+    print(f"status page on http://127.0.0.1:{port}", flush=True)
+    ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="Pipeline state, counted from disk.")
     ap.add_argument("slug", nargs="?", help="one project, in detail")
     ap.add_argument("--watch", action="store_true", help="redraw every 10s")
+    ap.add_argument("--serve", nargs="?", type=int, const=8199,
+                    help="serve it as a web page instead (default port 8199)")
     ap.add_argument("--every", type=float, default=10.0)
     a = ap.parse_args()
+
+    if a.serve:
+        serve(a.serve, int(a.every))
+        return
 
     while True:
         if a.slug:
