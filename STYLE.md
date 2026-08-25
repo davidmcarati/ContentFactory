@@ -153,6 +153,18 @@ Pass it by key or by number:
   growing in the foliage. The model collapses the frame within the frame.
   Describe the thing itself, or describe the surface it is painted on, but not
   both at once.
+- **Watch for words that mean two things.** "A long caravan of camels and
+  travellers crossing pale desert dunes, fourteenth century West African
+  dress" put a modern touring caravan on the dune beside the camels. The era
+  was named, the rest of the prompt was unambiguous, and the model still took
+  the other sense of the one word that had two. Prefer the unambiguous
+  phrasing -- "a long line of laden camels" -- over trusting context to
+  disambiguate.
+- **A bare surface is the way to keep writing off it.** On Qwen, asking for a
+  nineteen thirties bank facade produced NICMERIICBIlI and AMRICIANK across
+  it; asking for the same scene with "plain stone bank, bare facade"
+  produced a building whose one sign reads BANK, correctly spelled. Removing
+  the room for text is more reliable than removing the request for it.
 - **Never name what you do not want.** There is no way to ask for an absence:
   the negative prompt is inert, and naming a thing in the positive prompt is a
   request for it. "Unsigned" produced a signature.

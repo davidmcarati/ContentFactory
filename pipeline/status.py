@@ -53,6 +53,32 @@ class State:
     published: list[str]
     run_count: int         # frames written in the current unbroken run
     run_span: float        # seconds from the first of that run to the last
+    voiced_files: int      # audio/NNN.wav actually on disk
+    narration: bool        # the single mixed narration track
+    clipped: int           # clips/NNN.mp4, the Ken Burns pass
+    subs: bool             # subtitles.srt and .ass both written
+
+    @property
+    def steps(self) -> list[tuple[str, int, int]]:
+        """Every stage that actually leaves something on disk.
+
+        Upscaling is deliberately absent. It is not a step: the frame
+        graph composes at COMPOSE_W and resamples to GEN_W inside the
+        same ComfyUI job, so there is no separate pass and nothing to
+        count. A bar for it would be decoration pretending to be a
+        measurement.
+        """
+        return [
+            ("script", self.shots - self.todo, self.shots),
+            ("voice", self.voiced_files, self.shots),
+            ("mix", int(self.narration), 1),
+            ("frames", self.framed, self.shots),
+            ("review", int(self.review == "ok"), 1),
+            ("clips", self.clipped, self.shots),
+            ("subs", int(self.subs), 1),
+            ("cut", int(bool(self.runtime and not self.cut_stale)), 1),
+            ("publish", len(self.published), 5),
+        ]
 
     @property
     def live(self) -> bool:
@@ -194,6 +220,14 @@ def read(slug: str) -> State | None:
     newest = stamps[-1] if stamps else 0.0
     run_count, run_span = current_run(stamps)
 
+    wavs = len([p for p in (project / "audio").glob("*.wav")
+                if p.stem.isdigit()])
+    narration = (project / "audio" / "narration.wav").exists()
+    clipped = len([p for p in (project / "clips").glob("*.mp4")
+                   if p.stem.isdigit()])
+    subs = ((project / "subtitles.srt").exists()
+            and (project / "subtitles.ass").exists())
+
     from .review import stale
     changed = stale(sb)
     if not changed:
@@ -231,6 +265,10 @@ def read(slug: str) -> State | None:
         published=published,
         run_count=run_count,
         run_span=run_span,
+        voiced_files=wavs,
+        narration=narration,
+        clipped=clipped,
+        subs=subs,
     )
 
 
@@ -344,25 +382,56 @@ td {{ padding:9px 14px 9px 0; border-top:1px solid #22222c; vertical-align:middl
 .tag.done {{ background:#16301f; color:#5cbc82; }}
 .tag.wait {{ background:#2e2418; color:#d09a4e; }}
 .model {{ font-size:12px; color:#8a8a99; }}
-.eta {{ font-size:12.5px; color:#e8e8ee; font-variant-numeric:tabular-nums;
+.eta {{ padding-left:18px; font-size:12.5px; color:#e8e8ee; font-variant-numeric:tabular-nums;
   white-space:nowrap; }}
+.steps {{ display:flex; gap:7px; }}
+.step {{ flex:1 1 0; min-width:0; overflow:hidden; }}
+.step .t {{ background:#22222c; border-radius:2px; height:7px; overflow:hidden; }}
+.step .f {{ height:100%; display:block; background:#3f9d63; }}
+.step .f.part {{ background:#5b8def; }}
+.step .f.none {{ background:transparent; }}
+.step .f.busy {{ background:#e0a33e; }}
+.step .l {{ font-size:9.5px; color:#63636f; margin-top:5px; line-height:1.35;
+  letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }}
+.step .n {{ font-size:10.5px; color:#9a9aa8; line-height:1.25;
+  font-variant-numeric:tabular-nums; white-space:nowrap; }}
 .eta small {{ display:block; color:#6e6e7c; font-size:11px; }}
 </style></head><body>
 <h1>Content Factory</h1>
 <div class="sub">{when} &middot; refreshes every {every}s &middot; counted from disk</div>
-<table><tr><th>video</th><th>frames</th><th>remaining</th><th>model</th>
-<th>review</th><th>cut</th><th>stage</th></tr>
+<table><tr><th>video</th><th style="width:54%">pipeline</th>
+<th>remaining</th><th>model</th><th>cut</th><th>stage</th></tr>
 {rows}
 </table></body></html>"""
 
 ROW = """<tr>
 <td><div class="folder">{folder}</div><div class="title">{title}</div></td>
-<td><span class="track"><span class="fill {cls}" style="width:{pct:.1f}%"></span></span>
-<span class="num">{done}/{total}</span></td>
+<td><div class="steps">{steps}</div></td>
 <td class="eta">{eta}</td>
-<td class="model">{model}</td><td class="model">{review}</td>
+<td class="model">{model}</td>
 <td class="model">{cut}</td>
 <td><span class="tag {cls}">{stage}</span></td></tr>"""
+
+
+def step_strip(s: State) -> str:
+    """One small bar per stage, in the order the pipeline runs them."""
+    out = []
+    for name, done, total in s.steps:
+        pct = 100 * min(done, total) / max(total, 1)
+        if done >= total:
+            cls = "f"
+        elif done:
+            cls = "f part" if not (s.live and name == "frames") else "f busy"
+        else:
+            cls = "f none"
+        # The count goes on its own line. Inline, the labels of nine
+        # narrow columns ran into each other -- "SCRIPT 77/77VOICE 77/77MIX".
+        count = ("&mdash;" if done >= total else "&nbsp;") if total == 1             else f"{min(done, total)}/{total}"
+        out.append(f'<div class="step"><div class="t">'
+                   f'<span class="{cls}" style="width:{pct:.0f}%"></span></div>'
+                   f'<div class="l">{name}</div><div class="n">{count}</div></div>')
+    return "".join(out)
 
 
 def eta_cell(s: State) -> str:
@@ -382,10 +451,10 @@ def render_html(states: list[State], every: int) -> str:
             done = s.framed
             cls = "live" if s.live else ("done" if s.stage == "done" else "")
         rows.append(ROW.format(
-            folder=s.folder, title=s.title, model=s.model, review=s.review,
+            folder=s.folder, title=s.title, model=s.model,
             cut=("stale" if s.cut_stale else
                  (f"{s.runtime / 60:.1f} min" if s.runtime else "&mdash;")),
-            stage=s.stage, cls=cls, done=done, total=s.shots,
+            stage=s.stage, cls=cls, steps=step_strip(s),
             eta=eta_cell(s),
             pct=100 * min(done, s.shots) / max(s.shots, 1)))
     return PAGE.format(rows="\n".join(rows), every=every,
