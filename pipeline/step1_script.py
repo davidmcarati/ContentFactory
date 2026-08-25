@@ -22,7 +22,7 @@ import json
 import re
 from pathlib import Path
 
-from . import config, styles
+from . import config, styles, workflows
 from .schema import Motion, Shot, Storyboard, Style, Voice
 
 # Target words per shot. Under ~12 the cuts feel twitchy against a still
@@ -97,7 +97,7 @@ def build(
     narration: str,
     image_prompts: list[str] | None = None,
     *,
-    model: str = "flux-schnell",
+    model: str = "qwen",
     voice_id: str = config.TTS_VOICE,
 ) -> Storyboard:
     lines = chunk_narration(narration)
@@ -159,7 +159,8 @@ def main() -> None:
                           " (or the sheet number 2/4/6, or a full prompt)")
     new.add_argument("--narration", required=True, help="path to narration text")
     new.add_argument("--prompts", help="one image prompt per line")
-    new.add_argument("--model", default="flux-schnell")
+    new.add_argument("--model", default="qwen",
+                     help="one of: " + ", ".join(sorted(workflows.MODELS)))
     new.add_argument("--voice", default=config.TTS_VOICE)
     new.add_argument("--dry-run", action="store_true",
                      help="print the chunking without writing anything")
