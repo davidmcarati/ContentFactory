@@ -142,6 +142,9 @@ def build_thumbnail(sb: Storyboard, *, force: bool = False) -> Path:
             filename_prefix=f"{sb.slug}_thumb",
         )
         client.render(graph, base)
+        # One picture is not worth leaving a 12 GB model resident afterwards,
+        # and this is the last thing in the pipeline that needs the card.
+        client.free()
     else:
         # No prompt written: fall back to the opening frame rather than fail.
         source = sb.shots[0].frame_path

@@ -155,6 +155,17 @@ def frames(sb: Storyboard, *, force: bool = False, only: set[int] | None = None,
         for shot_id, reason in unfetched:
             print(f"  shot {shot_id:03d}  {reason[:110]}")
 
+    # Give the card back here, not in the caller. This used to live in run.py
+    # only, so anyone invoking this module directly -- re-rendering one bad
+    # frame, running a probe -- left 10 to 12 GB of weights resident with
+    # nothing using them. The step that loaded the model is the step that
+    # knows it has finished with it. Not done when the storyboard is all
+    # fetched images: there is no client and nothing was loaded.
+    if client is not None:
+        freed = client.free()
+        if freed:
+            print(f"released {freed / 1024**3:.1f} GB of VRAM")
+
 
 def write_credits(sb: Storyboard) -> Path | None:
     """Write credits.md for every real image used.

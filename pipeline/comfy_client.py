@@ -140,12 +140,28 @@ class ComfyClient:
                              "SaveImage node connected?")
         return self.download(images[0], dest)
 
-    def free(self, *, unload_models: bool = True) -> None:
-        """Ask ComfyUI to drop models from VRAM.
+    def vram_free(self) -> int:
+        """Bytes free on the first CUDA device, as ComfyUI sees it."""
+        try:
+            devices = self.system_stats().get("devices") or []
+        except requests.RequestException:
+            return 0
+        return int(devices[0].get("vram_free", 0)) if devices else 0
 
-        Useful between pipeline stages on a 16 GB card, where the image model
-        and anything else competing for memory will not both fit.
+    def free(self, *, unload_models: bool = True, wait: float = 15.0) -> int:
+        """Drop models from VRAM, and wait until they are actually gone.
+
+        Necessary on a 16 GB card, where the image model and anything else
+        competing for memory will not both fit.
+
+        The wait is the point. POST /free returns as soon as the request is
+        queued, not when the weights are released -- so a caller that frees
+        and immediately checks nvidia-smi sees 9 GB still held and concludes
+        the call did nothing. Polling until the number actually moves turns
+        "asked politely" into "it happened", and returns the bytes recovered
+        so the caller can say so.
         """
+        before = self.vram_free()
         try:
             requests.post(
                 f"{self.url}/free",
@@ -153,7 +169,19 @@ class ComfyClient:
                 timeout=self.timeout,
             )
         except requests.RequestException:
-            pass
+            return 0
+
+        deadline = time.monotonic() + wait
+        best = before
+        while time.monotonic() < deadline:
+            time.sleep(0.4)
+            now = self.vram_free()
+            if now > best:
+                best = now
+            # Settled: nothing more came back on the last two polls.
+            elif best > before:
+                break
+        return max(best - before, 0)
 
 
 def _explain_rejection(resp: requests.Response) -> str:

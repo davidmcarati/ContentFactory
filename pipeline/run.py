@@ -10,7 +10,6 @@ from __future__ import annotations
 import argparse
 import time
 
-from .comfy_client import ComfyClient
 from .publish import publish
 from .review import review
 from .schema import Storyboard
@@ -48,11 +47,9 @@ def run(slug: str, *, steps: tuple[str, ...] = STEPS, force: bool = False,
         print("\n== step 3: frames ==")
         # Reload: step 2 rewrote the storyboard with measured durations.
         sb = Storyboard.load(slug)
+        # frames() releases the card itself now, so that re-rendering a
+        # single shot from the command line frees it too. Nothing to do here.
         frames(sb, force=force)
-        # The image model is holding most of the card. Nothing later needs it,
-        # and leaving it resident makes the ffmpeg stage share a hot GPU for
-        # no reason.
-        ComfyClient().free()
 
     if "review" in steps:
         print("\n== step 3b: review the frames ==")
