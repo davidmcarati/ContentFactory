@@ -28,6 +28,10 @@ from .schema import Storyboard
 LIVE_WINDOW = 120.0
 # How long one computed page is reused across overlapping requests.
 CACHE_SEC = 3.0
+# A gap longer than this between two frames means they belong to different
+# runs. Qwen takes about 95 s a frame and schnell about 9, so ten minutes is
+# far outside either while still splitting yesterday's batch from today's.
+RUN_GAP = 600.0
 BAR_W = 12
 
 
@@ -47,11 +51,54 @@ class State:
     runtime: float         # seconds of finished video, 0 if none
     cut_stale: bool        # the mp4 is older than the frames under it
     published: list[str]
+    run_count: int         # frames written in the current unbroken run
+    run_span: float        # seconds from the first of that run to the last
 
     @property
     def live(self) -> bool:
-        return bool(self.newest_frame
-                    and time.time() - self.newest_frame < LIVE_WINDOW)
+        """Is something still writing frames here?
+
+        The window has to scale with the model, not sit at a constant. A
+        fixed two minutes was calibrated on schnell at 9 s a frame; Qwen
+        takes 88 to 141, so a project mid-render looked dead for most of the
+        gap between one frame and the next. Three times the measured rate
+        covers an ordinary slow frame without keeping a finished run marked
+        live for long.
+        """
+        if not self.newest_frame:
+            return False
+        window = max(LIVE_WINDOW, 3 * self.rate)
+        return time.time() - self.newest_frame < window
+
+    @property
+    def rate(self) -> float:
+        """Measured seconds per frame for the run in progress.
+
+        Taken from the frames themselves rather than from a counter, because
+        a counter would have to be stored and could then disagree with the
+        disk. Needs two frames to have a gap to measure.
+        """
+        if self.run_count < 2 or self.run_span <= 0:
+            return 0.0
+        return self.run_span / (self.run_count - 1)
+
+    @property
+    def left(self) -> int:
+        """Frames still to do.
+
+        For a re-render this is not "files missing" -- step 3 overwrites in
+        place, so every file exists from the first second. What is missing is
+        the frames that still match the accepted review, i.e. the ones not
+        yet replaced.
+        """
+        if self.redone is not None and self.framed == self.shots:
+            return max(self.shots - self.redone, 0)
+        return max(self.shots - self.framed, 0)
+
+    @property
+    def eta(self) -> float:
+        rate = self.rate
+        return self.left * rate if rate and self.live else 0.0
 
     @property
     def stage(self) -> str:
@@ -106,6 +153,32 @@ def cached_duration(video: Path) -> float:
     return _DURATIONS[key]
 
 
+def current_run(stamps: list[float]) -> tuple[int, float]:
+    """How many frames the run in progress has written, and over how long.
+
+    Walks back from the newest frame while consecutive frames are close
+    together, and stops at the first real gap. That separates this render
+    from whatever wrote the same directory yesterday without needing either
+    of them to have recorded anything.
+    """
+    if len(stamps) < 2:
+        return len(stamps), 0.0
+    start = len(stamps) - 1
+    while start > 0 and stamps[start] - stamps[start - 1] <= RUN_GAP:
+        start -= 1
+    return len(stamps) - start, stamps[-1] - stamps[start]
+
+
+def human(seconds: float) -> str:
+    if seconds <= 0:
+        return ""
+    m, s = divmod(int(seconds + 0.5), 60)
+    h, m = divmod(m, 60)
+    if h:
+        return f"{h}h {m:02d}m"
+    return f"{m}m {s:02d}s" if m else f"{s}s"
+
+
 def read(slug: str) -> State | None:
     project = config.project_dir(slug)
     if not (project / "storyboard.json").exists():
@@ -117,7 +190,9 @@ def read(slug: str) -> State | None:
     # frame more than it has shots.
     wanted = {f"{s.stem}.png" for s in sb.shots}
     frames = [p for p in (project / "frames").glob("*.png") if p.name in wanted]
-    newest = max((f.stat().st_mtime for f in frames), default=0.0)
+    stamps = sorted(f.stat().st_mtime for f in frames)
+    newest = stamps[-1] if stamps else 0.0
+    run_count, run_span = current_run(stamps)
 
     from .review import stale
     changed = stale(sb)
@@ -154,6 +229,8 @@ def read(slug: str) -> State | None:
         runtime=runtime,
         cut_stale=cut_stale,
         published=published,
+        run_count=run_count,
+        run_span=run_span,
     )
 
 
@@ -179,8 +256,8 @@ def known_slugs() -> list[str]:
 def render_table(states: list[State]) -> str:
     lines = [
         f"{'folder':16s} {'shots':>5s}  {'voice':>7s}  "
-        f"{'frames':{BAR_W}s} {'':>7s}  {'model':12s} {'review':13s} "
-        f"{'cut':>6s}  {'stage':8s}"
+        f"{'frames':{BAR_W}s} {'':>7s}  {'left':>9s}  {'model':12s} "
+        f"{'review':13s} {'cut':>6s}  {'stage':8s}"
     ]
     lines.append("-" * len(lines[0]))
     for s in states:
@@ -191,6 +268,7 @@ def render_table(states: list[State]) -> str:
         lines.append(
             f"{s.folder:16s} {s.shots:5d}  {s.voiced:3d}/{s.shots:<3d}  "
             f"{bar(s.framed, s.shots)} {s.framed:3d}/{s.shots:<3d}  "
+            f"{human(s.eta) or '-':>9s}  "
             f"{s.model:12s} {s.review:13s} {cut}  {s.stage:8s}{mark}"
         )
     return "\n".join(lines)
@@ -204,11 +282,15 @@ def live_line(s: State) -> str:
     What does move is the number of frames that differ from the accepted
     review, which is exactly how many have been redone so far.
     """
-    if s.redone is not None and s.framed == s.shots:
-        return (f"{s.folder}: {bar(s.redone, s.shots, 24)} "
-                f"{s.redone}/{s.shots} re-rendered, {s.shots - s.redone} to go")
-    return (f"{s.folder}: {bar(s.framed, s.shots, 24)} "
-            f"{s.framed}/{s.shots} frames, {s.shots - s.framed} to go")
+    done = s.redone if (s.redone is not None and s.framed == s.shots) else s.framed
+    word = "re-rendered" if done is s.redone else "frames"
+    tail = ""
+    if s.rate:
+        tail = f", {s.rate:.0f}s each"
+        if s.eta:
+            tail += f", about {human(s.eta)} left"
+    return (f"{s.folder}: {bar(done, s.shots, 24)} "
+            f"{done}/{s.shots} {word}, {s.left} to go{tail}")
 
 
 def render_detail(s: State) -> str:
@@ -262,11 +344,14 @@ td {{ padding:9px 14px 9px 0; border-top:1px solid #22222c; vertical-align:middl
 .tag.done {{ background:#16301f; color:#5cbc82; }}
 .tag.wait {{ background:#2e2418; color:#d09a4e; }}
 .model {{ font-size:12px; color:#8a8a99; }}
+.eta {{ font-size:12.5px; color:#e8e8ee; font-variant-numeric:tabular-nums;
+  white-space:nowrap; }}
+.eta small {{ display:block; color:#6e6e7c; font-size:11px; }}
 </style></head><body>
 <h1>Content Factory</h1>
 <div class="sub">{when} &middot; refreshes every {every}s &middot; counted from disk</div>
-<table><tr><th>video</th><th>frames</th><th>model</th><th>review</th>
-<th>cut</th><th>stage</th></tr>
+<table><tr><th>video</th><th>frames</th><th>remaining</th><th>model</th>
+<th>review</th><th>cut</th><th>stage</th></tr>
 {rows}
 </table></body></html>"""
 
@@ -274,9 +359,18 @@ ROW = """<tr>
 <td><div class="folder">{folder}</div><div class="title">{title}</div></td>
 <td><span class="track"><span class="fill {cls}" style="width:{pct:.1f}%"></span></span>
 <span class="num">{done}/{total}</span></td>
+<td class="eta">{eta}</td>
 <td class="model">{model}</td><td class="model">{review}</td>
 <td class="model">{cut}</td>
 <td><span class="tag {cls}">{stage}</span></td></tr>"""
+
+
+def eta_cell(s: State) -> str:
+    if not s.live:
+        return "&mdash;"
+    if not s.rate:
+        return "measuring&hellip;"
+    return f"{human(s.eta)}<small>{s.rate:.0f}s per frame</small>"
 
 
 def render_html(states: list[State], every: int) -> str:
@@ -292,6 +386,7 @@ def render_html(states: list[State], every: int) -> str:
             cut=("stale" if s.cut_stale else
                  (f"{s.runtime / 60:.1f} min" if s.runtime else "&mdash;")),
             stage=s.stage, cls=cls, done=done, total=s.shots,
+            eta=eta_cell(s),
             pct=100 * min(done, s.shots) / max(s.shots, 1)))
     return PAGE.format(rows="\n".join(rows), every=every,
                        when=time.strftime("%H:%M:%S"))
