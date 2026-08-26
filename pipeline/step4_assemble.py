@@ -30,14 +30,28 @@ def has_outro() -> bool:
     return config.OUTRO_ENABLED and config.OUTRO_SECONDS > 0
 
 
+def all_cuts(sb: Storyboard) -> bool:
+    """Is this storyboard cut together rather than crossfaded?
+
+    Whole-storyboard rather than per-boundary on purpose. Mixing the two would
+    mean tracking which individual clips carry a surplus and which do not,
+    for a result nobody has asked for; a video either dissolves or it cuts.
+    """
+    return bool(sb.shots) and all(s.transition == "cut" for s in sb.shots)
+
+
 def clip_length(sb: Storyboard, shot: Shot) -> float:
     """How long this shot's clip file must be.
 
-    Every clip but the very last carries a CROSSFADE_SEC surplus that the
-    following transition consumes. With an end card appended, the last shot is
-    no longer the last clip, so it needs the surplus too -- forget that and the
-    final crossfade eats half a second of the closing line.
+    Under crossfades every clip but the very last carries a CROSSFADE_SEC
+    surplus that the following transition consumes. With an end card appended,
+    the last shot is no longer the last clip, so it needs the surplus too --
+    forget that and the final crossfade eats half a second of the closing line.
+
+    Cuts consume nothing, so each clip is exactly its own narration.
     """
+    if all_cuts(sb):
+        return shot.duration
     is_final = shot.id == len(sb.shots) and not has_outro()
     surplus = 0.0 if is_final else config.CROSSFADE_SEC
     return shot.duration + surplus
@@ -110,16 +124,35 @@ def assemble(sb: Storyboard, *, force: bool = False,
     total = sum(durations)
     out = sb.dir / f"{sb.slug}.mp4"
     args: list[str] = []
-    for c in clips:
-        args += ["-i", str(c)]
-    args += ["-i", str(narration)]
-    audio_idx = len(clips)
 
-    if len(clips) == 1:
+    if all_cuts(sb):
+        # One concat input instead of one input per clip. The crossfade path
+        # opens every clip at once and chains a filter per boundary, which is
+        # already uncomfortable at 90 shots; cut-driven pacing runs to two or
+        # three hundred, where it stops being a good idea entirely. Concat is
+        # linear, opens one file at a time, and needs no arithmetic because a
+        # cut consumes nothing.
+        listing = sb.dir / "clips" / "concat.txt"
+        listing.write_text(
+            "".join(f"file '{c.as_posix()}'\n" for c in clips),
+            encoding="utf-8",
+        )
+        args += ["-f", "concat", "-safe", "0", "-i", str(listing)]
+        args += ["-i", str(narration)]
+        audio_idx = 1
         graph, vlabel = "[0:v]null[vout]", "vout"
+        print(f"concatenating {len(clips)} clips (hard cuts)")
     else:
-        chain, last = _xfade_chain(durations)
-        graph, vlabel = f"{chain};[{last}]null[vout]", "vout"
+        for c in clips:
+            args += ["-i", str(c)]
+        args += ["-i", str(narration)]
+        audio_idx = len(clips)
+
+        if len(clips) == 1:
+            graph, vlabel = "[0:v]null[vout]", "vout"
+        else:
+            chain, last = _xfade_chain(durations)
+            graph, vlabel = f"{chain};[{last}]null[vout]", "vout"
 
     subtitles.build_srt(sb)                      # for upload
     if config.BURN_SUBTITLES:

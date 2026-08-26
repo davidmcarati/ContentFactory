@@ -225,6 +225,46 @@ Adding `unsigned` put them back. There is no way to ask for the absence of
 something: the negative prompt is inert on schnell, and naming it in the
 positive prompt is a request. Describe what should be there instead.
 
+### Cut-driven pacing, and what it pays for
+
+`config.STILL_FRAMES` switches the whole pipeline between two ways of making
+a video, and the second one is now the default.
+
+**Panned.** A shot holds for eight to twelve seconds while the camera drifts
+across it, and shots dissolve into one another. This needs frames above output
+size (2304x1296) so the tightest zoom is still showing real pixels, and it
+needs the crossfade arithmetic in step 4.
+
+**Cut.** A shot holds still for two to four seconds and hard-cuts to the next.
+Ken Burns across flat vector art has no parallax to reveal -- the drawing just
+slides, which reads as a slideshow rather than a camera -- so with the cartoon
+styles the motion was subtracting from the result, not adding.
+
+Four things follow from the switch, and three of them are savings:
+
+* **Frames drop to output size.** The 2304x1296 headroom existed only for the
+  zoom. Still frames are shown 1:1, so every pixel above 1920x1080 was being
+  thrown away. GEN follows STILL_FRAMES automatically.
+* **Assembly becomes concat instead of an xfade chain.** The chain opens every
+  clip at once and adds a filter per boundary; it was already uncomfortable at
+  90 shots and cut pacing runs to two or three hundred. Concat is linear and
+  needs no arithmetic, because a cut consumes nothing. Measured on the smoke
+  test: **0 ms drift against 8 ms**, and clips render faster with no motion to
+  compute.
+* **The tail pause shrinks.** 0.35 s is a beat between paragraph-length shots
+  and a stutter after a two-second line -- and across 235 shots it adds ninety
+  seconds of silence. Under cuts the voice runs continuously and the picture
+  changes underneath it.
+* **Three times as many frames.** 1646 words at ~7 words a shot is ~235 shots
+  against 77. That is the bill: about 4.5 hours of Qwen per video instead of
+  1.5. Short shots are what make the lower resolution affordable, so the two
+  decisions pay for each other.
+
+Cuts are placed by hand: `--split line` makes one script line one shot.
+Automatic chunking targets a word count, which cannot see where a joke lands
+or where an idea turns. Duration is still measured from the rendered audio --
+the writer chooses where the cut goes, never how long it lasts.
+
 ### A scene lands; a diagram does not
 
 Measured across a batch of ten videos, 857 frames, all reviewed by eye. The

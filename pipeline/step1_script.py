@@ -67,6 +67,21 @@ def _chunk_paragraph(paragraph: str) -> list[str]:
     return chunks
 
 
+def split_by_line(text: str) -> list[str]:
+    """One line of the script is one shot. No cleverness.
+
+    Automatic chunking targets a word count, which is the right tool when a
+    shot holds for ten seconds under a slow pan and the only question is how
+    much narration fits. It is the wrong tool for cut-driven pacing: where a
+    cut lands is a writing decision -- on the turn of an idea, on the beat
+    before a joke -- and a word counter cannot see any of that.
+
+    Duration is still measured from the rendered audio afterwards. What this
+    hands over is where the cuts go, not how long they last.
+    """
+    return [ln.strip() for ln in text.strip().splitlines() if ln.strip()]
+
+
 def chunk_narration(text: str) -> list[str]:
     """Group sentences into shot-sized runs, one paragraph at a time.
 
@@ -99,8 +114,10 @@ def build(
     *,
     model: str = "qwen",
     voice_id: str = config.TTS_VOICE,
+    split: str = "line",
+    cuts: bool = True,
 ) -> Storyboard:
-    lines = chunk_narration(narration)
+    lines = split_by_line(narration) if split == "line" else chunk_narration(narration)
     if not lines:
         raise ValueError("narration is empty after chunking")
 
@@ -122,7 +139,12 @@ def build(
         style=Style(base_prompt=styles.resolve(base_prompt), model=model),
         voice=Voice(voice_id=voice_id),
         shots=[
-            Shot(id=i + 1, vo=vo, image_prompt=ip, motion=motion_for(i))
+            Shot(id=i + 1, vo=vo, image_prompt=ip,
+                 # A still frame under a hard cut. Panning across flat
+                 # vector art has no parallax to reveal, so the drawing just
+                 # slides -- which reads as a slideshow rather than a camera.
+                 motion=Motion(pan="none", zoom=1.0) if cuts else motion_for(i),
+                 transition="cut" if cuts else "crossfade")
             for i, (vo, ip) in enumerate(zip(lines, image_prompts))
         ],
     )
@@ -162,6 +184,12 @@ def main() -> None:
     new.add_argument("--model", default="qwen",
                      help="one of: " + ", ".join(sorted(workflows.MODELS)))
     new.add_argument("--voice", default=config.TTS_VOICE)
+    new.add_argument("--split", choices=("line", "auto"), default="line",
+                     help="line: one script line is one shot, cuts placed by "
+                          "hand. auto: group sentences to a word target.")
+    new.add_argument("--crossfade", action="store_true",
+                     help="dissolve between shots and pan across them, "
+                          "instead of holding still and cutting")
     new.add_argument("--dry-run", action="store_true",
                      help="print the chunking without writing anything")
 
@@ -180,6 +208,7 @@ def main() -> None:
             a.slug, a.title, a.style, _read(a.narration),
             [p.strip() for p in prompts.splitlines() if p.strip()] if prompts else None,
             model=a.model, voice_id=a.voice,
+            split=a.split, cuts=not a.crossfade,
         )
         if a.dry_run:
             for shot in sb.shots:

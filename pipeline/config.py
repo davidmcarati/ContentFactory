@@ -64,8 +64,15 @@ OUT_W, OUT_H = 1920, 1080
 
 # Frames are delivered above video resolution so a Ken Burns zoom is still
 # showing real pixels at its tightest. Max zoom is ~1.16, so 1920 * 1.16
-# rounds up to this.
-GEN_W, GEN_H = 2304, 1296
+# rounds up to 2304x1296.
+#
+# That headroom is only worth paying for when the camera actually moves. A
+# cut-driven video holds each frame still for two to four seconds, so the
+# frame is shown 1:1 and every pixel above 1920x1080 is thrown away. Set
+# STILL_FRAMES and GEN drops to output size, which takes about a third off
+# the render: the pan was what demanded the extra pixels, not the picture.
+STILL_FRAMES = True
+GEN_W, GEN_H = (OUT_W, OUT_H) if STILL_FRAMES else (2304, 1296)
 
 # But they are *composed* near FLUX's training resolution and enlarged
 # afterwards. Asking the model directly for 2.99 MP does not produce a bigger
@@ -87,9 +94,19 @@ COMPOSE_W, COMPOSE_H = 1536, 864
 # --- Shot pacing -----------------------------------------------------------
 # A shot lasts exactly as long as its narration line. These bounds catch
 # storyboards that chunked the script badly.
-MIN_SHOT_SEC = 2.5
+#
+# The floor was 2.5 s when every shot carried a slow pan and needed time to
+# read. Cut-driven pacing deliberately runs shorter than that, so the floor
+# drops with it; the ceiling is what matters now, because a held still frame
+# with no motion is what makes a video feel like a slideshow.
+MIN_SHOT_SEC = 1.2 if STILL_FRAMES else 2.5
 MAX_SHOT_SEC = 12.0
-SHOT_TAIL_SEC = 0.35          # breathing room appended after each line
+# Breathing room appended after each line. 0.35 s is a natural beat between
+# paragraph-length shots; after a two-second line it is a stutter, and across
+# 235 shots it adds a minute and a half of silence to the video. Under cuts
+# the voice should run continuously and the picture should change underneath
+# it, so the tail shrinks to just enough to keep the splice from clicking.
+SHOT_TAIL_SEC = 0.12 if STILL_FRAMES else 0.35
 CROSSFADE_SEC = 0.5
 
 # Ease the camera in and out of each move instead of snapping to full speed.

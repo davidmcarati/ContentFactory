@@ -55,14 +55,16 @@ def make_frame(path: Path, index: int, label: str) -> None:
     img.save(path)
 
 
-def build() -> Storyboard:
+def build(cuts: bool) -> Storyboard:
     sb = Storyboard(
         slug=SLUG,
         title="Smoke Test",
         style=Style(base_prompt="test pattern", model="none"),
         shots=[
             Shot(id=i + 1, vo=vo, image_prompt=f"test frame {i + 1}",
-                 motion=Motion(pan=pan, zoom=1.15))
+                 motion=Motion(pan="none", zoom=1.0) if cuts
+                 else Motion(pan=pan, zoom=1.15),
+                 transition="cut" if cuts else "crossfade")
             for i, (vo, pan) in enumerate(SHOTS)
         ],
     )
@@ -77,9 +79,11 @@ def build() -> Storyboard:
     return sb
 
 
-def main() -> int:
+def run_once(cuts: bool) -> bool:
+    kind = "hard cuts + concat" if cuts else "crossfades + xfade chain"
+    print(f"\n########  {kind}  ########")
     print("=== validating storyboard ===")
-    sb = build()
+    sb = build(cuts)
     sb.require_valid()
     print(f"  {len(sb.shots)} shots, all valid")
 
@@ -130,6 +134,18 @@ def main() -> int:
             print("  FAIL: end card is not the configured length")
             ok = False
 
+    print("  " + ("ok" if ok else "FAILED"))
+    return ok
+
+
+def main() -> int:
+    # Both assembly paths, because they do different timeline arithmetic. The
+    # crossfade chain pads every clip and lets the transition eat the surplus;
+    # concat pads nothing. Drift between picture and voice is the exact
+    # failure this test exists to catch, so covering one path while shipping
+    # the other would defeat the point of having it.
+    results = [run_once(cuts=False), run_once(cuts=True)]
+    ok = all(results)
     print("\n" + ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 
