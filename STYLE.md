@@ -171,9 +171,36 @@ Pass it by key or by number:
 - Ask for density. Without "detailed layered composition that fills the frame"
   this style drifts into near-empty backgrounds, which look unfinished held
   full-screen for eight seconds.
-- There is no character consistency yet. Do not write scripts that depend on
-  the same named human recurring across shots — they will have a different
-  face every time.
+- **Describe the cast only where there is a cast.** `webcomic` is the first
+  style that says anything about how people look, and putting that in the
+  style prompt put people in every shot of a 268-shot video. A vat asked for
+  snail shells "crammed edge to edge" came back with somebody sitting in it;
+  clothes asked for "laid out flat and separate on white snow" came back with
+  a person wearing them. The style's people clause lives in `Preset.cast` and
+  reaches only the shots step 1 marks as having people. Check that mark in the
+  step 1 report before rendering, not in the contact sheet afterwards.
+- **A mitten is not a permanent fix for hands, only a cheap one.** It holds
+  wherever the hands are small or middling in the frame, and breaks the moment
+  they become the subject: a close-up on somebody holding a shirt up came back
+  with four-fingered hands, three of them. The hand rule above still applies —
+  the mitten just widens the range of framings that survive it.
+- **A split frame works on two objects, not on two parts of a body.** "Thick
+  black hair filling the left half and a folded shirt seam filling the right
+  half" was drawn as one person split down the middle, half face and half
+  shirt, because both halves belonged to the same body and the model had
+  somewhere to fuse them. "A loose hide hanging on the left half and a
+  stitched tunic standing on the right half" came back exactly as asked. Give
+  the two halves nothing in common.
+- **Crowds need full bodies, not equal sizes.** "All the same size at the same
+  distance" is not enough on its own — a village scene still put one giant in
+  the foreground with everyone else small behind. Ask for full bodies visible
+  head to foot and there is no room in the frame for a giant.
+- Character consistency is a property of the style, not of the seed. `cartoon`
+  and `midcentury` will give a recurring human a different face every shot, so
+  do not write scripts for them that depend on one. `webcomic` holds a
+  recognisable person across scenes and seeds — measured seven for seven in
+  `tests/character_probe.py` — because the drawing is simple enough that there
+  is little left to vary.
 - Camera moves are assigned automatically and cycle so the same move never
   lands twice in a row. Override only for a reason.
 

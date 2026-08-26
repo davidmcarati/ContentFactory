@@ -318,6 +318,65 @@ different heights" rather than "a bar chart" — and the text mostly disappears.
 "editorial illustration" in the base style has the same problem: it biases
 toward magazine layouts, which the model dutifully fills with fake paragraphs.
 
+### Kokoro's silence was being measured as narration
+
+Kokoro leaves roughly **0.40 s of silence before the first word** of an
+utterance and **0.59 s after the last one**, on every line regardless of its
+length. Step 2 measured the whole file, so that second of dead air *was* part
+of the shot's duration: it set the pace of the video, it was invisible to the
+tests, and no amount of tuning `SHOT_TAIL_SEC` could reach it, because the
+tail was being added on top of it.
+
+On the old pacing — one paragraph per shot, eight seconds a shot — it read as
+breathing room and nobody noticed. Cut-driven pacing runs two- to three-second
+shots, where the same second is a third of the running time. Re-cut `clothes`
+came out at 10.1 minutes against the shipped 11.3 on identical words; the
+difference is entirely silence.
+
+Shot audio is now trimmed to its speech at synthesis time, conservatively: a
+50 dB floor and a 30 ms margin, because clipping the front of a soft fricative
+is far more audible than leaving a little room. Existing wavs are untouched
+unless re-synthesized.
+
+### Where a cut may fall is a prosody question, not a word count
+
+`tests/prosody_probe.py` speaks the same sentences whole, split at their
+clause boundaries, and split every six words regardless of grammar.
+
+| split | vs whole, trimmed | pitch at the seam |
+|---|---|---|
+| clause boundaries | −0.74 s | +0.0 st |
+| every six words | −0.62 s | +9.6 st |
+
+Kokoro speaks each shot's `vo` as its own utterance, so a fragment gets
+sentence-final prosody. Break where a comma could legitimately sit and it
+does not: the pitch is flat at the seam and the join is inaudible. Break
+inside a noun phrase — "put anyone in a particular / set of clothes" — and
+the pitch jumps nearly eighteen semitones, which is the voice asking a
+question the writing never wrote. A trailing comma repairs even that case.
+
+This is why `--split line` exists and is the default. A word counter cannot
+see where a clause ends, so the cuts are placed by hand in the script; only
+their *duration* is measured, and that still comes from the rendered audio.
+
+The tail is per shot for the same reason. A comma followed by a third of a
+second of silence does not sound like a comma, so a line stopping mid-sentence
+gets `SHOT_TAIL_SEC` and one ending on a full stop gets `SENTENCE_TAIL_SEC`.
+
+### A style that describes people draws people everywhere
+
+`base_prompt` goes on every shot — that is the point of it. `webcomic` is the
+first preset that describes *people* (white blob faces, dot eyes, mitten
+hands), and on a 268-shot video where half the shots are objects, the model
+put a person in all of them: somebody sitting in a vat of snail shells,
+somebody wearing the clothes that were meant to be "laid out flat and separate
+on white snow".
+
+So `Style.cast_prompt` is separate from `Style.base_prompt` and reaches only
+the shots step 1 marks with `Shot.cast`. The same trap as the inert negative
+prompt and the paper grain that summoned signatures, one level up: describing
+a thing is asking for it, and a style prompt describes it 268 times.
+
 ### Asset shots are fetched before generated ones
 
 Step 3 sorts fetches first. Interleaved, ComfyUI dropped the 16 GB checkpoint
