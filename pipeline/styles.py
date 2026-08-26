@@ -1,4 +1,4 @@
-"""The channel's visual palette: three styles, chosen per video.
+"""The channel's visual palette: four styles, chosen per video.
 
 One `base_prompt` applies to every shot of a video and is what keeps ninety
 shots looking like one piece, so this is a per-video decision made once while
@@ -27,6 +27,22 @@ token removed them; the style survived intact.
 
 Adding "unsigned" instead made it worse and put the signature back. Naming a
 thing summons it -- the same trap as the negative prompt, one level up.
+
+`webcomic` arrived later, from tests/character_probe.py, and it is the one
+preset that solves problems rather than just setting a look:
+
+  Hands. Every other preset has to route around them -- the lint rule exists
+  because "a stylised open palm" produced six fingers and a wrist opening
+  into loose bones. A mitten is a convention with no fingers to get wrong, so
+  the prompts can simply show people holding things.
+
+  Invented text. Simplifying the drawing far enough removed the signatures,
+  the fake body copy and the labels, without any of the avoidance the other
+  presets need.
+
+  Its own failure is crowds: without "all the same size, at the same
+  distance" one figure balloons into the foreground and the rest shrink
+  behind it.
 
 `papercut` needed a second correction for the same underlying reason. Asking
 for layered paper with drop shadows and calling it "detailed" produced a very
@@ -70,6 +86,30 @@ PRESETS: dict[str, Preset] = {
         avoid=(
             "Grief, illness, violence, anything with real victims. The style "
             "reads as light and will argue with the narration."
+        ),
+    ),
+    "webcomic": Preset(
+        key="webcomic",
+        number=7,
+        label="Flat webcomic characters",
+        prompt=(
+            "simple 2D cartoon illustration, thick uniform black outline, "
+            "flat white faces with small round dot eyes and thin eyebrows, "
+            "simple white mitten hands, flat unshaded colour blocking, "
+            "simple flat scenery with a few clear props, "
+            "clean modern webcomic look"
+        ),
+        use_for=(
+            "Anything carried by people doing things. It is the only preset "
+            "that survives a recurring cast: measured in "
+            "tests/character_probe.py, seven scenes at seven different seeds "
+            "came back unmistakably the same drawing, because the consistency "
+            "lives in the style rather than in the seed."
+        ),
+        avoid=(
+            "Landscape, texture and material -- the flat blocking has nothing "
+            "to say about them. And anything that needs a real face: these "
+            "people are deliberately blank."
         ),
     ),
     "midcentury": Preset(

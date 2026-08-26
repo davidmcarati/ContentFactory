@@ -88,11 +88,16 @@ RULES = (
          "a person with no era named gets dressed in the present"),
 )
 
+# Every era the channel has needed to name. Deep prehistory was missing until
+# a video about when people started dressing needed most of its shots set
+# there: "a stone age hunter" names an era perfectly well, and flagging it as
+# undated sent the rule the way of the boy who cried wolf.
 _PERIOD = re.compile(
-    r"\b(ancient|classical|greek|roman|byzantine|medieval|renaissance|"
-    r"georgian|victorian|edwardian|eighteenth|nineteenth|twentieth|"
-    r"fifteenth|sixteenth|seventeenth|twelfth|eighth|"
-    r"nineteen \w+|modern|contemporary|present day)\b", re.I)
+    r"\b(prehistoric|stone age|ice age|pal(a)?eolithic|neolithic|"
+    r"bronze age|iron age|ancient|classical|greek|roman|byzantine|medieval|"
+    r"renaissance|georgian|victorian|edwardian|industrial|edo|"
+    r"eighteenth|nineteenth|twentieth|fifteenth|sixteenth|seventeenth|"
+    r"twelfth|eighth|nineteen \w+|modern|contemporary|present day)\b", re.I)
 
 
 def lint_prompts(sb: Storyboard) -> list[tuple[int, str, str]]:
