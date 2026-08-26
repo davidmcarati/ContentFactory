@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field, fields, asdict
 from pathlib import Path
 from typing import Any, Literal
 
@@ -21,6 +21,33 @@ from . import config
 # A line ends a sentence if it stops on terminal punctuation, allowing for a
 # closing quote or bracket after it.
 _SENTENCE_END = re.compile(r"[.!?][\"')\]]*\s*$")
+
+_warned_unknown: set[str] = set()
+
+
+def _build(cls, raw: dict[str, Any]):
+    """Construct a schema object, ignoring fields this build does not know.
+
+    The storyboard is the contract between the steps, and some readers of it
+    are long-lived: the status server holds one Python process open for hours.
+    Adding `Shot.cast` while that server was running left it with the old
+    class in memory and a newer storyboard on disk, and every request died on
+    an unexpected keyword argument -- the page went blank mid-render, which is
+    exactly when it is wanted.
+
+    A field the reader has never heard of is not its business, so it is
+    dropped rather than fatal. Said out loud once per field, because the same
+    silence would hide a misspelled key in a hand-written storyboard.
+    """
+    known = {f.name for f in fields(cls)}
+    extra = set(raw) - known
+    for key in sorted(extra):
+        tag = f"{cls.__name__}.{key}"
+        if tag not in _warned_unknown:
+            _warned_unknown.add(tag)
+            print(f"  note: ignoring unknown storyboard field {tag}")
+    return cls(**{k: v for k, v in raw.items() if k in known})
+
 
 PanDirection = Literal["in", "out", "left", "right", "up", "down", "none"]
 Transition = Literal["cut", "crossfade", "fade_black"]
@@ -265,20 +292,20 @@ class Storyboard:
         shots = []
         for raw in d["shots"]:
             raw = dict(raw)
-            raw["motion"] = Motion(**raw.get("motion", {}))
+            raw["motion"] = _build(Motion, raw.get("motion", {}))
             if raw.get("asset"):
-                raw["asset"] = Asset(**raw["asset"])
-            shots.append(Shot(**raw))
+                raw["asset"] = _build(Asset, raw["asset"])
+            shots.append(_build(Shot, raw))
         raw_publish = dict(d.get("publish", {}))
         raw_publish["chapters"] = [
-            Chapter(**c) for c in raw_publish.get("chapters", [])
+            _build(Chapter, c) for c in raw_publish.get("chapters", [])
         ]
         return cls(
             slug=d["slug"],
             title=d["title"],
-            style=Style(**d["style"]),
-            voice=Voice(**d.get("voice", {})),
-            publish=Publish(**raw_publish),
+            style=_build(Style, d["style"]),
+            voice=_build(Voice, d.get("voice", {})),
+            publish=_build(Publish, raw_publish),
             aspect=d.get("aspect", "16:9"),
             shots=shots,
         )
