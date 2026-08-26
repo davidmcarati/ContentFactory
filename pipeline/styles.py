@@ -40,9 +40,15 @@ preset that solves problems rather than just setting a look:
   the fake body copy and the labels, without any of the avoidance the other
   presets need.
 
-  Its own failure is crowds: without "all the same size, at the same
-  distance" one figure balloons into the foreground and the rest shrink
-  behind it.
+  Its own failure is crowds: even with "all the same size, at the same
+  distance" one figure can balloon into the foreground and the rest shrink
+  behind it, so a crowd wants full bodies head to foot, which leaves no room
+  for a giant.
+
+It is also the preset that forced `cast` to exist. A style that describes
+people describes them into every shot, whether or not one was asked for --
+see Style.cast_prompt. The drawing style lives in `prompt` and the cast lives
+in `cast`, and only shots with people get both.
 
 `papercut` needed a second correction for the same underlying reason. Asking
 for layered paper with drop shadows and calling it "detailed" produced a very
@@ -66,6 +72,9 @@ class Preset:
     prompt: str
     use_for: str
     avoid: str
+    # How the style draws people, if it says anything about them at all.
+    # Applied only to shots that have people; see Style.cast_prompt.
+    cast: str = ""
 
 
 PRESETS: dict[str, Preset] = {
@@ -94,10 +103,13 @@ PRESETS: dict[str, Preset] = {
         label="Flat webcomic characters",
         prompt=(
             "simple 2D cartoon illustration, thick uniform black outline, "
-            "flat white faces with small round dot eyes and thin eyebrows, "
-            "simple white mitten hands, flat unshaded colour blocking, "
+            "flat unshaded colour blocking, "
             "simple flat scenery with a few clear props, "
             "clean modern webcomic look"
+        ),
+        cast=(
+            "the people drawn with flat white faces, small round dot eyes "
+            "and thin eyebrows, and plain white mitten hands with no fingers"
         ),
         use_for=(
             "Anything carried by people doing things. It is the only preset "
@@ -162,6 +174,12 @@ def get(value: str) -> Preset | None:
     """Look a preset up by key or by its probe-sheet number."""
     value = value.strip().lower()
     return PRESETS.get(value) or _BY_NUMBER.get(value)
+
+
+def cast_for(value: str) -> str:
+    """The style's people clause, empty for a style that has none."""
+    preset = get(value)
+    return preset.cast if preset else ""
 
 
 def resolve(value: str) -> str:

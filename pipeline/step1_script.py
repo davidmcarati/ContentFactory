@@ -100,6 +100,33 @@ def chunk_narration(text: str) -> list[str]:
     return chunks
 
 
+# Which prompts have people in them, and so should carry the style's cast
+# clause. Deliberately a plain word list rather than anything clever: it is
+# checked by eye with --dry-run before a render, and a wrong guess costs one
+# frame. Erring toward "no people" is the safer direction -- a missing cast
+# clause draws a slightly off-model person, while a spurious one invents a
+# whole person in a shot that asked for an empty room.
+_PEOPLE = re.compile(
+    r"\b(person|people|someone|somebody|everyone|everybody|crowd|group|"
+    r"family|figure|child|children|schoolchildren|passers-by|staff|"
+    r"hunter|villager|traveller|herder|merchant|noble|noblewoman|official|"
+    r"emperor|chief|athlete|athletes|scholar|servant|servants|clerk|"
+    r"gentleman|elder|heir|guards|monastics|recruits|regiment|spinner|"
+    r"weaver|scientist|labourer|commuter|shopper|townsperson|officer|"
+    r"visitors|ancestor|lord|priest|soldier|shoulders?|throat|ankle|knee|"
+    r"collarbone|waist|forearm|scalp|face|arms?)\b", re.I)
+
+
+def has_people(prompt: str) -> bool:
+    """Does this shot need the style's cast clause?
+
+    Body parts count. A close-up of a bare throat above a collar is a person
+    in the frame as far as the model is concerned, and leaving the cast clause
+    off it produces a throat drawn in a different style from the video.
+    """
+    return bool(_PEOPLE.search(prompt))
+
+
 def motion_for(index: int) -> Motion:
     pan, zoom = MOTION_CYCLE[index % len(MOTION_CYCLE)]
     return Motion(pan=pan, zoom=zoom)
@@ -136,10 +163,12 @@ def build(
     return Storyboard(
         slug=slug,
         title=title,
-        style=Style(base_prompt=styles.resolve(base_prompt), model=model),
+        style=Style(base_prompt=styles.resolve(base_prompt),
+                    cast_prompt=styles.cast_for(base_prompt),
+                    model=model),
         voice=Voice(voice_id=voice_id),
         shots=[
-            Shot(id=i + 1, vo=vo, image_prompt=ip,
+            Shot(id=i + 1, vo=vo, image_prompt=ip, cast=has_people(ip),
                  # A still frame under a hard cut. Panning across flat
                  # vector art has no parallax to reveal, so the drawing just
                  # slides -- which reads as a slideshow rather than a camera.
@@ -161,6 +190,9 @@ def report(sb: Storyboard) -> None:
     todo = sum(1 for s in sb.shots if s.image_prompt.startswith("TODO"))
     if todo:
         print(f"  {todo} image prompts still need writing")
+    if sb.style.cast_prompt:
+        cast = sum(1 for s in sb.shots if s.cast)
+        print(f"  {cast} shots with people, {len(sb.shots) - cast} without")
     longest = max(sb.shots, key=lambda s: len(s.vo.split()))
     print(f"  longest shot: {len(longest.vo.split())} words (#{longest.id})")
 

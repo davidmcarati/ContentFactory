@@ -75,6 +75,16 @@ class Motion:
 class Style:
     """Applied to every shot, so the whole video looks like one piece."""
     base_prompt: str
+    # How this style draws people, kept separate from how it draws everything
+    # else, and added only to shots that have people in them.
+    #
+    # It used to live in base_prompt with the rest. A style describing white
+    # blob faces and mitten hands then applied that description to all 268
+    # shots, and the model obliged: a vat of snail shells came back with
+    # somebody sitting in it, and clothes asked for "laid out flat and
+    # separate on the snow" came back with a person wearing them. Describing
+    # a cast is a request for a cast.
+    cast_prompt: str = ""
     negative: str = "text, watermark, signature, blurry, deformed, lowres, jpeg artifacts"
     seed_base: int = 20260823
     model: str = "qwen"          # key into pipeline.workflows.MODELS
@@ -126,6 +136,9 @@ class Shot:
     kind: ShotKind = "generate"
     query: str | None = None     # search terms, when kind == "asset"
     asset: Asset | None = None   # filled in once resolved, kept for credits
+
+    # Are there people in this shot? Only these get Style.cast_prompt.
+    cast: bool = False
 
     # --- filled in by later steps, absent on a fresh storyboard ---
     audio_sec: float | None = None
@@ -204,7 +217,11 @@ class Storyboard:
         return sum(s.duration for s in self.shots)
 
     def prompt_for(self, shot: Shot) -> str:
-        return f"{self.style.base_prompt}, {shot.image_prompt}"
+        bits = [self.style.base_prompt]
+        if shot.cast and self.style.cast_prompt:
+            bits.append(self.style.cast_prompt)
+        bits.append(shot.image_prompt)
+        return ", ".join(bits)
 
     def seed_for(self, shot: Shot) -> int:
         """Deterministic per-shot seed, so a rerun reproduces the same frame."""
