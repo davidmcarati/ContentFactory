@@ -74,15 +74,39 @@ def normalize(audio: np.ndarray, peak_dbfs: float = -1.0) -> np.ndarray:
     return audio * (10 ** (peak_dbfs / 20) / peak)
 
 
+def trim(audio: np.ndarray) -> np.ndarray:
+    """Cut the silence Kokoro leaves around every utterance.
+
+    Measured in tests/prosody_probe.py: ~0.40 s before the first word and
+    ~0.59 s after the last, on every line regardless of length. That silence
+    was being measured as narration, so it set the pace of the video and no
+    amount of tuning SHOT_TAIL_SEC could reach it.
+
+    Run after normalize(), so the peak is at a known level and the floor below
+    means the same thing on every line.
+    """
+    if not config.TRIM_SILENCE or audio.size == 0:
+        return audio
+    floor = 10 ** (config.TRIM_FLOOR_DBFS / 20)
+    loud = np.flatnonzero(np.abs(audio) > floor)
+    if loud.size == 0:
+        return audio
+    margin = int(config.TRIM_MARGIN_SEC * config.TTS_SAMPLE_RATE)
+    start = max(int(loud[0]) - margin, 0)
+    end = min(int(loud[-1]) + 1 + margin, len(audio))
+    return audio[start:end]
+
+
 # ---------------------------------------------------------------------------
 def build_narration(sb: Storyboard) -> Path:
     """Stitch the per-shot files into one track, tails included.
 
-    Every shot contributes exactly `audio_sec + SHOT_TAIL_SEC` of timeline,
-    which is the same arithmetic step 4 uses to place its transitions.
+    Every shot contributes exactly `audio_sec + shot.tail` of timeline, which
+    is the same arithmetic step 4 uses to place its cuts. The tail is per shot
+    rather than global because a line broken off mid-sentence needs a
+    different gap after it than one that ends on a full stop; see Shot.tail.
     """
     sr = config.TTS_SAMPLE_RATE
-    tail = np.zeros(int(round(config.SHOT_TAIL_SEC * sr)), dtype=np.float32)
 
     parts = []
     for shot in sb.shots:
@@ -94,6 +118,7 @@ def build_narration(sb: Storyboard) -> Path:
                 f"shot {shot.id}: {file_sr} Hz, expected {sr} Hz -- delete the "
                 f"wav and regenerate rather than resampling silently"
             )
+        tail = np.zeros(int(round(shot.tail * sr)), dtype=np.float32)
         parts += [np.asarray(audio, dtype=np.float32).reshape(-1), tail]
 
     out = sb.dir / "audio" / "narration.wav"
@@ -109,7 +134,8 @@ def voice(sb: Storyboard, *, force: bool = False, fake: bool = False) -> Path:
     for shot in sb.shots:
         path = sb.dir / "audio" / f"{shot.stem}.wav"
         if not path.exists() or force:
-            audio = normalize(backend(shot.vo, sb.voice.voice_id, sb.voice.speed))
+            audio = trim(normalize(backend(shot.vo, sb.voice.voice_id,
+                                           sb.voice.speed)))
             sf.write(path, audio, sr)
         info = sf.info(path)
 
@@ -118,9 +144,9 @@ def voice(sb: Storyboard, *, force: bool = False, fake: bool = False) -> Path:
         shot.audio_sec = info.frames / info.samplerate
 
         flag = ""
-        if shot.audio_sec + config.SHOT_TAIL_SEC > config.MAX_SHOT_SEC:
+        if shot.duration > config.MAX_SHOT_SEC:
             flag = "  <-- long, consider splitting this shot"
-        elif shot.audio_sec + config.SHOT_TAIL_SEC < config.MIN_SHOT_SEC:
+        elif shot.duration < config.MIN_SHOT_SEC:
             flag = "  <-- very short, consider merging"
         print(f"  shot {shot.stem}  {shot.audio_sec:5.2f}s{flag}")
 

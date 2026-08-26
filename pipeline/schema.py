@@ -18,6 +18,10 @@ from typing import Any, Literal
 
 from . import config
 
+# A line ends a sentence if it stops on terminal punctuation, allowing for a
+# closing quote or bracket after it.
+_SENTENCE_END = re.compile(r"[.!?][\"')\]]*\s*$")
+
 PanDirection = Literal["in", "out", "left", "right", "up", "down", "none"]
 Transition = Literal["cut", "crossfade", "fade_black"]
 ShotKind = Literal["generate", "asset"]
@@ -153,11 +157,22 @@ class Shot:
         return errs
 
     @property
+    def tail(self) -> float:
+        """The pause after this line, decided by where the line stops.
+
+        A shot ending mid-sentence is followed by the rest of its own
+        sentence, so it gets the shortest gap that will not click. A shot
+        ending on a full stop keeps a real beat. See config.SHOT_TAIL_SEC.
+        """
+        return (config.SENTENCE_TAIL_SEC if _SENTENCE_END.search(self.vo)
+                else config.SHOT_TAIL_SEC)
+
+    @property
     def duration(self) -> float:
         """Playback length including the tail pause."""
         if self.audio_sec is None:
             raise ValueError(f"shot {self.id} has no audio yet; run step 2 first")
-        return self.audio_sec + config.SHOT_TAIL_SEC
+        return self.audio_sec + self.tail
 
 
 @dataclass

@@ -29,11 +29,17 @@ SLUG = "smoketest"
 # sitting there, so it is pointed at scratch space for the duration.
 config.DELIVERY_ROOT = Path(config.ROOT / ".smoketest")
 
+# Two of these stop mid-sentence, on a comma, because cut-driven pacing breaks
+# sentences across shots and each half then carries a different tail. That
+# arithmetic is exactly what this test exists to check, so the fixture has to
+# contain some.
 SHOTS = [
     ("Roman concrete has survived two thousand years of waves.", "in"),
     ("Modern concrete cracks within decades of being poured.", "left"),
-    ("The difference turned out to be seawater, of all things.", "out"),
-    ("It reacts with volcanic ash to grow new crystals inside the cracks.", "right"),
+    ("The difference turned out to be seawater,", "out"),
+    ("of all things.", "right"),
+    ("It reacts with volcanic ash", "in"),
+    ("to grow new crystals inside the cracks.", "left"),
     ("The material heals itself, slowly, for centuries.", "none"),
 ]
 

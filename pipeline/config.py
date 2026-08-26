@@ -101,12 +101,34 @@ COMPOSE_W, COMPOSE_H = 1536, 864
 # with no motion is what makes a video feel like a slideshow.
 MIN_SHOT_SEC = 1.2 if STILL_FRAMES else 2.5
 MAX_SHOT_SEC = 12.0
-# Breathing room appended after each line. 0.35 s is a natural beat between
-# paragraph-length shots; after a two-second line it is a stutter, and across
-# 235 shots it adds a minute and a half of silence to the video. Under cuts
-# the voice should run continuously and the picture should change underneath
-# it, so the tail shrinks to just enough to keep the splice from clicking.
+# Breathing room appended after each line, and it matters where the line ends.
+#
+# Under the old pacing a shot was a whole paragraph, so every shot ended on a
+# full stop and one constant covered it. Cut-driven pacing breaks sentences
+# across shots at their clause boundaries, and a comma followed by a third of
+# a second of silence does not sound like a comma -- it sounds like the end of
+# a sentence, delivered as a list. Measured in tests/prosody_probe.py: split
+# at clause boundaries and the voice does not fall at the seam, so the only
+# thing giving the split away is the gap.
+#
+# So two tails. Mid-sentence gets just enough not to click; a full stop keeps
+# the breath it always had.
 SHOT_TAIL_SEC = 0.12 if STILL_FRAMES else 0.35
+SENTENCE_TAIL_SEC = 0.34 if STILL_FRAMES else 0.35
+
+# Kokoro leaves roughly 0.40 s of silence before the first word and 0.59 s
+# after the last one, on every utterance, and step 2 used to measure all of it
+# as narration. On eight-second shots that was invisible. On two-second shots
+# it is a third of the running time, so shot audio is trimmed to its speech
+# and the tails above are what actually separate one line from the next.
+#
+# Trimming is deliberately conservative: a soft fricative onset ("s", "f") can
+# sit below the threshold, and clipping the front of a word is far more
+# audible than leaving 30 ms of room.
+TRIM_SILENCE = True
+TRIM_FLOOR_DBFS = -50.0
+TRIM_MARGIN_SEC = 0.03
+
 CROSSFADE_SEC = 0.5
 
 # Ease the camera in and out of each move instead of snapping to full speed.
