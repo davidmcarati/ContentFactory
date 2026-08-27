@@ -134,7 +134,10 @@ def cues(sb: Storyboard) -> list[tuple[float, float, str]]:
     for shot in sb.shots:
         pieces = split_cues(shot.vo)
         total = sum(len(p) for p in pieces) or 1
-        start = t
+        # The voice starts after the shot's lead-in, not at the cut. Only the
+        # first shot has one, and without this every card in the video would
+        # sit a second ahead of the words.
+        start = t + shot.lead_sec
         for piece in pieces:
             span = shot.audio_sec * len(piece) / total
             out.append((start, start + span, piece))

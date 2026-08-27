@@ -129,6 +129,23 @@ TRIM_SILENCE = True
 TRIM_FLOOR_DBFS = -50.0
 TRIM_MARGIN_SEC = 0.03
 
+# --- Speaking in paragraphs, cutting in seconds -----------------------------
+# The picture changes every two to three seconds. The voice must not.
+#
+# Speaking one shot at a time gave every one of 268 shots its own utterance,
+# and 268 seams in a ten-minute video is a list being read out, not a person
+# talking -- even with the clause-boundary rule keeping the pitch flat at each
+# seam. So narration is synthesized in runs of roughly this many words, broken
+# only where a sentence ends, and the shots inside a run take their timing
+# from Kokoro's own word timestamps. The audio a viewer hears across a run is
+# one continuous take; only the pictures cut.
+SEGMENT_WORDS = 40            # aim for a run about this long
+SEGMENT_MAX_WORDS = 70        # never let one grow past this
+
+# A video that starts talking on frame one gives the eye nothing to land on.
+# Silence before the first word, over the first picture.
+LEAD_IN_SEC = 1.0
+
 CROSSFADE_SEC = 0.5
 
 # Ease the camera in and out of each move instead of snapping to full speed.

@@ -168,6 +168,14 @@ class Shot:
     cast: bool = False
 
     # --- filled in by later steps, absent on a fresh storyboard ---
+    # Silence before this shot's voice. Only the first shot of a video has
+    # any, so the picture is up before the narration starts.
+    lead_sec: float = 0.0
+    # The pause after this shot, once step 2 knows where the spoken runs
+    # break. Shots in the middle of a run get none: their audio is a slice out
+    # of one continuous take and the next slice continues it. None means step
+    # 2 has not run, and the punctuation rule below stands in.
+    tail_sec: float | None = None
     audio_sec: float | None = None
     audio_path: str | None = None
     frame_path: str | None = None
@@ -198,21 +206,27 @@ class Shot:
 
     @property
     def tail(self) -> float:
-        """The pause after this line, decided by where the line stops.
+        """The pause after this line.
 
-        A shot ending mid-sentence is followed by the rest of its own
-        sentence, so it gets the shortest gap that will not click. A shot
-        ending on a full stop keeps a real beat. See config.SHOT_TAIL_SEC.
+        Once step 2 has run this is a measured fact rather than a guess: a
+        shot in the middle of a spoken run is followed immediately by the next
+        slice of the same take, so its tail is zero and the voice does not
+        break. Only the last shot of a run carries a real pause.
+
+        Before step 2 runs there is no run structure yet, so fall back to
+        where the line stops: a full stop earns a beat, a comma does not.
         """
+        if self.tail_sec is not None:
+            return self.tail_sec
         return (config.SENTENCE_TAIL_SEC if _SENTENCE_END.search(self.vo)
                 else config.SHOT_TAIL_SEC)
 
     @property
     def duration(self) -> float:
-        """Playback length including the tail pause."""
+        """Playback length: any lead-in, the voice, and the tail pause."""
         if self.audio_sec is None:
             raise ValueError(f"shot {self.id} has no audio yet; run step 2 first")
-        return self.audio_sec + self.tail
+        return self.lead_sec + self.audio_sec + self.tail
 
 
 @dataclass
