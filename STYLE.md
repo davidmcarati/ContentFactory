@@ -184,6 +184,26 @@ Pass it by key or by number:
   they become the subject: a close-up on somebody holding a shirt up came back
   with four-fingered hands, three of them. The hand rule above still applies —
   the mitten just widens the range of framings that survive it.
+- **A verb can put a person in an object shot, and it will not be a mitten.**
+  "A crooked knot of cord *holding* a torn hide", "a length of cloth *lifted*
+  from a vat", "a grey robe *held* slightly open" — none names a person, so
+  none gets the cast clause, so nothing says how hands are drawn here, and all
+  three came back with a realistic five-fingered hand in the middle of an
+  otherwise flat cartoon. Either describe the object at rest — "a knot of cord
+  *binding* a torn hide, lying on grey stone" — or accept that the shot has a
+  person in it and let it be marked as one.
+- **A style clause has to arrive before the subject, not after.** The cast
+  description sits ahead of the shot prompt for this reason. Repairing a
+  drifting shot by appending "every face a plain white blob" to the end did
+  nothing: in three split-frame shots only the half named *second* obeyed,
+  leaving a blob on one side and a realistic bearded face on the other. Moving
+  the same words to the front of the shot prompt fixed both halves.
+- **An empty foreground fills itself.** Asking for a lone figure far away
+  leaves the front of the frame unspecified, and it comes back occupied — a
+  giant blob, or on one attempt a disembodied pair of mittens the height of
+  the picture. Three rewrites failed to empty it. Giving the foreground
+  something to be — a near figure with its back to us, looking at the distant
+  one — worked first time, and suited the line better than the original.
 - **A split frame works on two objects, not on two parts of a body.** "Thick
   black hair filling the left half and a folded shirt seam filling the right
   half" was drawn as one person split down the middle, half face and half

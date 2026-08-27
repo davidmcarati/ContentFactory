@@ -290,6 +290,16 @@ brass dividers" carries exactly the same idea and lands every time.
 
 Write the scene. Let the narration carry the abstraction.
 
+The re-cut of `clothes` in `webcomic` came back at **16 of 268, 6%** — against
+12-17% for the same script in `papercut`, and 22-29% for the abstract
+subjects. Two things earned most of that. Naming a period and a concrete
+setting in every prompt is the old rule; the new one is that the cast clause
+only reaches shots with people, so the 131 object shots were no longer being
+told that the frame contains a face and a pair of hands.
+
+What did still fail, and why, is in STYLE.md: an implied actor, a style clause
+that arrives too late in the prompt to win, and an empty foreground.
+
 ### Subtitles are burned from .ass, never .srt
 
 libass assumes a 288-line canvas for SRT input and scales the font by
