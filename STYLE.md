@@ -168,6 +168,22 @@ Pass it by key or by number:
 - **Never name what you do not want.** There is no way to ask for an absence:
   the negative prompt is inert, and naming a thing in the positive prompt is a
   request for it. "Unsigned" produced a signature.
+  **This is the rule that keeps catching people who already know it.** On the
+  dark video it landed six separate times in one pass, always the same shape:
+  the absent thing named as a noun so it could be said to be missing. "A patch
+  of sky where a faint star has gone out" drew the star. "The centre stays
+  empty" filled the centre. "No lamps anywhere" lit the street. "Every window
+  dark" produced a sunlit square. "An empty cold fire ring" lit the fire.
+  "Almost every object lost to the dark" drew a lit bedroom.
+  The only formulation that works is a positive inventory of what is in the
+  frame: "filled with flat black, one pale rectangle of window and one upright
+  dark outline". Say what is there and stop.
+- **Flat blocking cannot subtract.** This is the same rule seen from the
+  drawing's side, and it is why `webcomic` needs the inventory phrasing more
+  than the other presets do. A style with no shading has no way to half-show
+  something: every object named is drawn at full strength. Darkness is a
+  positive object in this style -- a black shape occupying the frame -- not a
+  reduction of the objects behind it.
 - Ask for density. Without "detailed layered composition that fills the frame"
   this style drifts into near-empty backgrounds, which look unfinished held
   full-screen for eight seconds.

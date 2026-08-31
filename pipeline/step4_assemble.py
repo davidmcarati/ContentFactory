@@ -22,7 +22,8 @@ import time
 from pathlib import Path
 
 from . import config, kenburns, outro, subtitles
-from .ffmpeg_util import run, duration as probe_duration, escape_filter_path
+from .ffmpeg_util import (FFmpegError, run, duration as probe_duration,
+                          video_duration, escape_filter_path)
 from .schema import Shot, Storyboard
 
 
@@ -57,12 +58,28 @@ def clip_length(sb: Storyboard, shot: Shot) -> float:
     return shot.duration + surplus
 
 
+# A real clip is tens of kilobytes. Anything this small is a file ffmpeg was
+# still writing when it was interrupted -- an mp4 header and nothing else.
+MIN_CLIP_BYTES = 1024
+
+
+def usable(clip: Path) -> bool:
+    """Is this clip finished, or is it the wreck of an interrupted render?
+
+    Existence used to be the whole test, and a 48-byte stub left behind by a
+    killed render passed it. Nothing downstream noticed: concat stopped dead
+    at that file and the finished video lost nine minutes of picture while
+    still reporting its full length.
+    """
+    return clip.exists() and clip.stat().st_size >= MIN_CLIP_BYTES
+
+
 def render_clips(sb: Storyboard, *, force: bool = False) -> list[Path]:
     jobs, paths = [], []
     for shot in sb.shots:
         out = sb.dir / "clips" / f"{shot.stem}.mp4"
         paths.append(out)
-        if out.exists() and not force:
+        if usable(out) and not force:
             continue
         if not shot.frame_path:
             raise ValueError(f"shot {shot.id} has no frame; run step 3 first")
@@ -195,6 +212,20 @@ def assemble(sb: Storyboard, *, force: bool = False,
           + (f" + {config.OUTRO_SECONDS:.0f}s end card)" if end_card else ")"))
     if abs(got - total) > 1.0:
         print("  WARNING: drift over 1s between audio and video timelines")
+
+    # And check the picture separately, because the line above cannot. The
+    # container reports its longest stream, so a video track that stopped
+    # early still measures the full narration. A truncated clip in the concat
+    # listing did exactly that: the picture ended after 43 seconds of a ten
+    # minute film, the drift check read 0 ms, and it was published.
+    picture = video_duration(out)
+    print(f"  picture  {picture / 60:.1f} min")
+    if abs(picture - total) > 1.0:
+        raise FFmpegError(
+            f"{out.name} has {picture:.1f}s of picture against {total:.1f}s "
+            f"of timeline. Something in clips/ is unreadable or short -- "
+            f"delete the clips and re-render rather than shipping this."
+        )
     return out
 
 

@@ -387,6 +387,32 @@ the shots step 1 marks with `Shot.cast`. The same trap as the inert negative
 prompt and the paper grain that summoned signatures, one level up: describing
 a thing is asking for it, and a style prompt describes it 268 times.
 
+### A container's duration is its audio, and that hid a broken video
+
+The `dark` cut was published with **43 seconds of picture under ten minutes of
+narration** and every check in this repo passed it.
+
+A background job was stopped while it was writing a clip, leaving a 48-byte
+stub in `clips/`. `render_clips` decided the clip was finished because the
+file existed. The concat demuxer reached that file, stopped taking video, and
+ffmpeg carried on muxing the full narration. The result reported 10.8 minutes
+because a container reports its *longest* stream -- so the drift check
+compared the container against the timeline, found them identical, and printed
+0 ms. The file was 11.8 MB instead of 57 and nothing said a word.
+
+Two fixes, because either alone would have left the other half open:
+
+  `usable()` -- a clip under 1 KB is the wreck of an interrupted render, not a
+  finished file, and gets rendered again.
+
+  `video_duration()` -- counts decoded video frames and is checked against the
+  timeline after every mux. It costs about half a second on a ten-minute file
+  and it *raises*, because a video missing nine minutes of picture is not a
+  warning. Never measure a cut with `duration()` alone again.
+
+`tests/smoke.py` truncates a clip on purpose and asserts both: that the stub is
+rebuilt, and that the picture is as long as the narration.
+
 ### Asset shots are fetched before generated ones
 
 Step 3 sorts fetches first. Interleaved, ComfyUI dropped the 16 GB checkpoint
