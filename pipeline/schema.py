@@ -280,6 +280,22 @@ class Storyboard:
             errs.append("shot ids must run 1..N with no gaps")
         for s in self.shots:
             errs += s.validate()
+
+        # The project's shape and the shape this process is set up to build
+        # must agree, and a mismatch is fatal rather than a warning because it
+        # is invisible until the contact sheet: a vertical project rendered
+        # with CF_PROFILE unset composes at 1536x864 and comes back with
+        # twenty frames of the wrong picture, plausible one by one.
+        #
+        # This is the resolution-ceiling mistake in a new costume -- that one
+        # survived a full render, an assembly, a delivery and a review because
+        # nothing checked the frames against the prompt that asked for them.
+        if self.aspect != config.ASPECT:
+            errs.append(
+                f"storyboard aspect {self.aspect} does not match the active "
+                f"profile {config.PROFILE!r}, which builds {config.ASPECT}. "
+                f"Set CF_PROFILE for this project, or unset it."
+            )
         return errs
 
     def require_valid(self) -> None:
@@ -288,6 +304,17 @@ class Storyboard:
             raise ValueError(
                 "storyboard failed validation:\n  " + "\n  ".join(errs)
             )
+
+        # Measured, never estimated -- so this stays quiet until step 2 has
+        # actually spoken the script, which is the first moment the answer is
+        # real. A Short past three minutes is not a slightly long Short, it is
+        # an ordinary video in a different feed.
+        limit = config.MAX_TOTAL_SEC
+        if limit and all(s.audio_sec is not None for s in self.shots):
+            if self.total_sec > limit:
+                print(f"  WARNING: {self.total_sec:.0f}s of narration against "
+                      f"a {limit:.0f}s ceiling for this profile. Cut lines "
+                      f"from the script; nothing downstream will notice.")
 
     # ------------------------------------------------------------------
     def to_dict(self) -> dict[str, Any]:

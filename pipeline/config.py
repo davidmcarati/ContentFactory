@@ -2,8 +2,22 @@
 
 Everything that a human might want to tweak lives here. The pipeline steps
 import from this module rather than hardcoding paths or magic numbers.
+
+The geometry can be swapped wholesale for a second delivery shape by setting
+CF_PROFILE in the environment; see the tail of this file and
+`config_shorts.py`. Nothing happens unless it is set, so the horizontal
+pipeline is byte-identical with the variable absent.
 """
+import os
 from pathlib import Path
+
+# Which delivery shape this process is building. Read once, here, because most
+# of the geometry below is consumed as a default argument elsewhere and those
+# are bound at import time -- so the choice has to be made before anything
+# else imports this module, which means the environment. config_shorts.py
+# explains that at length.
+PROFILE = os.environ.get("CF_PROFILE", "long")
+ASPECT = "16:9"
 
 # --- Locations -------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent.parent
@@ -50,6 +64,11 @@ def project_dir(slug: str) -> Path:
 
 # YouTube's thumbnail size. It has to survive being shown 200 px wide.
 THUMB_W, THUMB_H = 1280, 720
+# And the size the model is asked to compose it at, one step above the tile
+# for the same reason the frames are composed small: the picture is settled
+# where the model is competent and the rest is arithmetic. This was a literal
+# 1344x768 buried in publish.py until the vertical profile needed to move it.
+THUMB_COMPOSE_W, THUMB_COMPOSE_H = 1344, 768
 THUMB_FONT = "segoeuib.ttf"
 THUMB_MAX_TEXT_SIZE = 150
 
@@ -101,6 +120,12 @@ COMPOSE_W, COMPOSE_H = 1536, 864
 # with no motion is what makes a video feel like a slideshow.
 MIN_SHOT_SEC = 1.2 if STILL_FRAMES else 2.5
 MAX_SHOT_SEC = 12.0
+# A ceiling on the whole film, for delivery shapes that have one. A Short past
+# three minutes stops being a Short and lands in a different feed, and that is
+# not visible in anything the pipeline otherwise checks. None means no ceiling,
+# which is the long-form answer. Checked against measured narration only --
+# estimating a duration from a word count is how drift gets in.
+MAX_TOTAL_SEC: float | None = None
 # Breathing room appended after each line, and it matters where the line ends.
 #
 # Under the old pacing a shot was a whole paragraph, so every shot ended on a
@@ -161,6 +186,27 @@ TTS_VOICE = "am_michael"
 TTS_SPEED = 1.0
 TTS_SAMPLE_RATE = 24000
 
+# What a join *inside* one take should sound like, or None to leave whatever
+# Kokoro produced.
+#
+# A run is sent to Kokoro as one call, but KPipeline splits its own input to
+# stay under the model's token limit, and every piece it speaks gets the usual
+# padding around it. Measured on a 191-word take: two joins, 1066 ms and
+# 989 ms of silence. Asking for one continuous performance and getting three
+# utterances glued end to end is invisible to every check in this repo -- the
+# durations are still exact, the drift test still passes -- and audible
+# immediately.
+#
+# Set to a length and each chunk is trimmed to its speech and the join rebuilt
+# to that length, word timestamps moved with it. 0.34 s is SENTENCE_TAIL_SEC:
+# the chunks break at sentence ends, so a sentence's own beat is the honest
+# answer, and trimming to nothing would run two sentences together instead.
+#
+# None on the long profile because long-form runs are 40 to 70 words and
+# rarely reach the token limit at all; the note step 2 prints will say when
+# one does, and that is the moment to turn this on there rather than now.
+JOIN_GAP_SEC: float | None = None
+
 # --- End card --------------------------------------------------------------
 # A video that stops the instant the narration does feels cut off. The outro is
 # appended after the last shot, so it sits outside the narration timeline and
@@ -196,3 +242,22 @@ SUB_MAX_CHARS = 54            # per line; longer narration pages into more cues
 # opaque box behind the text.
 SUB_OUTLINE = 3
 SUB_SHADOW = 1
+
+# --- Profile overrides -----------------------------------------------------
+# Applied last, so a profile can rewrite anything defined above it. Absent
+# CF_PROFILE this block does nothing at all, which is the point: the
+# horizontal pipeline must not acquire a new failure mode in exchange for a
+# second delivery shape.
+#
+# An unrecognised value is fatal rather than ignored. A typo -- CF_PROFILE=short
+# -- would otherwise render a whole vertical batch at 1920x1080 and only
+# announce itself on the contact sheet.
+if PROFILE != "long":
+    if PROFILE == "shorts":
+        from .config_shorts import apply as _apply_profile
+    else:
+        raise RuntimeError(
+            f"CF_PROFILE={PROFILE!r} is not a profile. Use 'shorts', or unset "
+            f"it for the default 16:9 pipeline."
+        )
+    _apply_profile(globals())

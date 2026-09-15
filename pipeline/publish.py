@@ -138,7 +138,10 @@ def build_thumbnail(sb: Storyboard, *, force: bool = False) -> Path:
             prompt=f"{sb.style.base_prompt}, {prompt}",
             negative=sb.style.negative,
             seed=sb.style.seed_base + 9001,
-            width=1344, height=768,          # 16:9, one step above the tile
+            # One step above the tile, and profile-driven: a Short's tile is
+            # vertical, so a 16:9 thumbnail is the wrong picture rather than
+            # merely the wrong size.
+            width=config.THUMB_COMPOSE_W, height=config.THUMB_COMPOSE_H,
             filename_prefix=f"{sb.slug}_thumb",
         )
         client.render(graph, base)

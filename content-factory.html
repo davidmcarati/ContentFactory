@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Building a local narrated-video pipeline, told through the measurements that overturned the obvious implementation.">
+<title>Cut to the Voice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --paper:#0b0a08; --surface:#14120e; --surface-2:#1a1712;
+    --ink:#ece7dd; --ink-2:#a89f8e; --ink-3:#6b6355;
+    --rule:rgba(236,231,221,.14); --rule-soft:rgba(236,231,221,.07);
+    --gold:#d4a24c; --gold-soft:#e8c98a; --gold-bed:#2a1f10;
+
+    /* chart marks — validated against #14120e: CVD ΔE 20.5, normal 22.9 */
+    --c-gold:#c8942f; --c-blue:#4e9bc8; --c-red:#c4553c; --c-mute:#5d564a;
+
+    --font-display:"Fraunces",Georgia,serif;
+    --font-body:"Inter","Segoe UI",system-ui,sans-serif;
+    --font-mono:"JetBrains Mono","Cascadia Mono",ui-monospace,monospace;
+    --measure:68ch;
+    --pad:clamp(1.15rem,4vw,3.5rem);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:16.5px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    margin:0; padding-inline:var(--pad); padding-block:0;
+  }
+  .wrap{max-width:1040px;margin:0 auto}
+  p{max-width:var(--measure)}
+  a{color:var(--gold)}
+
+  /* ---------- type ---------- */
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.68rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--gold); margin:0;
+  }
+  .eyebrow span{color:var(--ink-3)}
+  h1{
+    font-family:var(--font-display); font-weight:450;
+    font-size:clamp(2.2rem,6.2vw,3.5rem); line-height:1.06;
+    letter-spacing:-.015em; text-wrap:balance; margin:.55em 0 0;
+  }
+  h1 em{font-style:italic;color:var(--gold)}
+  h2{
+    font-family:var(--font-display); font-weight:450;
+    font-size:clamp(1.5rem,3.6vw,2.1rem); line-height:1.15;
+    text-wrap:balance; margin:0;
+  }
+  h3{
+    font-family:var(--font-body); font-weight:600; font-size:1.02rem;
+    letter-spacing:.005em; margin:0;
+  }
+  .stand{font-size:1.12rem;line-height:1.6;color:var(--ink-2);margin:1.5rem 0 0}
+  .stand strong{color:var(--ink);font-weight:500}
+  .note{font-family:var(--font-mono);font-size:.72rem;line-height:1.65;color:var(--ink-3);max-width:78ch}
+  .note b{color:var(--ink-2);font-weight:500}
+
+  header.hero{padding-block:clamp(3rem,9vh,5.5rem) 0}
+
+  /* ---------- spec block ---------- */
+  .spec{
+    margin-top:2.6rem;border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule); padding-block:1.1rem;
+    display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.6rem;
+    font-family:var(--font-mono);font-size:.74rem;
+  }
+  .spec dt{color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
+  .spec dd{margin:0;color:var(--ink-2)}
+  .spec dd b{color:var(--gold);font-weight:500}
+
+  /* ---------- sections ---------- */
+  section{padding-block:clamp(3.2rem,8vh,5rem)}
+  section+section{border-top:1px solid var(--rule-soft)}
+  .shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.1rem;margin-bottom:.8rem}
+  .snum{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;color:var(--ink-3)}
+  .lede{color:var(--ink-2);margin-top:.9rem}
+
+  /* ---------- figure shell ---------- */
+  figure{
+    margin:2rem 0 0; background:var(--surface);
+    border:1px solid var(--rule-soft); border-radius:3px;
+    padding:clamp(1.05rem,3vw,1.7rem);
+  }
+  figcaption{
+    font-family:var(--font-mono);font-size:.7rem;line-height:1.6;
+    color:var(--ink-3); margin-top:1.15rem;
+    border-top:1px solid var(--rule-soft); padding-top:.75rem; max-width:82ch;
+  }
+  figcaption b{color:var(--gold);font-weight:500}
+  .figtitle{
+    font-family:var(--font-mono);font-size:.68rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-2);margin:0 0 1.2rem;
+  }
+  .figtitle i{color:var(--ink-3);font-style:normal}
+
+  /* ---------- bar chart ---------- */
+  .chart{display:grid;gap:.42rem}
+  .row{
+    display:grid;grid-template-columns:minmax(8.5rem,15rem) 1fr minmax(4.2rem,auto);
+    align-items:center;gap:.9rem;
+  }
+  .row .k{
+    font-family:var(--font-mono);font-size:.74rem;color:var(--ink-2);
+    line-height:1.35;
+  }
+  .row .k small{display:block;color:var(--ink-3);font-size:.92em}
+  .track{position:relative;height:17px;background:var(--rule-soft);border-radius:2px}
+  .bar{
+    position:absolute;inset-block:0;left:0;border-radius:2px;
+    background:var(--c-mute);
+  }
+  .bar.gold{background:var(--c-gold)}
+  .bar.blue{background:var(--c-blue)}
+  .bar.red{background:var(--c-red)}
+  .bar.band{border-radius:2px;opacity:.9}
+  .row .v{
+    font-family:var(--font-mono);font-size:.76rem;color:var(--ink);
+    font-variant-numeric:tabular-nums;text-align:right;
+  }
+  .row .v em{font-style:normal;color:var(--ink-3)}
+  .row.pick .k{color:var(--gold-soft)}
+  .row.pick .v{color:var(--gold-soft)}
+
+  /* ceiling marker */
+  .ceil{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--c-red)}
+  /* shares the row template so the label sits over the track, not the page */
+  .ceilrow{
+    display:grid;
+    grid-template-columns:minmax(8.5rem,15rem) 1fr minmax(4.2rem,auto);
+    gap:.9rem;height:0;
+  }
+  .ceilrow .mid{position:relative;height:0}
+  .ceillabel{
+    font-family:var(--font-mono);font-size:.66rem;color:var(--c-red);
+    position:absolute;top:-1.15rem;transform:translateX(-50%);white-space:nowrap;
+  }
+
+  /* verdict pills */
+  .pill{
+    font-family:var(--font-mono);font-size:.64rem;letter-spacing:.09em;
+    text-transform:uppercase;padding:.14rem .45rem;border-radius:2px;
+    border:1px solid currentColor;white-space:nowrap;
+  }
+  .pill.ok{color:var(--c-blue)}
+  .pill.bad{color:var(--c-red)}
+
+  /* ---------- legend ---------- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:.35rem 1.15rem;margin-bottom:1.1rem;
+    font-family:var(--font-mono);font-size:.7rem;color:var(--ink-2);
+  }
+  .legend i{
+    display:inline-block;width:.7rem;height:.7rem;border-radius:2px;
+    margin-right:.4rem;vertical-align:-1px;font-style:normal;
+  }
+
+  /* ---------- tables ---------- */
+  .tbl{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:.74rem}
+  .tbl th{
+    text-align:left;font-weight:400;color:var(--ink-3);text-transform:uppercase;
+    letter-spacing:.1em;font-size:.64rem;padding:0 1rem .55rem 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .tbl td{
+    padding:.5rem 1rem .5rem 0;border-bottom:1px solid var(--rule-soft);
+    color:var(--ink-2);vertical-align:top;
+  }
+  .tbl td.mono-ink{color:var(--ink)}
+  .tbl td b{color:var(--gold);font-weight:500}
+  .scroll{overflow-x:auto}
+
+  /* ---------- stat grid ---------- */
+  .stats{
+    display:grid;gap:1px;background:var(--rule-soft);
+    grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));
+    border:1px solid var(--rule-soft);margin-top:2rem;
+  }
+  .stat{background:var(--paper);padding:1.15rem 1rem}
+  .stat b{
+    display:block;font-family:var(--font-display);font-weight:450;
+    font-size:clamp(1.6rem,4vw,2.1rem);line-height:1;color:var(--gold);
+    font-variant-numeric:tabular-nums;
+  }
+  .stat span{
+    display:block;font-family:var(--font-mono);font-size:.63rem;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin-top:.5rem;
+  }
+
+  /* ---------- callout ---------- */
+  .callout{
+    background:var(--gold-bed);border-left:2px solid var(--gold);
+    padding:1rem 1.2rem;margin-top:2rem;border-radius:0 3px 3px 0;
+  }
+  .callout p{margin:0;color:var(--gold-soft);font-size:.95rem}
+  .callout .lbl{
+    font-family:var(--font-mono);font-size:.63rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--gold);margin:0 0 .45rem;
+  }
+
+  /* ---------- svg figures ---------- */
+  .svgwrap{overflow-x:auto}
+  svg{display:block;max-width:100%;height:auto}
+  .sv-box{fill:var(--surface-2);stroke:var(--rule)}
+  .sv-box-gold{fill:var(--gold-bed);stroke:var(--gold)}
+  .sv-t{fill:var(--ink);font-family:var(--font-mono);font-size:11px}
+  .sv-t2{fill:var(--ink-2);font-family:var(--font-mono);font-size:9.5px}
+  .sv-t3{fill:var(--ink-3);font-family:var(--font-mono);font-size:9px}
+  .sv-tg{fill:var(--gold);font-family:var(--font-mono);font-size:9.5px}
+  .sv-line{stroke:var(--ink-3);stroke-width:1;fill:none}
+  .sv-line-gold{stroke:var(--gold);stroke-width:1.2;fill:none}
+
+  /* ---------- two-up ---------- */
+  .two{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));margin-top:2rem}
+  .two figure{margin-top:0}
+
+  /* ---------- prompt trap rows ---------- */
+  .trap{display:grid;gap:.85rem}
+  .trapline{
+    display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;gap:.7rem;
+  }
+  .trapline .asked,.trapline .got{
+    font-family:var(--font-mono);font-size:.73rem;padding:.5rem .65rem;
+    border-radius:2px;line-height:1.45;
+  }
+  .trapline .asked{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule-soft)}
+  .trapline .got{background:rgba(196,85,60,.1);color:#e0907c;border:1px solid rgba(196,85,60,.35)}
+  .trapline .arw{color:var(--ink-3);font-family:var(--font-mono);font-size:.8rem}
+  .trapcount{
+    font-family:var(--font-mono);font-size:.68rem;color:var(--c-red);
+    margin-top:.15rem;
+  }
+
+  footer{
+    border-top:1px solid var(--rule);padding-block:2.5rem 4rem;margin-top:1rem;
+    font-family:var(--font-mono);font-size:.7rem;color:var(--ink-3);line-height:1.8;
+  }
+  footer b{color:var(--ink-2);font-weight:400}
+
+  @media (max-width:620px){
+    .row,.ceilrow{grid-template-columns:1fr;gap:.25rem}
+    .ceilrow{display:none}
+    .row .v{text-align:left}
+    .trapline{grid-template-columns:1fr;gap:.3rem}
+    .trapline .arw{display:none}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .bar{animation:grow .8s cubic-bezier(.22,.8,.3,1) both}
+    @keyframes grow{from{transform:scaleX(.04);transform-origin:left}to{transform:scaleX(1)}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Case study <span>·</span> Content Factory <span>·</span> Local video pipeline <span>·</span> Python / ffmpeg / diffusion</p>
+  <h1>Cut to the voice, <em>never the other way round</em></h1>
+  <p class="stand">A narrated-documentary pipeline that runs entirely on one desk — script in, finished film out, no cloud APIs and no per-minute billing. <strong>Every number below is a measurement, and six of them overturned the obvious implementation.</strong> Two of those were only caught by looking at a picture; none of them showed up in a passing test.</p>
+
+  <dl class="spec">
+    <dt>Hardware</dt><dd>RTX 5080 (16 GB) · i9-14900K · 64 GB · Windows 11</dd>
+    <dt>Stack</dt><dd>Python · ffmpeg · ComfyUI · Qwen-Image &amp; FLUX.1-schnell · Kokoro-82M</dd>
+    <dt>Delivered</dt><dd><b>12 films</b> + 2 vertical shorts · <b>857 frames</b> reviewed by eye</dd>
+    <dt>Licence</dt><dd>Apache-2.0 models throughout — commercially clean by construction</dd>
+    <dt>Cost</dt><dd><b>$0.00</b> per minute of finished video</dd>
+  </dl>
+</header>
+
+<!-- ============ THE SHAPE ============ -->
+<section>
+  <div class="shead"><span class="snum">FIG 01</span><h2>The shape of the thing</h2></div>
+  <p class="lede">Five steps and one gate, talking to each other through a single file. The ordering is the whole design: <strong>voice runs before pictures</strong>, because a shot lasts exactly as long as its narration takes to speak — read from the rendered wav's sample count, never estimated from a word count.</p>
+
+  <figure>
+    <p class="figtitle">Pipeline <i>— storyboard.json is the only contract between steps</i></p>
+    <div class="svgwrap">
+    <svg viewBox="0 0 860 300" role="img" aria-label="Pipeline diagram: script, voice, frames, review gate, assemble, publish, all reading and writing storyboard.json">
+      <!-- spine -->
+      <rect x="24" y="132" width="812" height="36" rx="3" class="sv-box-gold"/>
+      <text x="430" y="155" text-anchor="middle" class="sv-tg">storyboard.json — the single source of truth</text>
+
+      <!-- top boxes -->
+      <g>
+        <rect x="24" y="36" width="122" height="62" rx="3" class="sv-box"/>
+        <text x="34" y="54" class="sv-t3">STEP 1</text>
+        <text x="34" y="71" class="sv-t">script</text>
+        <text x="34" y="88" class="sv-t2">cuts placed by hand</text>
+
+        <rect x="170" y="36" width="122" height="62" rx="3" class="sv-box"/>
+        <text x="180" y="54" class="sv-t3">STEP 2</text>
+        <text x="180" y="71" class="sv-t">voice</text>
+        <text x="180" y="88" class="sv-t2">Kokoro-82M</text>
+
+        <rect x="316" y="36" width="122" height="62" rx="3" class="sv-box"/>
+        <text x="326" y="54" class="sv-t3">STEP 3</text>
+        <text x="326" y="71" class="sv-t">frames</text>
+        <text x="326" y="88" class="sv-t2">Qwen / FLUX / Commons</text>
+
+        <rect x="462" y="36" width="122" height="62" rx="3" class="sv-box-gold"/>
+        <text x="472" y="54" class="sv-t3">STEP 3b</text>
+        <text x="472" y="71" class="sv-t">review</text>
+        <text x="472" y="88" class="sv-tg">a person, looking</text>
+
+        <rect x="608" y="36" width="106" height="62" rx="3" class="sv-box"/>
+        <text x="618" y="54" class="sv-t3">STEP 4</text>
+        <text x="618" y="71" class="sv-t">assemble</text>
+        <text x="618" y="88" class="sv-t2">ffmpeg concat</text>
+
+        <rect x="738" y="36" width="98" height="62" rx="3" class="sv-box"/>
+        <text x="748" y="54" class="sv-t3">STEP 5</text>
+        <text x="748" y="71" class="sv-t">publish</text>
+        <text x="748" y="88" class="sv-t2">delivery folder</text>
+      </g>
+
+      <!-- connectors down to spine -->
+      <g class="sv-line">
+        <path d="M85 98 L85 132"/><path d="M231 98 L231 132"/>
+        <path d="M377 98 L377 132"/><path d="M523 98 L523 132"/>
+        <path d="M661 98 L661 132"/><path d="M787 98 L787 132"/>
+      </g>
+
+      <!-- flow arrows between boxes -->
+      <g class="sv-line-gold">
+        <path d="M146 67 L164 67"/><path d="M160 63 l6 4 -6 4"/>
+        <path d="M292 67 L310 67"/><path d="M306 63 l6 4 -6 4"/>
+        <path d="M438 67 L456 67"/><path d="M452 63 l6 4 -6 4"/>
+        <path d="M584 67 L602 67"/><path d="M598 63 l6 4 -6 4"/>
+        <path d="M714 67 L732 67"/><path d="M728 63 l6 4 -6 4"/>
+      </g>
+
+      <!-- outputs -->
+      <g>
+        <text x="180" y="200" class="sv-t2">audio/*.wav</text>
+        <text x="180" y="215" class="sv-t3">measured duration →</text>
+        <text x="326" y="200" class="sv-t2">frames/*.png</text>
+        <text x="326" y="215" class="sv-t3">saved after every frame</text>
+        <text x="472" y="200" class="sv-t2">review.json</text>
+        <text x="472" y="215" class="sv-t3">fingerprints the frames</text>
+        <text x="618" y="200" class="sv-t2">&lt;slug&gt;.mp4</text>
+        <text x="618" y="215" class="sv-t3">+ burned subtitles</text>
+      </g>
+      <g class="sv-line">
+        <path d="M231 168 L231 188"/><path d="M377 168 L377 188"/>
+        <path d="M523 168 L523 188"/><path d="M661 168 L661 188"/>
+      </g>
+
+      <!-- gate callout -->
+      <rect x="462" y="244" width="374" height="40" rx="3" fill="rgba(196,85,60,.10)" stroke="rgba(196,85,60,.40)"/>
+      <text x="476" y="262" class="sv-t3">GATE</text>
+      <text x="476" y="277" class="sv-t2" style="fill:#e0907c">step 4 refuses to run on frames nobody has looked at</text>
+      <path d="M523 244 L523 226 L523 226" class="sv-line" stroke="rgba(196,85,60,.5)"/>
+    </svg>
+    </div>
+    <figcaption>Each step is independently runnable and resumable — step 3 writes the storyboard back after <b>every</b> frame, so a 90-shot render killed at shot 60 costs one shot on resume, not sixty. Nothing a project produces lives in the repository; script, narration, frames and clips all travel with the finished video.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 01 RESOLUTION ============ -->
+<section>
+  <div class="shead"><span class="snum">01 — THE PICTURE</span><h2>Asking for more pixels returns a worse picture, not a bigger one</h2></div>
+  <p class="lede">The obvious way to get a 2304×1296 frame is to ask the model for 2304×1296. That shipped a whole video before anyone measured it. FLUX is trained around a megapixel; asked for three, it stops composing a scene and starts fusing and duplicating local structure.</p>
+
+  <figure>
+    <p class="figtitle">Composition size vs. whether the picture holds <i>— same prompts, same seeds, five sizes</i></p>
+    <div class="chart">
+      <div class="ceilrow"><div></div><div class="mid"><span class="ceillabel" style="left:50.2%">≈1.5 MP ceiling</span></div><div></div></div>
+      <div class="row"><div class="k">1344 × 768<small>1.03 MP</small></div><div class="track"><div class="bar blue" style="width:34.4%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill ok">correct</span></div></div>
+      <div class="row pick"><div class="k">1536 × 864<small>1.33 MP — current</small></div><div class="track"><div class="bar gold" style="width:44.5%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill ok">correct</span></div></div>
+      <div class="row"><div class="k">1600 × 896<small>1.43 MP</small></div><div class="track"><div class="bar blue" style="width:47.8%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill ok">correct</span></div></div>
+      <div class="row"><div class="k">1792 × 1024<small>1.84 MP</small></div><div class="track"><div class="bar red" style="width:61.5%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill bad">drifting</span></div></div>
+      <div class="row"><div class="k">2048 × 1152<small>2.36 MP</small></div><div class="track"><div class="bar red" style="width:78.9%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill bad">wrong</span></div></div>
+      <div class="row"><div class="k">2304 × 1296<small>2.99 MP — old default</small></div><div class="track"><div class="bar red" style="width:100%"></div><div class="ceil" style="left:50.2%"></div></div><div class="v"><span class="pill bad">broken</span></div></div>
+    </div>
+    <figcaption>At 2.99 MP a dozen keys around a keyhole came back as <b>one melted mass</b>, a valve wheel as unreadable pulp, a seahorse fused into the calipers holding it. Every one of them was correct at 1.03. This is not the model being weak at hard prompts — it is the model being asked for a canvas it cannot hold.</figcaption>
+  </figure>
+
+  <figure>
+    <p class="figtitle">Time per frame, by route <i>— steady state, checkpoint resident</i></p>
+    <div class="chart">
+      <div class="row pick"><div class="k">compose 1536×864<small>→ Lanczos → 2304×1296</small></div><div class="track"><div class="bar gold" style="width:22.9%"></div></div><div class="v">7.1 s</div></div>
+      <div class="row"><div class="k">direct 2304×1296<small>old default — broke the frames</small></div><div class="track"><div class="bar red" style="width:42.3%"></div></div><div class="v">13.1 s</div></div>
+      <div class="row"><div class="k">compose → 4× ESRGAN<small>second model on a 16 GB card</small></div><div class="track"><div class="bar band" style="left:77.4%;width:22.6%;background:var(--c-mute)"></div></div><div class="v">24–31 s</div></div>
+    </div>
+    <figcaption>The correct route is also the fastest — which is exactly why the old measurement went unquestioned for so long. It was a real measurement of the wrong quantity: it timed the routes and <b>never asked whether the picture was still right</b>. At 1.5× enlargement, plain Lanczos and a 4× ESRGAN are indistinguishable in a 1:1 crop.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 02 CAMERA ============ -->
+<section>
+  <div class="shead"><span class="snum">02 — THE CAMERA</span><h2>Oversampling the source made the shake worse</h2></div>
+  <p class="lede">ffmpeg's <code>zoompan</code> rounds its crop window to whole source pixels. A slow move needs a fractional advance per frame, so it advances 0 px on some frames and 1 px on others, and the irregular rhythm reads as camera shake. More pixels is the intuitive fix. It does not work — the rounding is in the <em>window position</em>, not the sampling.</p>
+
+  <figure>
+    <p class="figtitle">Judder <i>— high-frequency residual of the frame-difference series; lower is smoother</i></p>
+    <div class="chart">
+      <div class="row"><div class="k">zoompan, 2× oversampled</div><div class="track"><div class="bar red" style="width:70.5%"></div></div><div class="v">0.186</div></div>
+      <div class="row"><div class="k">zoompan, 4× oversampled<small>twice the pixels, worse result</small></div><div class="track"><div class="bar red" style="width:100%"></div></div><div class="v">0.264</div></div>
+      <div class="row pick"><div class="k">Pillow float crop box<small>resize(box=…) takes a float rect</small></div><div class="track"><div class="bar gold" style="width:13.3%"></div></div><div class="v">0.035</div></div>
+    </div>
+    <figcaption>The metric itself has a trap worth stating: plain std/mean of the frame-difference series <b>triples once easing is on</b>, because eased motion is deliberately slow-fast-slow. Subtract a moving average first and measure only the residual. Getting this wrong once already produced a false regression report — the one time a measurement looked alarming, the measurement was broken, not the code.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 03 THE CLOCK ============ -->
+<section>
+  <div class="shead"><span class="snum">03 — THE CLOCK</span><h2>A second of silence was being measured as narration</h2></div>
+  <p class="lede">Kokoro leaves roughly 0.40 s of silence before the first word and 0.59 s after the last one, on every utterance regardless of length. Step 2 measured the whole file, so that dead air <em>was</em> the shot's duration: it set the pace of the video, it was invisible to the tests, and no amount of tuning the tail could reach it — the tail was being added on top of it.</p>
+
+  <div class="two">
+    <figure>
+      <p class="figtitle">Same words, same voice <i>— project “clothes”</i></p>
+      <div class="chart">
+        <div class="row"><div class="k">as shipped<small>silence measured as speech</small></div><div class="track"><div class="bar blue" style="width:100%"></div></div><div class="v">11.3 min</div></div>
+        <div class="row pick"><div class="k">re-cut, trimmed<small>50 dB floor, 30 ms margin</small></div><div class="track"><div class="bar gold" style="width:89.4%"></div></div><div class="v">10.1 min</div></div>
+      </div>
+      <figcaption><b>1.2 minutes</b> of the running time was padding. On eight-second shots it read as breathing room and nobody noticed. Cut-driven pacing runs two-second shots, where the same second is a third of the shot.</figcaption>
+    </figure>
+
+    <figure>
+      <p class="figtitle">Where a cut may fall <i>— pitch at the seam</i></p>
+      <div class="chart">
+        <div class="row pick"><div class="k">at clause boundaries<small>where a comma could sit</small></div><div class="track"><div class="bar gold" style="width:1.5%"></div></div><div class="v">+0.0 st</div></div>
+        <div class="row"><div class="k">every six words<small>ignoring grammar</small></div><div class="track"><div class="bar red" style="width:100%"></div></div><div class="v">+9.6 st</div></div>
+      </div>
+      <figcaption>Break inside a noun phrase and the pitch jumps nearly ten semitones — <b>the voice asking a question the writing never wrote</b>. This is why cuts are placed by hand in the script; only their duration is measured.</figcaption>
+    </figure>
+  </div>
+
+  <div class="callout">
+    <p class="lbl">The invariant everything hangs off</p>
+    <p><code>shot.duration == audio_sec + tail</code>. The narration track concatenates shot audio plus exactly that tail; step 4 places every boundary at the running sum of the same value. Change one and you must change both — and the smoke test, which drives steps 2 and 4 for real and asserts the finished file's duration against the storyboard's prediction, is what says you did not. Current baseline: <strong>1 ms drift</strong>.</p>
+  </div>
+</section>
+
+<!-- ============ 04 PACING ============ -->
+<section>
+  <div class="shead"><span class="snum">04 — THE PACING</span><h2>Dropping the camera move paid for everything else</h2></div>
+  <p class="lede">Ken Burns across flat vector art has no parallax to reveal — the drawing just slides, which reads as a slideshow rather than a camera. Switching to hard cuts removed the motion, and three savings fell out of it that were not the point.</p>
+
+  <figure>
+    <p class="figtitle">What changed when the camera stopped moving</p>
+    <div class="scroll">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Panned</th><th>Cut</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Frame size</td><td>2304 × 1296</td><td class="mono-ink"><b>1920 × 1080</b></td><td>headroom existed only for the zoom; a still frame is shown 1:1</td></tr>
+        <tr><td>Assembly</td><td>xfade chain</td><td class="mono-ink"><b>concat</b></td><td>the chain opens every clip at once and adds a filter per boundary</td></tr>
+        <tr><td>Audio/video drift</td><td>8 ms</td><td class="mono-ink"><b>0 ms</b></td><td>a cut consumes nothing, so there is no surplus arithmetic</td></tr>
+        <tr><td>Tail pause</td><td>0.35 s</td><td class="mono-ink"><b>0.12 / 0.34 s</b></td><td>per shot now — a comma and a full stop need different gaps</td></tr>
+        <tr><td>Shot count</td><td>77</td><td class="mono-ink"><b>≈235</b></td><td>≈7 words a shot instead of a paragraph</td></tr>
+        <tr><td>GPU time / video</td><td>≈1.5 h</td><td class="mono-ink">≈4.5 h</td><td>the bill — and short shots are what make the lower resolution affordable</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <figcaption>The two decisions pay for each other: three times as many frames, each a third cheaper, assembled by a linear operation instead of a filter graph that was already uncomfortable at 90 inputs. <b>Cuts are placed by hand</b> — automatic chunking targets a word count, which cannot see where a joke lands or where an idea turns.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 05 THE PROMPT ============ -->
+<section>
+  <div class="shead"><span class="snum">05 — THE PROMPT</span><h2>Naming a thing is a request for it, repeated once per shot</h2></div>
+  <p class="lede">The negative prompt does nothing on FLUX.1-schnell — it is guidance-distilled and runs at cfg 1.0, so the negative conditioning is never applied. There is no way to ask for an absence. The only lever is the positive prompt, and a style prompt reaches every shot in the video.</p>
+
+  <figure>
+    <p class="figtitle">Four batches, one mistake <i>— each phrase was in the style prompt, so it ran once per shot</i></p>
+    <div class="trap">
+      <div>
+        <div class="trapline">
+          <div class="asked">screen print texture, hand printed, subtle paper grain</div>
+          <div class="arw">→</div>
+          <div class="got">signatures and edition numbers — “Nzainful”, “S0/20IG 1918” — and deckled paper borders</div>
+        </div>
+        <div class="trapcount">a print has a signature, so the model drew one · adding “unsigned” put them back</div>
+      </div>
+      <div>
+        <div class="trapline">
+          <div class="asked">white blob faces, dot eyes, mitten hands</div>
+          <div class="arw">→</div>
+          <div class="got">a person in all 268 shots — somebody sitting in a vat of snail shells</div>
+        </div>
+        <div class="trapcount">fixed by splitting cast_prompt out of base_prompt — it now reaches only shots marked as having people</div>
+      </div>
+      <div>
+        <div class="trapline">
+          <div class="asked">one clear subject centred in a tall vertical frame</div>
+          <div class="arw">→</div>
+          <div class="got">a mounted print: a white-bordered panel standing inside the scene</div>
+        </div>
+        <div class="trapcount">14 of 20 frames · the fix was to delete the instruction — 864×1536 already <em>is</em> the instruction</div>
+      </div>
+      <div>
+        <div class="trapline">
+          <div class="asked">one clear subject standing full height</div>
+          <div class="arw">→</div>
+          <div class="got">a standing human figure, in three of three probe frames that asked for none</div>
+        </div>
+        <div class="trapcount">3 of 3 · “standing full height” is a description of a person</div>
+      </div>
+    </div>
+    <figcaption>Two more failure modes share the shape. <b>Words with two senses:</b> “bloom” returned a flower, “field” returned farmland, “shell” returned a seashell with a pearl. <b>The vacuum:</b> strip a prompt of every physical object and the model fills it from the only concrete nouns left in the text — which live in the style prompt, so “mid-century modern illustration” arrived as literal mid-century furniture and tower blocks. Write the scene; let the narration carry the abstraction.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 06 THE GATE ============ -->
+<section>
+  <div class="shead"><span class="snum">06 — THE GATE</span><h2>A scene lands; a diagram does not</h2></div>
+  <p class="lede">857 frames across ten videos, every one reviewed by eye. The re-prompt rate was not evenly spread, and it sorted cleanly by what the script was about.</p>
+
+  <figure>
+    <p class="figtitle">Frames re-prompted, by subject class</p>
+    <div class="legend">
+      <span><i style="background:var(--c-red)"></i>ideas with no physical form</span>
+      <span><i style="background:var(--c-blue)"></i>things and places</span>
+    </div>
+    <div class="chart">
+      <div class="row"><div class="k">money, time, conspiracy</div><div class="track"><div class="bar band" style="left:75.9%;width:24.1%;background:var(--c-red)"></div></div><div class="v">22–29%</div></div>
+      <div class="row"><div class="k">gold, dragons, cities, clothes</div><div class="track"><div class="bar band" style="left:41.4%;width:17.2%;background:var(--c-blue)"></div></div><div class="v">12–17%</div></div>
+      <div class="row"><div class="k">salt, dark, fire</div><div class="track"><div class="bar band" style="left:34.5%;width:3.4%;background:var(--c-blue)"></div></div><div class="v">10–11%</div></div>
+    </div>
+    <figcaption>Almost every rejected frame in the first group had the same shape of prompt — “a stylised composition of exchange, accounting and storage” — and came back as a pleasant abstract landscape with no relation to the idea. The style prompt already supplies the flatness; when the shot prompt <b>also</b> describes an abstraction, nothing in the whole prompt names a thing that exists.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <p class="lbl">Why the gate is a gate and not a good intention</p>
+    <p>Step 4 refuses to run until a review file exists and matches the frames on disk; regenerate one frame and the review goes stale again, naming the shot. <strong>Every visual defect this project has shipped or nearly shipped was invisible to the test suite and obvious in a picture</strong> — oversized subtitles, mismatched asset backdrops, mid-phrase subtitle breaks, fake body copy, invented signatures, and a whole video's worth of frames broken by generating above the resolution ceiling.</p>
+  </div>
+</section>
+
+<!-- ============ 07 VERTICAL ============ -->
+<section>
+  <div class="shead"><span class="snum">07 — THE SECOND SHAPE</span><h2>Turning it ninety degrees without touching the clock</h2></div>
+  <p class="lede">A vertical profile, switched on by one environment variable. The split that makes it safe: geometry is a per-profile concern and the timeline arithmetic is not, and that boundary is enforced rather than trusted — a profile that names a timing constant refuses to load.</p>
+
+  <figure>
+    <p class="figtitle">Geometry, transposed <i>— the megapixel ceiling is respected rather than re-tested</i></p>
+    <div class="svgwrap">
+    <svg viewBox="0 0 700 250" role="img" aria-label="Horizontal 1536x864 composed then upscaled to 1920x1080; vertical 864x1536 composed then upscaled to 1080x1920; both 1.33 megapixels">
+      <text x="14" y="22" class="sv-t3">HORIZONTAL · 16:9</text>
+      <rect x="14" y="36" width="192" height="108" rx="2" class="sv-box"/>
+      <text x="24" y="60" class="sv-t">1536 × 864</text>
+      <text x="24" y="77" class="sv-tg">1.33 MP composed</text>
+      <text x="24" y="132" class="sv-t3">multiple of 16 · exact 16:9</text>
+      <path d="M216 90 L246 90" class="sv-line-gold"/><path d="M240 86 l6 4 -6 4" class="sv-line-gold"/>
+      <text x="231" y="80" text-anchor="middle" class="sv-t3">×1.25</text>
+      <rect x="256" y="36" width="192" height="108" rx="2" class="sv-box-gold"/>
+      <text x="266" y="60" class="sv-t">1920 × 1080</text>
+      <text x="266" y="77" class="sv-tg">delivered</text>
+
+      <text x="490" y="22" class="sv-t3">VERTICAL · 9:16</text>
+      <rect x="490" y="36" width="61" height="108" rx="2" class="sv-box"/>
+      <text x="498" y="58" class="sv-t2">864</text>
+      <text x="498" y="73" class="sv-t2">×1536</text>
+      <text x="498" y="92" class="sv-tg">1.33 MP</text>
+      <path d="M561 90 L591 90" class="sv-line-gold"/><path d="M585 86 l6 4 -6 4" class="sv-line-gold"/>
+      <text x="576" y="80" text-anchor="middle" class="sv-t3">×1.25</text>
+      <rect x="601" y="36" width="61" height="108" rx="2" class="sv-box-gold"/>
+      <text x="609" y="58" class="sv-t2">1080</text>
+      <text x="609" y="73" class="sv-t2">×1920</text>
+      <text x="609" y="92" class="sv-tg">delivered</text>
+
+      <line x1="14" y1="176" x2="686" y2="176" stroke="var(--rule)"/>
+      <text x="14" y="200" class="sv-t3">LOCKED — a profile that names one of these refuses to load</text>
+      <text x="14" y="222" class="sv-t2">FPS · SHOT_TAIL_SEC · SENTENCE_TAIL_SEC · CROSSFADE_SEC · MIN_SHOT_SEC · TRIM_* · STILL_FRAMES</text>
+      <text x="14" y="240" class="sv-t3">the audio/video lock is a shared invariant, not a per-shape decision</text>
+    </svg>
+    </div>
+    <figcaption>1.33 MP transposed, both sides still a multiple of 16, and a clean 1.25× enlargement with no reframing. The guard matters because the smoke test runs under the default profile — a profile that broke the lock in one aspect ratio would go on passing.</figcaption>
+  </figure>
+
+  <div class="two">
+    <figure>
+      <p class="figtitle">One take <i>— silence at joins inside a single utterance</i></p>
+      <div class="legend">
+        <span><i style="background:var(--c-blue)"></i>as the model returned it</span>
+        <span><i style="background:var(--c-gold)"></i>rebuilt</span>
+      </div>
+      <div class="chart">
+        <div class="row"><div class="k">join 1</div><div class="track"><div class="bar blue" style="width:100%"></div></div><div class="v">1066 ms</div></div>
+        <div class="row pick"><div class="k">join 1, rebuilt</div><div class="track"><div class="bar gold" style="width:36.4%"></div></div><div class="v">388 ms</div></div>
+        <div class="row"><div class="k">join 2</div><div class="track"><div class="bar blue" style="width:92.8%"></div></div><div class="v">989 ms</div></div>
+        <div class="row pick"><div class="k">join 2, rebuilt</div><div class="track"><div class="bar gold" style="width:35.3%"></div></div><div class="v">376 ms</div></div>
+      </div>
+      <figcaption>Sending the whole script as one call does not make it one utterance: the TTS splits its own input to stay under a token limit, and <b>pads every piece it speaks</b>. One run in the log, three takes glued end to end — invisible to every check in the repo, audible immediately. Each chunk is now trimmed and the join rebuilt to a sentence's own beat, with the word timestamps moved to match.</figcaption>
+    </figure>
+
+    <figure>
+      <p class="figtitle">Subtitle line width <i>— Arial 58 px, 960 px between margins</i></p>
+      <div class="chart">
+        <div class="row"><div class="k">28 characters</div><div class="track"><div class="bar" style="width:71.9%"></div><div class="ceil" style="left:100%"></div></div><div class="v">690 px</div></div>
+        <div class="row"><div class="k">30 characters</div><div class="track"><div class="bar" style="width:75.2%"></div><div class="ceil" style="left:100%"></div></div><div class="v">722 px</div></div>
+        <div class="row pick"><div class="k">32 characters<small>chosen</small></div><div class="track"><div class="bar gold" style="width:81.6%"></div><div class="ceil" style="left:100%"></div></div><div class="v">783 px</div></div>
+        <div class="row"><div class="k">34 characters</div><div class="track"><div class="bar" style="width:88.2%"></div><div class="ceil" style="left:100%"></div></div><div class="v">847 px</div></div>
+        <div class="row"><div class="k">36 characters</div><div class="track"><div class="bar red" style="width:94.9%"></div><div class="ceil" style="left:100%"></div></div><div class="v">911 px</div></div>
+      </div>
+      <figcaption>Derived by proportion from the horizontal profile, the limit came out at 26 — and <b>too narrow is the expensive direction</b>. It does not compress the text, it adds a third line and strands single words on a cue of their own, both of which the style guide calls a fault. Measured instead of reasoned.</figcaption>
+    </figure>
+  </div>
+
+  <figure>
+    <p class="figtitle">First-pass frames accepted, vertical <i>— 20 shots each, same profile, same model</i></p>
+    <div class="chart">
+      <div class="row"><div class="k">mid-century print<small>cosmology script</small></div><div class="track"><div class="bar blue" style="width:65%"></div></div><div class="v">13 / 20</div></div>
+      <div class="row pick"><div class="k">cel cartoon<small>human-perception script</small></div><div class="track"><div class="bar gold" style="width:90%"></div></div><div class="v">18 / 20</div></div>
+    </div>
+    <figcaption>The gap is partly the writing — the second script was written after the prompt traps above were understood — and partly the style. The poster margins that survived in 3 of 20 mid-century frames appeared in <b>0 of 20</b> cartoon frames, which settles what caused them: a tall canvas plus the words “mid-century modern” is a travel poster, and a travel poster has margins. Not the aspect ratio.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ NUMBERS ============ -->
+<section>
+  <div class="shead"><span class="snum">BY THE NUMBERS</span><h2>What it costs to run</h2></div>
+  <div class="stats">
+    <div class="stat"><b>~20 min</b><span>per 12-minute film, mostly unattended</span></div>
+    <div class="stat"><b>146</b><span>words / minute, measured narration pace</span></div>
+    <div class="stat"><b>857</b><span>frames reviewed by eye</span></div>
+    <div class="stat"><b>1 ms</b><span>audio / video drift, smoke baseline</span></div>
+    <div class="stat"><b>2</b><span>virtualenvs, deliberately</span></div>
+    <div class="stat"><b>0</b><span>cloud API calls</span></div>
+  </div>
+  <p class="note" style="margin-top:1.6rem"><b>Licensing is a design constraint, not an afterthought.</b> FLUX.1-schnell, Qwen-Image and Kokoro-82M are all Apache-2.0. FLUX.1-dev is better and is forbidden here — its licence bars commercial use. Real images are fetched from Wikimedia Commons and the Met and sorted into tiers by an allowlist: public domain and CC0 pass freely, CC-BY passes with credit, CC-BY-SA is excluded because the share-alike term can arguably reach the finished video, and <b>unknown is rejected</b> — never assumed permissive. Being wrong that way costs a generated image; being wrong the other way costs a takedown on a monetised video.</p>
+</section>
+
+<footer>
+  <b>Content Factory</b> — solo project · Python · ffmpeg · ComfyUI · local diffusion and TTS<br>
+  Every figure on this page is a measurement taken in the repository, not an estimate. Ranges are ranges because that is what was observed.<br>
+  A work sample by David Mkrtchian.
+</footer>
+
+</div>
+</body>
+</html>

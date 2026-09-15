@@ -56,38 +56,73 @@ def synth(text: str, voice: str, speed: float) -> np.ndarray:
     return np.concatenate(chunks)
 
 
-def synth_timed(text: str, voice: str,
-                speed: float) -> tuple[np.ndarray, list[tuple[str, float]]]:
+def synth_timed(text: str, voice: str, speed: float
+                ) -> tuple[np.ndarray, list[tuple[str, float]], list[float]]:
     """Speak a run of narration and report where each word ended.
 
-    Returns the waveform and a list of (word, end_seconds). Kokoro emits a
-    token per word *and* per punctuation mark, and may split long input into
-    several chunks whose timestamps each restart at zero, so the offsets are
-    accumulated here.
+    Returns the waveform, a list of (word, end_seconds), and where each chunk
+    Kokoro handed back begins in that waveform. Kokoro emits a token per word
+    *and* per punctuation mark, and may split long input into several chunks
+    whose timestamps each restart at zero, so the offsets are accumulated
+    here.
 
     The word ends are what let a run be spoken as one take and still cut into
     shots on measured boundaries rather than guessed ones -- the invariant
     this whole pipeline is built around.
+
+    The chunk lengths are returned because one call is not the same as one
+    utterance. KPipeline splits its input to stay under the model's token
+    limit, and each piece is then spoken on its own, with its own
+    sentence-final prosody and its own silence around it. A caller asking for
+    a single take needs to be able to see how many the model actually made;
+    see `speak_run`.
     """
+    sr = config.TTS_SAMPLE_RATE
+    gap = config.JOIN_GAP_SEC
+    pad = (np.zeros(int(round(gap * sr)), dtype=np.float32)
+           if gap is not None else None)
+
     audio: list[np.ndarray] = []
     words: list[tuple[str, float]] = []
+    starts: list[float] = []
     offset = 0.0
 
     for result in _kokoro()(text, voice=voice, speed=speed):
         chunk = _as_numpy(result.output.audio if hasattr(result.output, "audio")
                           else result.output)
+
+        # With JOIN_GAP_SEC set, each chunk is trimmed to its speech and the
+        # joins are rebuilt to a deliberate length. Measured on the gold
+        # Short: Kokoro left 1066 ms and 989 ms at the two joins of a
+        # 191-word take, because it pads every utterance it speaks and a
+        # chunk is an utterance. Left alone that is a narrator stopping for
+        # breath in the middle of a paragraph.
+        #
+        # The token times are relative to the untrimmed chunk, so whatever
+        # comes off the front comes off them too. Get this wrong and the
+        # shots stay exactly as long as they claim while sitting slightly off
+        # the voice, which is the one failure the drift check cannot see.
+        head = 0.0
+        if pad is not None:
+            head = leading_silence(chunk)
+            chunk = trim(chunk)
+            if audio:
+                audio.append(pad)
+                offset += gap
+
+        starts.append(offset)
         for token in (result.tokens or []):
             end = getattr(token, "end_ts", None)
             body = (token.text or "").strip()
             if end is None or not any(c.isalnum() for c in body):
                 continue
-            words.append((body, offset + float(end)))
+            words.append((body, offset + float(end) - head))
         audio.append(chunk)
-        offset += len(chunk) / config.TTS_SAMPLE_RATE
+        offset += len(chunk) / sr
 
     if not audio:
         raise RuntimeError(f"Kokoro produced no audio for: {text[:60]!r}")
-    return np.concatenate(audio), words
+    return np.concatenate(audio), words, starts
 
 
 def synth_fake(text: str, voice: str, speed: float) -> np.ndarray:
@@ -118,6 +153,33 @@ def leading_silence(audio: np.ndarray) -> float:
         return 0.0
     margin = int(config.TRIM_MARGIN_SEC * config.TTS_SAMPLE_RATE)
     return max(int(loud[0]) - margin, 0) / config.TTS_SAMPLE_RATE
+
+
+def silence_at(audio: np.ndarray, t: float) -> float:
+    """Length of the contiguous near-silence containing second `t`.
+
+    Used to measure what a join inside a take actually sounds like. A run
+    spoken as one call can still be several utterances under the hood, and the
+    only thing that distinguishes "one continuous performance" from "three
+    takes glued together" is whether Kokoro left its usual half second of
+    room at each seam. Returns 0.0 if the audio is not silent there at all,
+    which is the answer we are hoping for.
+    """
+    if audio.size == 0:
+        return 0.0
+    sr = config.TTS_SAMPLE_RATE
+    floor = 10 ** (config.TRIM_FLOOR_DBFS / 20)
+    i = min(max(int(round(t * sr)), 0), len(audio) - 1)
+    quiet = np.abs(audio) <= floor
+    if not quiet[i]:
+        return 0.0
+    start = i
+    while start > 0 and quiet[start - 1]:
+        start -= 1
+    end = i
+    while end + 1 < len(quiet) and quiet[end + 1]:
+        end += 1
+    return (end - start + 1) / sr
 
 
 def trim(audio: np.ndarray) -> np.ndarray:
@@ -243,10 +305,26 @@ def speak_run(run: list[Shot], sb: Storyboard, *, fake: bool) -> None:
 
     if fake:
         audio = synth_fake(text, sb.voice.voice_id, sb.voice.speed)
-        words = []
+        words, starts = [], []
     else:
-        audio, words = synth_timed(text, sb.voice.voice_id, sb.voice.speed)
+        audio, words, starts = synth_timed(text, sb.voice.voice_id,
+                                           sb.voice.speed)
     audio = normalize(audio)
+
+    # Say out loud when the model split a take, and how audible the join is.
+    # Asking for one continuous performance and getting three glued together
+    # is not a failure the timeline can detect: the durations stay exact, the
+    # drift check passes, and the only symptom is a narrator who pauses for
+    # breath in the middle of a clause.
+    if len(starts) > 1:
+        joins = starts[1:]
+        # Sampled just *before* each join. With JOIN_GAP_SEC set the chunk now
+        # starts on its first real sample, so probing at the boundary itself
+        # would report a confident zero over a gap that is still there.
+        gaps = [silence_at(audio, max(t - 0.01, 0.0)) for t in joins]
+        print(f"    note: Kokoro spoke this run as {len(starts)} chunks, not "
+              f"one. Joins at "
+              f"{', '.join(f'{t:.1f}s ({g * 1000:.0f} ms)' for t, g in zip(joins, gaps))}")
 
     # Trim the run, not its pieces: silence inside a take is the speaker
     # breathing, and cutting it out is what made the old version choppy.

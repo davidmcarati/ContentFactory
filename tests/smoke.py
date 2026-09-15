@@ -17,10 +17,10 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from pipeline import config
-from pipeline.ffmpeg_util import duration as probe_duration
+from pipeline.ffmpeg_util import duration as probe_duration, video_duration
 from pipeline.schema import Motion, Shot, Storyboard, Style
 from pipeline.step2_voice import voice
-from pipeline.step4_assemble import assemble
+from pipeline.step4_assemble import assemble, render_clips
 
 SLUG = "smoketest"
 
@@ -66,6 +66,13 @@ def build(cuts: bool) -> Storyboard:
         slug=SLUG,
         title="Smoke Test",
         style=Style(base_prompt="test pattern", model="none"),
+        # Follows the active profile, so `CF_PROFILE=shorts python -m
+        # tests.smoke` exercises the vertical geometry end to end -- fabricated
+        # 1080x1920 frames, real ffmpeg, the same drift check. It needs no
+        # models, which makes it the cheapest way to catch a profile that
+        # produces a file of the wrong shape or a timeline that no longer
+        # locks.
+        aspect=config.ASPECT,
         shots=[
             Shot(id=i + 1, vo=vo, image_prompt=f"test frame {i + 1}",
                  motion=Motion(pan="none", zoom=1.0) if cuts
@@ -121,8 +128,14 @@ def run_once(cuts: bool) -> bool:
     srt = sb.dir / "subtitles.srt"
     cues = srt.read_text(encoding="utf-8").strip().split("\n\n")
     print(f"  subtitles     {len(cues)} cues for {len(sb.shots)} shots")
-    if len(cues) != len(sb.shots):
-        print("  FAIL: cue count does not match shot count")
+    # At least one cue per shot, not exactly one. A line longer than
+    # SUB_MAX_CHARS pages into several cues by design, and the equality held
+    # here only because the test lines happen to fit inside 54 characters --
+    # under the vertical profile the same lines wrap at 26 and the check
+    # failed on correct output. What would be a real fault is a shot whose
+    # narration produced no card at all.
+    if len(cues) < len(sb.shots):
+        print("  FAIL: fewer subtitle cues than shots; a line lost its card")
         ok = False
 
     clips = sorted((sb.dir / "clips").glob("*.mp4"))
@@ -144,13 +157,55 @@ def run_once(cuts: bool) -> bool:
     return ok
 
 
+def run_truncated_clip() -> bool:
+    """A killed render leaves a stub clip. Does anything notice?
+
+    Nothing did. Stopping a background job mid-write left a 48-byte file in
+    clips/, render_clips treated it as finished because it existed, and the
+    concat demuxer stopped dead there -- the published video had 43 seconds
+    of picture under ten minutes of narration, and the drift check read 0 ms
+    because a container reports its longest stream.
+    """
+    print("\n########  a clip left behind by a killed render  ########")
+    sb = build(cuts=True)
+    sb.require_valid()
+    voice(sb, fake=True)
+    render_clips(sb)
+
+    victim = sb.dir / "clips" / f"{sb.shots[2].stem}.mp4"
+    whole = victim.stat().st_size
+    victim.write_bytes(b"\x00" * 48)
+    print(f"  truncated {victim.name}: {whole} bytes -> 48")
+
+    out = assemble(sb, skip_review=True)
+    ok = True
+
+    rebuilt = victim.stat().st_size
+    print(f"  after assembly {victim.name} is {rebuilt} bytes")
+    if rebuilt < 1024:
+        print("  FAIL: the stub was accepted as a finished clip")
+        ok = False
+
+    expected = sb.total_sec + (config.OUTRO_SECONDS if (
+        config.OUTRO_ENABLED and config.OUTRO_SECONDS > 0) else 0.0)
+    picture = video_duration(out)
+    print(f"  picture {picture:.2f}s vs {expected:.2f}s of timeline")
+    if abs(picture - expected) > 0.15:
+        print("  FAIL: the picture is not as long as the narration")
+        ok = False
+
+    print("  " + ("ok" if ok else "FAILED"))
+    return ok
+
+
 def main() -> int:
     # Both assembly paths, because they do different timeline arithmetic. The
     # crossfade chain pads every clip and lets the transition eat the surplus;
     # concat pads nothing. Drift between picture and voice is the exact
     # failure this test exists to catch, so covering one path while shipping
     # the other would defeat the point of having it.
-    results = [run_once(cuts=False), run_once(cuts=True)]
+    results = [run_once(cuts=False), run_once(cuts=True),
+               run_truncated_clip()]
     ok = all(results)
     print("\n" + ("PASS" if ok else "FAIL"))
     return 0 if ok else 1

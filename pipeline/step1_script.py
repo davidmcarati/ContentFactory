@@ -22,8 +22,22 @@ import json
 import re
 from pathlib import Path
 
-from . import config, styles, workflows
+from . import config, styles, styles_shorts, workflows
 from .schema import Motion, Shot, Storyboard, Style, Voice
+
+
+def palette():
+    """The style presets for the shape being built.
+
+    Same keys either way, so `--style midcentury` keeps meaning the same
+    editorial choice; the prompts differ because a wide composition has
+    nowhere to go in a tall frame. See styles_shorts.py.
+
+    Resolved here rather than inside styles.py because the base prompt is
+    baked into the storyboard at this step and read from it forever after --
+    so this is the only moment the choice is live.
+    """
+    return styles_shorts if config.PROFILE == "shorts" else styles
 
 # Target words per shot. Under ~12 the cuts feel twitchy against a still
 # image; over ~40 the viewer has been staring at one picture too long.
@@ -160,13 +174,17 @@ def build(
             f"only after checking the chunk count with --dry-run."
         )
 
+    look = palette()
     return Storyboard(
         slug=slug,
         title=title,
-        style=Style(base_prompt=styles.resolve(base_prompt),
-                    cast_prompt=styles.cast_for(base_prompt),
+        style=Style(base_prompt=look.resolve(base_prompt),
+                    cast_prompt=look.cast_for(base_prompt),
                     model=model),
         voice=Voice(voice_id=voice_id),
+        # Recorded so every later step can refuse to work on a project whose
+        # shape does not match the profile it was started with.
+        aspect=config.ASPECT,
         shots=[
             Shot(id=i + 1, vo=vo, image_prompt=ip, cast=has_people(ip),
                  # A still frame under a hard cut. Panning across flat
@@ -184,9 +202,10 @@ def report(sb: Storyboard) -> None:
     est_min = words / 155           # typical narration pace
     print(f"{sb.slug}: {len(sb.shots)} shots, {words} words")
     print(f"  estimated runtime {est_min:.1f} min (measured after step 2)")
-    named = next((p for p in styles.PRESETS.values()
+    named = next((p for p in palette().PRESETS.values()
                   if p.prompt == sb.style.base_prompt), None)
-    print(f"  style: {named.label if named else 'custom prompt'}")
+    print(f"  style: {named.label if named else 'custom prompt'}  "
+          f"[{sb.aspect}, profile {config.PROFILE}]")
     todo = sum(1 for s in sb.shots if s.image_prompt.startswith("TODO"))
     if todo:
         print(f"  {todo} image prompts still need writing")
